@@ -1,0 +1,497 @@
+/* ===================================================================
+   PAGINAS INTERNAS — politica de privacidade, politica de cookies e
+   erro 404.
+
+   A home (index.html) e um arquivo unico com o CSS embutido porque e
+   uma pagina de efeitos: video, sticky, scroll. Estas paginas sao de
+   leitura, entao compartilham esta folha. Mesma fonte (Poppins),
+   mesmo marinho e mesmo ciano da home.
+   =================================================================== */
+
+:root {
+  --marinho: #04182f;
+  --marinho-fundo: #0b1220;
+  --ciano: #4cc3ff;
+  --tinta: #12233a;
+  --tinta-fraca: rgba(4, 24, 47, .66);
+  --linha: rgba(4, 24, 47, .12);
+  --largura: 780px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  /* O cabecalho e sticky: a ancora do sumario para abaixo dele. */
+  scroll-padding-top: 96px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: #fff;
+  color: var(--tinta);
+  font-family: Poppins, Arial, sans-serif;
+  font-weight: 300;
+  line-height: 1.7;
+  font-size: clamp(15px, 2.6vw, 16.5px);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Pular para o conteudo: aparece so no foco do teclado. */
+.pular {
+  position: absolute;
+  left: 12px;
+  top: -60px;
+  z-index: 99;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: var(--marinho);
+  color: #fff;
+  font-size: 14px;
+  text-decoration: none;
+  transition: top .18s ease;
+}
+.pular:focus { top: 12px; }
+
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--ciano); outline-offset: 3px; border-radius: 4px; }
+
+/* ===================== BARRA DO TOPO ===================== */
+.topo {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(255, 255, 255, .88);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  border-bottom: 1px solid var(--linha);
+}
+.topo-caixa {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 12px clamp(20px, 5vw, 56px);
+}
+.topo-marca {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  font-size: clamp(15px, 3.4vw, 17px);
+  letter-spacing: -.01em;
+  color: var(--marinho);
+  text-decoration: none;
+}
+.topo-marca-nome { white-space: nowrap; }
+.topo-marca-nome span { color: var(--ciano); }
+.topo-marca img { display: block; width: 26px; height: 26px; border-radius: 7px; }
+.topo-voltar {
+  margin-left: auto;
+  font-weight: 500;
+  font-size: clamp(13px, 3vw, 14px);
+  color: var(--marinho);
+  text-decoration: none;
+  padding-bottom: 2px;
+  border-bottom: 1px solid rgba(4, 24, 47, .28);
+  transition: border-color .2s ease;
+}
+.topo-voltar:hover { border-bottom-color: var(--marinho); }
+
+/* ===================== FAIXA DO TITULO ===================== */
+.cabecalho {
+  background:
+    radial-gradient(1100px 460px at 78% -30%, rgba(76, 195, 255, .22), transparent 62%),
+    linear-gradient(160deg, #030e1c 0%, #04182f 45%, #0a3f6d 100%);
+  color: #fff;
+  padding: clamp(48px, 8vw, 88px) clamp(20px, 5vw, 56px) clamp(40px, 6vw, 68px);
+}
+.cabecalho-caixa { max-width: var(--largura); margin: 0 auto; }
+
+.trilha {
+  margin: 0 0 18px;
+  font-size: clamp(12px, 2.8vw, 13px);
+  color: rgba(255, 255, 255, .62);
+}
+.trilha ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.trilha li + li::before { content: "/"; margin-right: 10px; color: rgba(255, 255, 255, .34); }
+.trilha a { color: rgba(255, 255, 255, .78); text-decoration: none; }
+.trilha a:hover { color: #fff; }
+.trilha [aria-current] { color: #fff; }
+
+.cabecalho h1 {
+  margin: 0;
+  font-weight: 600;
+  font-size: clamp(30px, 6.4vw, 50px);
+  line-height: 1.1;
+  letter-spacing: -.025em;
+}
+.cabecalho h1 span { color: var(--ciano); }
+.cabecalho-resumo {
+  margin: 18px 0 0;
+  max-width: 60ch;
+  font-size: clamp(15px, 3vw, 17px);
+  color: rgba(255, 255, 255, .80);
+}
+.cabecalho-data {
+  display: inline-block;
+  margin-top: 24px;
+  padding: 6px 14px;
+  border: 1px solid rgba(255, 255, 255, .22);
+  border-radius: 999px;
+  font-size: clamp(11.5px, 2.6vw, 12.5px);
+  color: rgba(255, 255, 255, .74);
+}
+
+/* ===================== CONTEUDO ===================== */
+.conteudo {
+  max-width: var(--largura);
+  margin: 0 auto;
+  padding: clamp(40px, 7vw, 72px) clamp(20px, 5vw, 56px) clamp(56px, 9vw, 96px);
+}
+
+/* Sumario com ancoras para as secoes. */
+.sumario {
+  margin: 0 0 clamp(36px, 6vw, 56px);
+  padding: clamp(20px, 4vw, 28px);
+  border: 1px solid var(--linha);
+  border-left: 3px solid var(--ciano);
+  border-radius: 14px;
+  background: #f7fafd;
+}
+.sumario h2 {
+  margin: 0 0 12px;
+  font-size: clamp(12px, 2.8vw, 13px);
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--tinta-fraca);
+}
+.sumario ol {
+  margin: 0;
+  padding-left: 1.25em;
+  font-size: clamp(14px, 2.8vw, 15px);
+}
+.sumario li { margin: 5px 0; }
+.sumario a { color: var(--marinho); text-decoration: none; border-bottom: 1px solid transparent; }
+.sumario a:hover { border-bottom-color: var(--ciano); }
+
+.conteudo h2 {
+  margin: clamp(38px, 6vw, 56px) 0 14px;
+  font-weight: 600;
+  font-size: clamp(20px, 4.2vw, 26px);
+  line-height: 1.25;
+  letter-spacing: -.02em;
+  color: var(--marinho);
+  scroll-margin-top: 90px;
+}
+.conteudo h2:first-of-type { margin-top: 0; }
+.conteudo h3 {
+  margin: 28px 0 10px;
+  font-weight: 600;
+  font-size: clamp(16px, 3.4vw, 18px);
+  color: var(--marinho);
+}
+.conteudo p { margin: 0 0 16px; }
+.conteudo strong { font-weight: 600; color: var(--marinho); }
+.conteudo ul, .conteudo ol { margin: 0 0 18px; padding-left: 1.35em; }
+.conteudo li { margin: 7px 0; }
+.conteudo a:not(.botao) {
+  color: var(--marinho);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(4, 24, 47, .28);
+  transition: border-color .2s ease;
+}
+.conteudo a:not(.botao):hover { border-bottom-color: var(--ciano); }
+
+/* Bloco de destaque para o aviso importante de cada politica. */
+.destaque {
+  margin: 0 0 clamp(30px, 5vw, 40px);
+  padding: clamp(18px, 3.6vw, 24px);
+  border-radius: 14px;
+  background: linear-gradient(140deg, #04182f, #0a3f6d);
+  color: rgba(255, 255, 255, .88);
+}
+.destaque p { margin: 0; }
+.destaque strong { color: #fff; }
+
+/* Tabela de cookies / de dados. */
+.tabela-rolagem { overflow-x: auto; margin: 0 0 22px; }
+table {
+  width: 100%;
+  min-width: 460px;
+  border-collapse: collapse;
+  font-size: clamp(13.5px, 2.8vw, 14.5px);
+}
+caption {
+  caption-side: top;
+  text-align: left;
+  padding-bottom: 10px;
+  font-size: 13px;
+  color: var(--tinta-fraca);
+}
+th, td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--linha);
+  vertical-align: top;
+}
+th {
+  font-weight: 600;
+  color: var(--marinho);
+  background: #f7fafd;
+  white-space: nowrap;
+}
+
+/* Caixa de contato ao final das politicas. */
+.contato-caixa {
+  margin-top: clamp(40px, 6vw, 60px);
+  padding: clamp(22px, 4.4vw, 32px);
+  border: 1px solid var(--linha);
+  border-radius: 16px;
+  background: #f7fafd;
+}
+.contato-caixa h2 { margin-top: 0; }
+
+.botao {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 12px 22px;
+  border-radius: 999px;
+  background: var(--marinho);
+  color: #fff;
+  font-weight: 500;
+  font-size: clamp(14px, 3vw, 15px);
+  text-decoration: none;
+  transition: background .2s ease, transform .2s ease;
+}
+.botao:hover { background: #0a3f6d; transform: translateY(-1px); }
+.botao--claro {
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, .34);
+}
+.botao--claro:hover { background: rgba(255, 255, 255, .10); }
+
+/* ===================== RODAPE (igual ao da home) ===================== */
+.rodape {
+  background: #fff;
+  border-top: 1px solid var(--linha);
+  color: var(--marinho);
+}
+.rodape-caixa {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px clamp(16px, 2.4vw, 32px);
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: clamp(12px, 1.8vw, 16px) clamp(22px, 5vw, 56px);
+}
+.rodape-marca {
+  margin: 0;
+  font-weight: 600;
+  font-size: clamp(14px, 3.2vw, 15px);
+  letter-spacing: -.01em;
+}
+.rodape-marca span { color: var(--ciano); }
+.rodape-nota {
+  margin: 0 auto 0 0;
+  font-weight: 300;
+  font-size: clamp(11px, 3vw, 12px);
+  color: rgba(4, 24, 47, .62);
+}
+.rodape-legais {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.rodape-legal {
+  font-weight: 400;
+  font-size: clamp(11.5px, 3vw, 12.5px);
+  text-decoration: none;
+  color: rgba(4, 24, 47, .62);
+  padding-bottom: 2px;
+  border-bottom: 1px solid transparent;
+  transition: color .2s ease, border-color .2s ease;
+}
+.rodape-legal:hover { color: var(--marinho); border-bottom-color: rgba(4, 24, 47, .30); }
+.rodape-legal[aria-current="page"] { color: var(--marinho); border-bottom-color: var(--ciano); }
+.rodape-contato {
+  font-weight: 500;
+  font-size: clamp(12px, 3.2vw, 13px);
+  text-decoration: none;
+  color: var(--marinho);
+  padding-bottom: 2px;
+  border-bottom: 1px solid rgba(4, 24, 47, .30);
+  transition: border-color .2s ease;
+}
+.rodape-contato:hover { border-bottom-color: var(--marinho); }
+.rodape-credito {
+  font-weight: 400;
+  font-size: clamp(11px, 3vw, 12px);
+  text-decoration: none;
+  color: rgba(4, 24, 47, .62);
+  padding-bottom: 2px;
+  border-bottom: 1px solid transparent;
+  transition: color .2s ease, border-color .2s ease;
+}
+.rodape-credito:hover { color: var(--marinho); border-bottom-color: rgba(4, 24, 47, .30); }
+
+@media (min-width: 701px) and (max-width: 1100px) {
+  /* O ::after e um item do flex com 100% de base: forca a quebra
+     exatamente entre a ordem 3 e a 5. */
+  .rodape-caixa::after { content: ""; flex-basis: 100%; height: 0; order: 4; }
+  .rodape-marca { order: 1; }
+  .rodape-legais { order: 2; }
+  .rodape-contato { order: 3; margin-left: auto; }
+  .rodape-nota { order: 5; margin: 0 auto 0 0; }
+  .rodape-credito { order: 6; }
+}
+
+@media (max-width: 700px) {
+  .rodape-caixa { gap: 8px 14px; padding: 14px 18px; }
+  .rodape-marca { margin-right: auto; font-size: 13px; }
+  .rodape-nota { flex: 1 1 100%; margin: 0; order: 4; font-size: 11px; }
+  .rodape-legais { flex: 1 1 100%; order: 3; }
+  .rodape-contato { order: 2; margin-left: auto; font-size: 12px; }
+  .rodape-credito { order: 5; font-size: 11px; }
+}
+
+/* ===================== PAGINA 404 ===================== */
+.erro {
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+  background:
+    radial-gradient(900px 520px at 82% -12%, rgba(76, 195, 255, .20), transparent 60%),
+    linear-gradient(165deg, #030e1c 0%, #04182f 50%, #0a3f6d 100%);
+  color: #fff;
+}
+.erro .topo {
+  position: static;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: 1px solid rgba(255, 255, 255, .12);
+}
+.erro .topo-marca { color: #fff; }
+.erro .topo-voltar { color: #fff; border-bottom-color: rgba(255, 255, 255, .34); }
+.erro .topo-voltar:hover { border-bottom-color: #fff; }
+
+.erro-miolo {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(40px, 6vw, 64px) clamp(20px, 5vw, 56px);
+}
+.erro-caixa { max-width: 620px; text-align: center; }
+.erro-caixa .erro-codigo {
+  margin: 0;
+  font-weight: 800;
+  font-size: clamp(84px, 18vw, 152px);
+  line-height: .88;
+  letter-spacing: -.06em;
+  background: linear-gradient(180deg, #ffffff 0%, #9ad9ff 58%, rgba(76, 195, 255, .28) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.erro-caixa h1 {
+  margin: 22px 0 0;
+  font-weight: 600;
+  font-size: clamp(22px, 5vw, 34px);
+  line-height: 1.2;
+  letter-spacing: -.02em;
+}
+.erro-caixa > p {
+  margin: 16px auto 0;
+  max-width: 46ch;
+  font-size: clamp(15px, 3vw, 17px);
+  color: rgba(255, 255, 255, .78);
+}
+.erro-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 32px;
+}
+.erro .botao { background: var(--ciano); color: #04182f; font-weight: 600; }
+.erro .botao:hover { background: #7ad3ff; }
+.erro .botao--claro { background: transparent; color: #fff; }
+.erro .botao--claro:hover { background: rgba(255, 255, 255, .10); }
+
+.erro-atalhos {
+  margin-top: 34px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+}
+.erro-caixa .erro-atalhos p {
+  margin: 0 0 12px;
+  max-width: none;
+  font-size: 12.5px;
+  letter-spacing: .10em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, .55);
+}
+.erro-atalhos ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 22px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.erro-atalhos a {
+  font-size: clamp(13.5px, 3vw, 15px);
+  color: rgba(255, 255, 255, .84);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 255, 255, .28);
+  padding-bottom: 2px;
+}
+.erro-atalhos a:hover { color: #fff; border-bottom-color: var(--ciano); }
+
+.erro .rodape {
+  background: transparent;
+  border-top: 1px solid rgba(255, 255, 255, .12);
+  color: #fff;
+}
+.erro .rodape-nota,
+.erro .rodape-legal,
+.erro .rodape-credito { color: rgba(255, 255, 255, .62); }
+.erro .rodape-legal:hover,
+.erro .rodape-credito:hover { color: #fff; border-bottom-color: rgba(255, 255, 255, .34); }
+.erro .rodape-contato { color: #fff; border-bottom-color: rgba(255, 255, 255, .34); }
+.erro .rodape-contato:hover { border-bottom-color: #fff; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; animation: none !important; }
+}
+
+/* Impressao: as politicas precisam sair legiveis no papel. */
+@media print {
+  .topo, .rodape, .pular, .botao { display: none !important; }
+  .cabecalho { background: none; color: #000; padding: 0 0 24px; }
+  .cabecalho h1 span { color: #000; }
+  .cabecalho-resumo, .cabecalho-data { color: #333; }
+  .destaque { background: none; color: #000; border: 1px solid #999; }
+  body { font-size: 11pt; }
+  .conteudo { padding: 0; max-width: none; }
+  a { border: 0 !important; }
+}

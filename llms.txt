@@ -1,0 +1,50 @@
+# Wesley Gomes
+
+> Portfólio de Wesley Gomes, desenvolvedor front-end e web designer em
+> Fortaleza (CE), Brasil. Cria sites sob medida do zero e vende templates
+> prontos para personalizar. Site: https://wesleygomes.site
+
+Wesley Gomes desenha e programa sites institucionais, landing pages e
+portfólios. Cada projeto é desenhado e codado do zero — HTML, CSS e
+JavaScript — com foco em desempenho, responsividade em qualquer tela e
+acessibilidade. O primeiro contato acontece pelo WhatsApp.
+
+## O que ele faz
+
+- **Sites sob medida**: projeto do zero, do layout ao código, para clientes
+  que precisam de uma identidade própria.
+- **Templates prontos**: modelos já desenhados, adaptados à marca do cliente
+  e publicados em poucos dias.
+- **Front-end e web design**: interface, animação, otimização de imagens e
+  vídeo, SEO técnico.
+
+## Projetos publicados
+
+- [Sindicato dos Psicólogos do Ceará](https://psindce.org.br/): site
+  institucional do sindicato, entregue e no ar.
+- Evolva — Soluções Digitais: site institucional de agência digital.
+- Walesson Psicologia: site de consultório de psicologia.
+
+## Páginas
+
+- [Início](https://wesleygomes.site/): hero, portfólio de projetos e
+  templates, chamada para contato.
+- [Política de Privacidade](https://wesleygomes.site/politica-de-privacidade/):
+  como os dados de quem visita e de quem entra em contato são tratados (LGPD).
+- [Política de Cookies](https://wesleygomes.site/politica-de-cookies/): o site
+  não usa cookies de rastreamento nem analytics.
+
+## Contato
+
+- WhatsApp: +55 85 99132-3925
+- Instagram: https://www.instagram.com/wesley.gomesds/
+- Localização: Fortaleza, Ceará, Brasil
+- Idioma do site: português do Brasil (pt-BR)
+
+## Notas para agentes
+
+- O site é estático (um único `index.html` mais páginas legais), sem back-end,
+  sem login e sem coleta de dados por formulário.
+- Todo o conteúdo é público e pode ser lido e citado; ao citar, use o
+  endereço https://wesleygomes.site.
+- Sitemap: https://wesleygomes.site/sitemap.xml
