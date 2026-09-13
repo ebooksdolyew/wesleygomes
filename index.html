@@ -1,0 +1,2070 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wesley Gomes | Portfólio</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+
+<!-- Maior imagem da hero (e o LCP): pedida antes de o corpo ser lido,
+     com prioridade alta, para nao ficar na fila atras do video. -->
+<link rel="preload" as="image" href="assets/imagens/monitor-mesa-estendida.webp" fetchpriority="high">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { min-height: 100%; margin: 0; }
+  body { background: #0b1220; overflow-x: hidden; }
+
+  /* Cada secao ocupa a tela inteira, mas o scroll e livre: sem
+     scroll-snap, a rolagem para onde o usuario soltar.
+     scroll-behavior: smooth vale so para os links de ancora (#contato,
+     #projetos) — nao interfere na roda do mouse nem no toque.
+     Se um dia quiser o imã de volta sem travar o scroll, basta:
+       html { scroll-snap-type: y proximity; }
+       .palco, .cta { scroll-snap-align: start; }                   */
+  html { scroll-behavior: smooth; }
+  /* Verde do WhatsApp: todos os botoes de contato abrem uma conversa. */
+  :root { --whatsapp: #25d366; --whatsapp-escuro: #1ebe5b; }
+  .palco, .cta {
+    height: 100svh;
+    min-height: 100svh;
+  }
+  /* A folha branca comeca com uma tela cheia e cresce com os projetos. */
+  .secao-branca { min-height: 100svh; }
+
+  /* Secao branca entre a hero e a CTA: mesma proporcao de tela,
+     largura total. Por enquanto so o fundo — o conteudo entra aqui.
+
+     Os cantos de cima sao arredondados e o vazio que eles deixam
+     mostra a propria hero, que agora fica grudada atras enquanto
+     esta folha sobe por cima. No inicio da sobreposicao isso da a
+     emenda com a mesa; no meio, mostra a hero recuando. Por isso a
+     secao em si e transparente — quem e opaco e a folha.
+     (mesa-faixa.png, usado antes para tapar as quinas quando as
+     secoes nao se sobrepunham, deixou de ser necessario.)
+
+     A folha branca fica em um elemento proprio para o raio recortar
+     so ela. Conteudo futuro da secao entra DENTRO de .folha-branca. */
+  .secao-branca {
+    --raio-topo: clamp(20px, 2.4vw, 40px);
+    position: relative;
+    z-index: 2;                 /* sobe por cima da hero */
+    width: 100%;
+  }
+  .folha-branca {
+    min-height: 100svh;
+    border-radius: var(--raio-topo) var(--raio-topo) 0 0;
+    background: #ffffff;        /* opaco: a hero nao vaza por tras */
+    box-shadow: 0 -18px 44px rgba(4, 16, 32, .30);   /* camada deslizando */
+  }
+
+  /* ===============================================================
+     NAVBAR — barra flutuante, fixa no topo em todas as telas.
+     O vidro e o MESMO do card da CTA (ver .cta-conteudo): sem cor
+     propria, so o blur, a borda de 1px e o brilho interno no topo.
+     Como ela e fixa, o backdrop-filter desfoca o que estiver passando
+     por baixo — video da hero, folha branca ou video da CTA.
+
+     Sobre a folha branca o vidro fica branco e a copy branca sumiria,
+     entao o script liga .navbar--claro (copy marinha) no trecho em
+     que a folha cruza a barra e desliga fora dele. So mudam as cores:
+     geometria, borda, raio e blur seguem iguais.
+     =============================================================== */
+  .navbar {
+    position: fixed;
+    top: clamp(10px, 1.8vw, 18px);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;                /* acima das secoes (z-index 2) */
+    width: min(1240px, calc(100% - clamp(20px, 5vw, 44px)));
+    font-family: Poppins, Arial, sans-serif;
+  }
+  .navbar-caixa {
+    display: flex;
+    align-items: center;
+    gap: clamp(12px, 2vw, 28px);
+    padding: 9px 9px 9px clamp(16px, 2.2vw, 26px);
+    /* --- vidro identico ao do card da CTA --- */
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, .12);
+    border-radius: 999px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .10);
+    -webkit-backdrop-filter: blur(22px);
+    backdrop-filter: blur(22px);
+    transition: border-color .3s ease, box-shadow .3s ease;
+  }
+
+  /* MARCA — empurra o resto para a direita com o margin auto. */
+  .navbar-marca {
+    margin-right: auto;
+    font-weight: 600;
+    font-size: clamp(15px, 3.6vw, 17px);
+    letter-spacing: -.01em;
+    text-decoration: none;
+    color: #fff;
+    text-shadow: 0 1px 4px rgba(4, 24, 47, .55);
+    transition: color .3s ease, text-shadow .3s ease;
+  }
+  /* Unico trecho colorido da barra — mesmo azul do destaque da CTA. */
+  .navbar-marca span { color: #4cc3ff; }
+
+  .navbar-links {
+    display: flex;
+    align-items: center;
+    gap: clamp(14px, 2.2vw, 30px);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .navbar-link {
+    position: relative;
+    display: inline-block;
+    font-weight: 400;
+    font-size: 15px;
+    text-decoration: none;
+    color: rgba(255, 255, 255, .86);
+    text-shadow: 0 1px 4px rgba(4, 24, 47, .45);
+    transition: color .3s ease, text-shadow .3s ease;
+  }
+  /* Sublinhado de 1px que cresce no hover. */
+  .navbar-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -6px;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transition: transform .25s ease;
+  }
+  .navbar-link:hover { color: #fff; }
+  .navbar-link:hover::after { transform: scaleX(1); }
+
+  /* Botao: mesma pilula da CTA (branca sobre o video) e, no tema
+     claro, a mesma do rodape do portfolio (marinha sobre o branco). */
+  .navbar-botao {
+    flex: 0 0 auto;
+    font-weight: 600;
+    font-size: 15px;
+    text-decoration: none;
+    color: #fff;
+    background: var(--whatsapp);
+    padding: 11px 22px;
+    border-radius: 999px;
+    transition: transform .2s ease, box-shadow .2s ease, background .3s ease, color .3s ease;
+  }
+  .navbar-botao:hover { transform: translateY(-2px); background: var(--whatsapp-escuro); box-shadow: 0 10px 24px rgba(0, 0, 0, .30); }
+  .navbar-botao span { display: inline-block; transition: transform .2s ease; }
+  .navbar-botao:hover span { transform: translateX(4px); }
+
+  /* BOTAO DO MENU (so no retrato): duas barras que viram um X. */
+  .navbar-menu {
+    display: none;
+    position: relative;
+    flex: 0 0 auto;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, .18);
+    border-radius: 999px;
+    transition: border-color .3s ease;
+  }
+  .navbar-barra {
+    position: absolute;
+    left: 11px;
+    width: 18px;
+    height: 1.5px;
+    border-radius: 2px;
+    background: #fff;
+    transition: transform .28s ease, background .3s ease;
+  }
+  .navbar-barra:nth-child(1) { top: 17px; }
+  .navbar-barra:nth-child(2) { top: 23px; }
+  .navbar[data-aberto="true"] .navbar-barra:nth-child(1) { transform: translateY(3px) rotate(45deg); }
+  .navbar[data-aberto="true"] .navbar-barra:nth-child(2) { transform: translateY(-3px) rotate(-45deg); }
+
+  /* No desktop o painel nao existe como caixa: display:contents faz a
+     lista e o botao virarem itens diretos da barra. No retrato ele
+     vira um cartao de vidro (o mesmo) logo abaixo dela. */
+  .navbar-painel { display: contents; }
+
+  /* --- TEMA CLARO : enquanto a folha branca passa atras da barra --- */
+  .navbar--claro .navbar-caixa {
+    border-color: rgba(4, 24, 47, .10);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .60), 0 10px 30px rgba(4, 24, 47, .10);
+  }
+  .navbar--claro .navbar-marca { color: #04182f; text-shadow: none; }
+  .navbar--claro .navbar-link { color: rgba(4, 24, 47, .70); text-shadow: none; }
+  .navbar--claro .navbar-link:hover { color: #04182f; }
+  .navbar--claro .navbar-botao:hover { box-shadow: 0 12px 26px rgba(4, 24, 47, .28); }
+  .navbar--claro .navbar-menu { border-color: rgba(4, 24, 47, .16); }
+  .navbar--claro .navbar-barra { background: #04182f; }
+  .navbar--claro .navbar-painel {
+    border-color: rgba(4, 24, 47, .10);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .60), 0 16px 36px rgba(4, 24, 47, .12);
+  }
+  .navbar--claro .navbar-links li + li { border-top-color: rgba(4, 24, 47, .10); }
+
+  .navbar a:focus-visible,
+  .navbar button:focus-visible { outline: 2px solid #4cc3ff; outline-offset: 3px; }
+  .navbar--claro a:focus-visible,
+  .navbar--claro button:focus-visible { outline-color: #2b7fb8; }
+
+  @media (max-width: 700px) {
+    .navbar-menu { display: block; }
+    .navbar-painel {
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 0;
+      right: 0;
+      display: flex;
+      flex-direction: column;
+      padding: 12px 14px 14px;
+      /* Painel opaco (e nao o vidro da barra): o menu abre sobre
+         video claro, folha branca ou grama, e a copy branca so le
+         bem com um fundo marinho fixo por tras. */
+      background: rgba(4, 24, 47, .97);
+      border: 1px solid rgba(255, 255, 255, .10);
+      border-radius: 24px;
+      box-shadow: 0 18px 44px rgba(4, 16, 32, .40);
+      /* visibility entra junto para o painel fechado sair do foco */
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: opacity .26s ease, transform .26s ease, visibility .26s, border-color .3s ease, box-shadow .3s ease;
+    }
+    .navbar[data-aberto="true"] .navbar-painel {
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+    }
+    .navbar-links { flex-direction: column; align-items: stretch; gap: 0; }
+    .navbar-links li + li { border-top: 1px solid rgba(255, 255, 255, .10); }
+    .navbar-link { padding: 13px 6px; font-size: 16px; }
+    .navbar-link::after { display: none; }
+    /* Dentro do painel a copy e sempre branca, mesmo com a barra em
+       tema claro sobre a folha branca. */
+    .navbar .navbar-painel .navbar-link { color: rgba(255, 255, 255, .88); text-shadow: none; }
+    .navbar .navbar-painel .navbar-link:hover { color: #fff; }
+    .navbar .navbar-painel .navbar-links li + li { border-top-color: rgba(255, 255, 255, .10); }
+    .navbar--claro .navbar-painel {
+      border-color: rgba(255, 255, 255, .10);
+      box-shadow: 0 18px 44px rgba(4, 16, 32, .40);
+    }
+    .navbar-botao { margin-top: 10px; text-align: center; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .navbar-caixa, .navbar-link, .navbar-link::after, .navbar-botao,
+    .navbar-botao span, .navbar-barra, .navbar-painel { transition: none; }
+    .navbar-botao:hover { transform: none; }
+  }
+
+  /* ---------------------------------------------------------------
+     PORTFOLIO — conteudo da folha branca
+     A folha nao tem mais altura fixa: ela comeca com uma tela cheia
+     (para a emenda com a mesa continuar igual) e cresce conforme os
+     projetos entram. O recuo da hero nao depende disso — a faixa da
+     animacao e 'entry', que mede so a entrada da secao na janela.
+
+     Para trocar as capas: cada .cartao-figura mostra um placeholder
+     desenhado em CSS; basta colocar um <img class="cartao-imagem">
+     dentro dela que ele cobre o placeholder.
+     --------------------------------------------------------------- */
+  .portfolio {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: clamp(56px, 8vw, 104px) clamp(22px, 5vw, 56px) clamp(72px, 10vw, 128px);
+    font-family: Poppins, Arial, sans-serif;
+    color: #04182f;
+  }
+
+  .portfolio-cabecalho { max-width: 44rem; }
+  .portfolio-sobretitulo {
+    margin: 0 0 12px;
+    font-weight: 500;
+    font-size: clamp(11px, 3vw, 13px);
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: #2b7fb8;
+  }
+  .portfolio-titulo {
+    margin: 0 0 16px;
+    font-weight: 800;
+    font-size: clamp(30px, 6.4vw, 52px);
+    line-height: 1.08;
+    letter-spacing: -.02em;
+  }
+  .portfolio-texto {
+    margin: 0;
+    max-width: 52ch;
+    font-weight: 300;
+    font-size: clamp(14px, 4vw, 17px);
+    line-height: 1.62;
+    color: rgba(4, 24, 47, .66);
+  }
+  .portfolio-texto strong { font-weight: 600; color: #04182f; }
+
+  /* FILTROS — pilulas; o estado ativo vive no aria-pressed, entao o
+     leitor de tela e o CSS leem a mesma coisa. */
+  .portfolio-filtros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: clamp(28px, 4vw, 44px) 0 clamp(24px, 3.4vw, 36px);
+  }
+  .filtro {
+    font: inherit;
+    font-weight: 500;
+    font-size: clamp(13px, 3.4vw, 14px);
+    line-height: 1;
+    color: rgba(4, 24, 47, .72);
+    background: #fff;
+    border: 1px solid rgba(4, 24, 47, .16);
+    border-radius: 999px;
+    padding: 11px 20px;
+    cursor: pointer;
+    transition: color .2s ease, border-color .2s ease, background .2s ease;
+  }
+  .filtro:hover { color: #04182f; border-color: rgba(4, 24, 47, .42); }
+  .filtro[aria-pressed="true"] {
+    color: #fff;
+    background: #04182f;
+    border-color: #04182f;
+  }
+  .filtro:focus-visible { outline: 2px solid #2b7fb8; outline-offset: 3px; }
+
+  /* GRADE — 3 colunas no desktop, 2 no tablet, 1 no celular, sem
+     media query: o minmax cuida da quebra sozinho. */
+  .portfolio-grade {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 286px), 1fr));
+    gap: clamp(20px, 2.6vw, 34px);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .cartao[hidden] { display: none; }
+
+  .cartao {
+    position: relative;   /* ancora do link esticado (ver .cartao-link::after) */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid rgba(4, 24, 47, .10);
+    border-radius: 18px;
+    transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+  }
+  .cartao:hover {
+    transform: translateY(-6px);
+    border-color: rgba(4, 24, 47, .04);
+    box-shadow: 0 18px 40px rgba(4, 24, 47, .14);
+  }
+
+  /* Placeholder desenhado em CSS: fundo em degrade + barra de
+     navegador. Some assim que uma <img> for colocada por cima. */
+  .cartao-figura {
+    position: relative;
+    aspect-ratio: 16 / 10;   /* mesma proporcao dos mockups (1586x992) */
+    overflow: hidden;
+    margin: 0;
+    background:
+      linear-gradient(150deg, #eef4fa 0%, #dbe8f4 55%, #cddff0 100%);
+  }
+  .cartao-figura::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 26px;
+    background: rgba(4, 24, 47, .07);
+  }
+  .cartao-figura::after {
+    content: "";
+    position: absolute;
+    top: 9px;
+    left: 12px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(4, 24, 47, .22);
+    box-shadow: 14px 0 0 rgba(4, 24, 47, .16), 28px 0 0 rgba(4, 24, 47, .10);
+  }
+  .cartao-imagem {
+    position: relative;   /* acima do placeholder */
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;   /* imagem inteira, sem corte nem zoom */
+  }
+  /* Com capa real, o placeholder some por completo e o fundo passa a
+     ser a cor da propria capa (--capa-fundo, definida inline no
+     <figure>), para que capas fora de 16:10 nao mostrem faixas. */
+  .cartao-figura:has(.cartao-imagem) {
+    background: var(--capa-fundo, #eef4fa);
+  }
+  .cartao-figura:has(.cartao-imagem)::before,
+  .cartao-figura:has(.cartao-imagem)::after {
+    display: none;
+  }
+
+  .cartao-corpo {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    gap: 8px;
+    padding: clamp(18px, 2.2vw, 24px);
+  }
+  .cartao-titulo {
+    margin: 0;
+    font-weight: 600;
+    font-size: clamp(17px, 2.2vw, 19px);
+    letter-spacing: -.01em;
+  }
+  .cartao-link {
+    margin-top: auto;
+    align-self: flex-start;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    color: #04182f;
+    border-bottom: 1px solid rgba(4, 24, 47, .25);
+    padding-bottom: 2px;
+    transition: color .2s ease, border-color .2s ease;
+  }
+  /* Link esticado: o pseudo-elemento cobre o cartao inteiro, entao
+     capa e titulo tambem abrem o projeto — nao so o texto do link.
+     O <a> continua sendo o unico foco de teclado do cartao. */
+  .cartao-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    cursor: pointer;
+  }
+  .cartao-link span { transition: transform .2s ease; display: inline-block; }
+  .cartao:hover .cartao-link { color: #2b7fb8; border-bottom-color: #2b7fb8; }
+  .cartao:hover .cartao-link span { transform: translateX(4px); }
+  .cartao-link:focus-visible { outline: none; }
+  .cartao:has(.cartao-link:focus-visible) { outline: 2px solid #2b7fb8; outline-offset: 3px; }
+
+  /* Rodape da secao: mesma pergunta do site de referencia. */
+  .portfolio-rodape {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px 22px;
+    margin-top: clamp(44px, 6vw, 72px);
+    padding-top: clamp(28px, 4vw, 44px);
+    border-top: 1px solid rgba(4, 24, 47, .12);
+  }
+  .portfolio-pergunta {
+    margin: 0;
+    flex: 1 1 18rem;
+    font-weight: 600;
+    font-size: clamp(18px, 3.4vw, 24px);
+    letter-spacing: -.01em;
+  }
+  .portfolio-botao {
+    font-weight: 600;
+    font-size: clamp(14px, 3.8vw, 15px);
+    text-decoration: none;
+    color: #fff;
+    background: var(--whatsapp);
+    padding: 14px 28px;
+    border-radius: 999px;
+    transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+  }
+  .portfolio-botao:hover { transform: translateY(-2px); background: var(--whatsapp-escuro); box-shadow: 0 12px 26px rgba(37, 211, 102, .32); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cartao, .cartao-link span, .portfolio-botao { transition: none; }
+    .cartao:hover { transform: none; }
+  }
+
+  /* ---------------------------------------------------------------
+     PALCO — empilhamento das camadas
+     1. video   (ceu_se_movendo_em_loop)      z-index 1
+     2. texto   (portfolio-texto.svg)         z-index 2
+     3. monitor (monitor-mesa-estendida.webp) z-index 3
+     4. rotulos (front-end / web-design)        z-index 4
+     --------------------------------------------------------------- */
+  /* ---------------------------------------------------------------
+     SOBREPOSICAO (overlap scroll)
+     A hero gruda no topo e as secoes seguintes deslizam por cima
+     dela. O recuo da hero (escala + opacidade) e ligado ao scroll,
+     nao ao tempo: quadro a quadro, reversivel, e para junto com o
+     dedo/roda. Duas implementacoes, a segunda so como reserva:
+       1) animation-timeline com a view() da propria secao branca;
+       2) --progresso (0 a 1) calculado no rAF, para navegadores sem
+          suporte a scroll-driven animations.
+     --------------------------------------------------------------- */
+  .palco {
+    position: sticky;
+    top: 0;
+    z-index: 1;                 /* fica por baixo das secoes seguintes */
+    overflow: hidden;
+    width: 100%;
+
+    /* Prende as camadas internas (video z-2, cena z-3, rotulos z-4)
+       dentro da hero. Sem isso elas disputam o empilhamento com as
+       secoes seguintes e pintam por cima da folha branca. */
+    isolation: isolate;
+
+    /* Reserva: so transform e opacity, ambas compostas na GPU. */
+    transform: scale(calc(1 - 0.05 * var(--progresso, 0)));
+    opacity: calc(1 - 0.4 * var(--progresso, 0));
+    will-change: transform, opacity;
+  }
+
+  @keyframes hero-recua {
+    from { transform: scale(1);    opacity: 1;   }
+    to   { transform: scale(0.95); opacity: 0.6; }
+  }
+
+  /* Caminho principal: a linha do tempo e a posicao da secao branca
+     na tela. 'entry 0%' = topo da secao no rodape da janela;
+     'entry 100%' = topo da secao no topo da janela (a secao tem
+     exatamente 100svh, entao o percurso e de uma tela). */
+  @supports (animation-timeline: view()) {
+    :root { timeline-scope: --projetos; }
+    .secao-branca { view-timeline: --projetos block; }
+    .palco {
+      transform: none;
+      opacity: 1;
+      animation: hero-recua linear both;
+      animation-timeline: --projetos;
+      animation-range: entry 0% entry 100%;
+    }
+  }
+
+  :root {
+    /* --------- CONTROLE DE PROPORCAO (unico ponto de ajuste) ---------
+       A hero usa monitor-mesa-estendida.webp (3000 x 941, lossless —
+       os mesmos pixels do PNG que vivia dentro do SVG antigo, sem o
+       peso do base64): mesmo monitor, recorte antisserrilhado e mesa
+       prolongada ate as bordas do quadro. Sendo bem mais larga que alta (3,19:1), a
+       mesa sangra para fora da tela em qualquer proporcao — os
+       cantos inferiores nunca ficam sem imagem — e ainda sobra ceu
+       limpo no topo.
+
+       --monitor-w : largura da imagem do monitor. 125vw mantem a mesa
+                     de ponta a ponta e concentra o mockup na parte
+                     inferior da hero; o teto em svh impede
+                     que a caixa estoure o topo (os 14,1% superiores do
+                     desenho sao transparentes, entao ela pode passar
+                     ate 13% sem cortar nada do monitor) e o piso de
+                     100vw garante a mesa de ponta a ponta.
+       --titulo-w  : largura do SVG PORTFÓLIO (1920 x 460). Segue a do
+                     monitor (90%), mas nunca passa do que cabe na
+                     faixa de ceu: o segundo termo e a maior largura
+                     que ainda deixa o acento do "O" a 5% do topo.
+                     Em janela 16:9 ele nao pega; em janelas mais
+                     baixas (a barra do navegador come altura) o
+                     titulo encolhe em vez de afundar atras do
+                     monitor — o 'bottom' abaixo mantem sempre 40%
+                     das letras escondidas, entao a proporcao do
+                     encaixe nao muda.
+       --k / --folga : escala e respiro dos rotulos laterais.
+
+       Referencias medidas no desenho (fracoes da caixa do SVG):
+         topo visivel do monitor .... 14,13% da altura
+         bordas do monitor .......... 37,7% e 63,3% da largura         */
+    --monitor-w: max(100vw,
+        min(125vw, calc(100svh * 3000 / 941 * 1.13)));
+    --titulo-w: max(
+        calc(var(--monitor-w) * 0.2048),
+        min(calc(var(--monitor-w) * 0.576),
+            calc(951svh - var(--monitor-w) * 2.696)));
+    --k: calc(var(--monitor-w) / 3156);
+    --folga: calc(var(--monitor-w) * 0.008);
+  }
+
+  /* 1 — VÍDEO : 1280 x 720 (16:9), sem distorção */
+  .camada-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;          /* preserva a proporção original do vídeo */
+    object-position: center top;
+    z-index: 1;
+    will-change: opacity;
+  }
+  .video-a { z-index: 2; }   /* camada visível inicial */
+  .video-b { z-index: 1; }   /* entra por baixo durante o crossfade */
+
+  /* A cena cobre a hero inteira: cada camada e ancorada pela altura
+     visivel da tela, e nao por uma caixa proporcional. */
+  .cena {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;   /* sempre acima das duas camadas de video */
+  }
+
+  /* 2 — TEXTO SVG : 1920 x 460 (desktop) / 1080 x 720 (mobile, duas linhas).
+     As duas variantes compartilham o mesmo efeito de surgimento. */
+  .camada-texto, .camada-texto-mobile {
+    position: absolute;
+    z-index: 1;
+
+    /* Máscara do efeito de surgimento (de cima para baixo).
+       Estado inicial: totalmente oculto. */
+    -webkit-mask-image: linear-gradient(to bottom,
+        #000 0%, #000 38.46%, rgba(0,0,0,0) 61.54%, rgba(0,0,0,0) 100%);
+            mask-image: linear-gradient(to bottom,
+        #000 0%, #000 38.46%, rgba(0,0,0,0) 61.54%, rgba(0,0,0,0) 100%);
+    -webkit-mask-size: 100% 260%;
+            mask-size: 100% 260%;
+    -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+    -webkit-mask-position: 0% 100%;
+            mask-position: 0% 100%;
+  }
+  .camada-texto svg,
+  .camada-texto-mobile svg { display: block; width: 100%; height: 100%; overflow: visible; }
+
+  /* Desktop: o titulo e ancorado a partir da borda superior visivel do
+     monitor (0,2693 x --monitor-w acima do rodape) e desce o
+     equivalente a 40% da altura das letras — o tanto que elas ficam
+     escondidas atras da moldura, como no desenho original. Com isso a
+     folga de ceu acima do titulo cresce junto com a altura da tela. */
+  .camada-texto {
+    left: 50%;
+    margin-left: calc(var(--titulo-w) / -2);
+    bottom: min(
+        calc(var(--monitor-w) * 0.2693 - var(--titulo-w) * 0.1048),
+        calc(100svh - var(--titulo-w) * 0.2396));  /* trava: nunca sai pelo topo */
+    width: var(--titulo-w);
+    aspect-ratio: 1920 / 460;
+  }
+
+  /* A variante de duas linhas so aparece no mobile (ver media query). */
+  .camada-texto-mobile { display: none; }
+
+  .revelar .camada-texto,
+  .revelar .camada-texto-mobile {
+    animation: surgir 1.9s cubic-bezier(.22,.61,.36,1) forwards;
+  }
+  @keyframes surgir {
+    from { -webkit-mask-position: 0% 100%; mask-position: 0% 100%; }
+    to   { -webkit-mask-position: 0% 0%;   mask-position: 0% 0%;   }
+  }
+  /* 3 — MONITOR + MESA : centralizado pela margem negativa (o transform
+     fica livre para a animacao) e ancorado na base. height:auto preserva
+     a proporcao original do arquivo (3000 x 941).           */
+  .camada-monitor {
+    position: absolute;
+    inset: auto auto 0 50%;
+    margin-left: calc(var(--monitor-w) / -2);
+    width: var(--monitor-w);
+    height: auto;
+    z-index: 2;
+    pointer-events: none;
+
+    /* Estado inicial do deslize: um pouco abaixo (a base sai pelo rodape,
+       que e cortado pelo overflow do palco) e invisivel. */
+    opacity: 0;
+    transform: translateY(7%);
+    will-change: transform, opacity;
+  }
+
+  .revelar .camada-monitor {
+    animation: subir 1.1s cubic-bezier(.22,.61,.36,1) forwards;
+  }
+  @keyframes subir {
+    0%   { opacity: 0; transform: translateY(7%); }
+    60%  { opacity: 1; }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  /* 4 — ROTULOS LATERAIS : FRONT-END (esquerda) e WEB DESIGN (direita)
+     Camada acima do video, centralizada verticalmente na tela. */
+  .camada-rotulo {
+    position: absolute;
+    top: 50%;
+    z-index: 4;
+    transform: translateY(-50%);
+    pointer-events: none;
+    opacity: 0;
+    will-change: opacity, transform;
+  }
+  .camada-rotulo svg { display: block; width: 100%; height: auto; overflow: visible; }
+
+  /* Largura = viewBox x --k, entao os dois renderizam o texto no mesmo
+     tamanho em qualquer viewport. Borda interna encostada (com folga) no
+     limite lateral do monitor. */
+  .rotulo-esquerda {
+    width: calc(360 * var(--k));
+    right: calc(50% + var(--monitor-w) * 0.124 + var(--folga));
+  }
+  .rotulo-direita {
+    width: calc(418 * var(--k));
+    left: calc(50% + var(--monitor-w) * 0.133 + var(--folga));
+  }
+
+  .revelar .rotulo-esquerda {
+    animation: entrar-esquerda 1.2s cubic-bezier(.22,.61,.36,1) .55s forwards;
+  }
+  .revelar .rotulo-direita {
+    animation: entrar-direita 1.2s cubic-bezier(.22,.61,.36,1) .55s forwards;
+  }
+  /* Os rotulos nascem junto do monitor e se afastam para as laterais:
+     o da esquerda parte deslocado para a direita (para dentro) e o da
+     direita para a esquerda, ambos assentando na posicao final. */
+  @keyframes entrar-esquerda {
+    from { opacity: 0; transform: translate(24px, -50%); }
+    to   { opacity: 1; transform: translate(0, -50%); }
+  }
+  @keyframes entrar-direita {
+    from { opacity: 0; transform: translate(-24px, -50%); }
+    to   { opacity: 1; transform: translate(0, -50%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    /* Mantem a sobreposicao (o empilhamento e estrutural), mas sem
+       recuo: nada de escala nem de fade acompanhando o scroll. */
+    .palco { animation: none; transform: none; opacity: 1; }
+    .camada-texto,
+    .camada-texto-mobile { -webkit-mask-position: 0% 0%; mask-position: 0% 0%; }
+    .camada-monitor { opacity: 1; transform: none; }
+    .camada-rotulo { opacity: 1; }
+    .revelar .camada-texto,
+    .revelar .camada-texto-mobile,
+    .revelar .camada-monitor,
+    .revelar .rotulo-esquerda,
+    .revelar .rotulo-direita { animation: none; }
+  }
+
+  /* Em telefone deitado a cena ja ocupa a altura toda: mantem a linha
+     unica do desktop e so reposiciona os rotulos (bloco seguinte). */
+  @media (max-width: 700px) and (orientation: portrait) {
+    /* --------------------------------------------------------------
+       COMPOSICAO MOBILE
+       O retrato usa o mesmo SVG do desktop, so com outra largura: em
+       119svh a borda superior visivel do monitor cai em ~68% da hero
+       em qualquer altura de tela, e o monitor sai com os mesmos 66vw
+       de largura visivel de antes. A mesa sangra muito alem das
+       laterais, entao os cantos inferiores ficam sempre cobertos. Os
+       limites do clamp seguram telas muito baixas (piso) e muito
+       altas (teto).                                                  */
+    :root {
+      --monitor-w: clamp(105vw, 119svh, 341vw);
+      /* Largura do bloco PORT/FOLIO. Os rotulos FRONT-END e WEB DESIGN
+         se ancoram nesta mesma medida (ver ROTULOS ABAIXO DO TITULO). */
+      --titulo-mob-w: min(clamp(300px, 112vw, 600px), 64svh);
+    }
+
+    /* --- TEXTO: troca a linha unica pela versao de duas linhas ------
+       Centralizado na horizontal e ancorado pelo proprio centro em
+       44% da altura da hero, deixando bastante ceu limpo acima e
+       folga generosa ate o monitor. O teto em svh evita que o bloco
+       cresca demais em telas baixas.                                 */
+    .camada-texto { display: none; }
+    .camada-texto-mobile {
+      display: block;
+      left: 50%;
+      top: 44%;
+      bottom: auto;
+      margin-left: 0;
+      transform: translate(-50%, -50%);
+      width: var(--titulo-mob-w);
+      height: auto;
+      aspect-ratio: 1080 / 720;
+    }
+  }
+
+  @media (max-width: 700px) {
+    /* Rotulos nos cantos inferiores: margem lateral de 7% da largura
+       da tela e 22px acima da borda de baixo. As larguras guardam a
+       razao 360:418 dos viewBox, entao os dois saem no mesmo corpo de
+       texto e com as linhas de base alinhadas. Somando margens e
+       larguras sobram ~6vw de corredor central, sem sobreposicao. */
+    .camada-rotulo { top: auto; bottom: 22px; transform: none; }
+    .rotulo-esquerda {
+      left: 7vw; right: auto;
+      width: min(37vw, 168px);
+    }
+    .rotulo-direita {
+      right: 7vw; left: auto;
+      width: min(43vw, 195px);
+    }
+    .revelar .rotulo-esquerda,
+    .revelar .rotulo-direita { animation: none; opacity: 1; transform: none; }
+  }
+
+  /* ---------------------------------------------------------------
+     ROTULOS ABAIXO DO TITULO (so no retrato; vem depois do bloco
+     acima para vencer o posicionamento de canto, que fica valendo
+     para o telefone deitado)
+
+     FRONT-END e WEB DESIGN sobem dos cantos de baixo e entram lado a
+     lado logo abaixo de PORT/FOLIO. Os dois viewBox somam 360 + 418 =
+     778: encostando um no outro, o traco+ponto que sobra na ponta de
+     cada um vira um unico conector central —
+         FRONT-END o————————o WEB DESIGN
+     --par-w e a largura do par inteiro; cada rotulo pega a sua fatia
+     e a emenda cai em 46,272% dela (360/778).
+
+     A ancora vertical sai do proprio titulo: o bloco esta centrado em
+     44% da hero e a ultima linha de tinta termina 36% da altura dele
+     abaixo desse centro (a arte tem folga no rodape do viewBox).
+     0,36 x 720/1080 = 0,24 da largura do titulo.                     */
+  @media (max-width: 700px) and (orientation: portrait) {
+    :root { --par-w: min(86vw, 420px); }
+
+    .camada-rotulo {
+      top: calc(44% + var(--titulo-mob-w) * 0.24 + clamp(14px, 4vw, 28px));
+      bottom: auto;
+      transform: none;
+    }
+    .rotulo-esquerda {
+      left: calc(50% - var(--par-w) / 2);
+      right: auto;
+      width: calc(var(--par-w) * 0.46272);
+    }
+    .rotulo-direita {
+      left: calc(50% - var(--par-w) * 0.03728);
+      right: auto;
+      width: calc(var(--par-w) * 0.53728);
+    }
+  }
+
+  /* ===============================================================
+     CTA — video cta-background.mp4 (1280 x 720) cobrindo a secao
+     inteira nos dois breakpoints e, acima dele, o mockup dos
+     dispositivos. cta.webp segue como poster do video (primeiro
+     quadro enquanto ele carrega).
+     Desktop: .cta-mockup (SVG inline, 1095 x 356) a direita e a copy
+              sobreposta a esquerda.
+     Mobile : .cta-mockup-mobile (SVG inline, 600 x 882), com os
+              aparelhos empilhados, na altura que sobra em cima;
+              embaixo, o mesmo card do desktop — e o video passando por
+              tras dele que faz o vidro do backdrop-filter existir.
+     Os dois mockups sao o mesmo desenho: tres molduras e tres telas em
+     WebP (assets/imagens/cta-mockup/), compartilhadas entre eles. Antes
+     cada um era um .svg com as seis imagens em base64 dentro (750 KB
+     cada); inline, os <image> apontam para os arquivos direto e o
+     script so preenche o href quando a CTA se aproxima.
+     Toda a copy usa Poppins.
+     =============================================================== */
+  .cta {
+    position: relative;
+    z-index: 2;                 /* a hero fica grudada ate o fim da pagina */
+    display: flex;
+    flex-direction: column;   /* mobile: mockup em cima, card embaixo */
+    width: 100%;
+    overflow: hidden;
+    background: #0b1220;       /* fundo enquanto o video nao pinta */
+    color: #fff;
+    font-family: Poppins, Arial, sans-serif;
+    /* Respiro do card ate as bordas da tela; no desktop este padding
+       cresce (ver o bloco min-width: 701px). Com box-sizing:border-box
+       ele entra dentro dos 100svh da secao. */
+    padding: 0 clamp(12px, 3.6vw, 20px) clamp(16px, 4.5vw, 26px);
+  }
+
+  /* A midia esta fora do fluxo e cobre a secao inteira — no mobile
+     tambem. Antes ela era um item do flex ocupando so a metade de
+     cima, entao o card caia sobre o fundo chapado e o backdrop-filter
+     nao tinha nada para desfocar: o mesmo card do desktop virava uma
+     caixa vazia com borda. Com o video atras dele em toda a altura, o
+     vidro aparece igual nos dois breakpoints. */
+  .cta-midia {
+    position: absolute;
+    inset: 0;
+    z-index: 0;                 /* atras do mockup e do card */
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  /* Duas copias do clipe se revezam com dissolve no ponto de emenda do
+     loop — mesmo efeito do video da hero (ver LOOP SEM CORTE no script). */
+  .cta-video {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* O clipe e 16:9 e a secao no telefone e um retrato bem mais alto,
+       entao o cover escala pela altura: a composicao vertical inteira
+       (ceu em cima, horizonte no meio, grama embaixo) aparece sem
+       deformar e o corte fica so na largura. Centrado, a faixa que
+       sobra e a de nuvens sobre a grama — que e onde os aparelhos do
+       mockup pousam. */
+    object-position: 50% center;
+    will-change: opacity;
+  }
+  .cta-video-a { z-index: 2; }   /* camada visivel inicial */
+  .cta-video-b { z-index: 1; }   /* entra por baixo durante o crossfade */
+  /* Veu sobre o video: estabiliza o contraste sem apagar o clipe. O
+     degrade fecha um pouco mais embaixo, onde fica o card. */
+  .cta-midia::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    background: linear-gradient(to bottom,
+                rgba(4, 24, 47, .10) 0%,
+                rgba(4, 24, 47, .18) 46%,
+                rgba(4, 24, 47, .34) 100%);
+  }
+  /* Camada acima do video E acima do card. O SVG (1095 x 356) e largo
+     e baixo: serve so ao desktop, que o liga no bloco min-width: 701px.
+     No retrato quem entra e .cta-mockup-mobile (logo abaixo).
+     Ele e filho direto da <section>, e nao de .cta-midia: aquela camada
+     tem z-index: 0 e abre contexto de empilhamento proprio, entao o
+     z-index: 4 daqui so valia dentro dela e o card passava por cima do
+     notebook. Como irmao do card, o z-index: 4 vale na secao inteira e
+     os aparelhos ficam na frente. Geometria (posicao, tamanho e
+     flutuacao) e a mesma de sempre. */
+  .cta-mockup {
+    display: none;
+    position: absolute;
+    z-index: 4;                 /* acima do video, do veu e do card */
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: min(120%, 980px);
+    height: auto;
+    /* E um <svg> inline, nao um <img>: a proporcao vem daqui. */
+    aspect-ratio: 1095 / 356;
+    pointer-events: none;
+    /* Flutuacao leve: sobe e desce alguns pixels, em loop suave. */
+    animation: cta-flutuar 6s ease-in-out infinite;
+    will-change: transform;
+  }
+  /* O deslocamento do flutuar entra junto com o transform que centraliza
+     o mockup — por isso ha um keyframe por breakpoint. */
+  @keyframes cta-flutuar {
+    0%, 100% { transform: translate(-50%, -50%); }
+    50%      { transform: translate(-50%, calc(-50% - 10px)); }
+  }
+  @keyframes cta-flutuar-desktop {
+    0%, 100% { transform: translateY(-50%); }
+    50%      { transform: translateY(calc(-50% - 12px)); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cta-mockup { animation: none; }
+  }
+
+  /* --- MOCKUP MOBILE : cta-mockup-mobile.svg (600 x 882) -----------
+     O palco e um item do flex: fica com toda a altura que sobra acima
+     do card, entao a imagem vem ANTES do card e nunca por cima dele.
+
+     No arquivo novo os aparelhos ocupam a arte inteira (x de 20 a 580
+     de 600; y de 20 a 862 de 882), sem a faixa vazia que o arquivo
+     antigo tinha no terco de cima. Por isso ele nao e mais recortado:
+     entra inteiro, centrado no palco. height: 100% manda enquanto a
+     altura e quem limita; max-width: 100% assume nas telas estreitas e
+     a propria imagem reduz a altura mantendo a proporcao (0,68:1). */
+  .cta-palco-mobile {
+    position: relative;
+    z-index: 3;                 /* acima do video e do veu */
+    flex: 1 1 auto;
+    min-height: 0;
+    width: 100%;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .cta-mockup-mobile {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: auto;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    aspect-ratio: 600 / 882.3;   /* <svg> inline: proporcao explicita */
+    transform: translate(-50%, -50%);
+    /* Mesma flutuacao do desktop, com o deslocamento proprio somado. */
+    animation: cta-flutuar-mobile 6s ease-in-out infinite;
+    will-change: transform;
+  }
+  @keyframes cta-flutuar-mobile {
+    0%, 100% { transform: translate(-50%, -50%); }
+    50%      { transform: translate(-50%, calc(-50% - 10px)); }
+  }
+  /* Precisa vir DEPOIS da regra acima: a especificidade e a mesma, e
+     quem desliga a animacao e a ultima declaracao que aparece. */
+  @media (prefers-reduced-motion: reduce) {
+    .cta-mockup-mobile { animation: none; }
+  }
+
+  .cta-conteudo {
+    position: relative;
+    z-index: 2;
+    flex: 0 0 auto;
+    /* Mesmo card do desktop: mesma largura maxima, mesma ausencia de
+       margem (o respiro vem do padding da secao) e o mesmo padding
+       uniforme — clamp(28px, 8vw, 52px) encosta nos 52px do desktop a
+       partir de ~650px, entao so a escala muda de um lado para o
+       outro. Borda, raio, sombra e blur ja eram os mesmos. */
+    max-width: 50rem;
+    margin: 0;
+    padding: clamp(28px, 8vw, 52px);
+    /* Card sem cor: nenhum veu por cima do video — so um blur leve que
+       desfoca o fundo o suficiente para a copy respirar. */
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, .12);
+    border-radius: clamp(22px, 5vw, 30px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .10);
+    -webkit-backdrop-filter: blur(22px);
+    backdrop-filter: blur(22px);
+  }
+
+  .cta-titulo {
+    margin: 0 0 14px;
+    max-width: 24ch;
+    font-weight: 800;
+    font-size: clamp(30px, 6.2vw, 46px);
+    line-height: 1.1;
+    letter-spacing: -.02em;
+    /* Mesma copy nos dois breakpoints: branco com sombra marinha.
+       Sobre o video — ceu claro em cima, grama movimentada embaixo —
+       ele le melhor que o azul escuro que ficava aqui antes. */
+    color: #fff;
+    text-shadow: 0 1px 4px rgba(4, 24, 47, .55), 0 2px 14px rgba(4, 24, 47, .40);
+    /* Reparte o titulo em linhas de peso parecido em vez de deixar a
+       ultima com uma palavra solta. */
+    text-wrap: balance;
+  }
+  /* "qualquer tela": unico trecho colorido do card. Azul claro e cheio
+     — destaca sobre o ceu e sobre a grama sem perder o contraste. */
+  .cta-titulo-destaque {
+    display: inline-block;
+    color: #4cc3ff;
+    -webkit-text-fill-color: #4cc3ff;
+    text-shadow: 0 1px 4px rgba(4, 24, 47, .60), 0 2px 14px rgba(4, 24, 47, .45);
+  }
+  .cta-texto {
+    margin: 0 0 28px;
+    max-width: 48ch;
+    font-weight: 400;
+    font-size: clamp(15px, 3.8vw, 17px);
+    line-height: 1.76;
+    color: #fff;
+    text-shadow: 0 1px 4px rgba(4, 24, 47, .55);
+    /* pretty (e nao balance): mantem o bloco cheio e so evita a viuva
+       na ultima linha — o certo para paragrafo corrido. */
+    text-wrap: pretty;
+  }
+
+  .cta-acoes { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px; }
+  .cta-botao {
+    font-weight: 600;
+    font-size: clamp(15px, 4vw, 17px);
+    text-decoration: none;
+    color: #fff;
+    background: var(--whatsapp);
+    padding: 16px 32px;
+    border-radius: 999px;
+    transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+  }
+  .cta-botao:hover { transform: translateY(-2px); background: var(--whatsapp-escuro); box-shadow: 0 10px 26px rgba(0, 0, 0, .35); }
+  /* Mesma seta dos cartoes: desliza um pouco no hover. */
+  .cta-botao span { display: inline-block; transition: transform .2s ease; }
+  .cta-botao:hover span { transform: translateX(4px); }
+  .cta-link {
+    font-weight: 400;
+    font-size: clamp(14px, 3.8vw, 16px);
+    text-decoration: none;
+    color: #fff;
+    padding-bottom: 3px;
+    border-bottom: 1px solid rgba(255, 255, 255, .7);
+    text-shadow: 0 1px 4px rgba(4, 24, 47, .3);
+  }
+  .cta-link:hover { border-bottom-color: #fff; }
+
+  /* Telas muito baixas (320 x 568 e afins): so o card ja come quase os
+     100svh e o palco do mockup ficaria espremido. Aqui a secao passa a
+     poder crescer e o palco ganha um piso. Em qualquer tela maior nada
+     muda — o flex ja entrega mais altura do que o piso pede. */
+  @media (max-width: 700px) {
+    .cta {
+      height: auto;
+      /* Largura do mockup e quanto ele invade o card por baixo — o
+         mesmo efeito do desktop, em que os aparelhos passam por cima
+         do vidro. */
+      --mock-w: min(90vw, 420px);
+      --mock-sobre: clamp(56px, 16vw, 80px);
+    }
+    .cta-palco-mobile {
+      /* A navbar e fixa (10px de topo + 62px de barra): sem este
+         recuo o notebook do mockup fica escondido atras dela quando a
+         secao esta encaixada no topo da tela. */
+      margin-top: 82px;
+      /* O palco fica com a altura da arte menos a faixa que entra no
+         card; o restante da imagem sai por baixo, sobre o vidro. */
+      flex: 0 0 auto;
+      min-height: 0;
+      height: calc(var(--mock-w) * 1.4705 - var(--mock-sobre));
+      overflow: visible;
+    }
+    .cta-mockup-mobile {
+      top: 0;
+      width: var(--mock-w);
+      height: auto;
+      max-width: none;
+      max-height: none;
+      transform: translateX(-50%);
+      animation-name: cta-flutuar-mobile-topo;
+    }
+    /* Card mais enxuto, e com o topo reservado para os aparelhos que
+       vem de cima. */
+    .cta-conteudo {
+      padding: clamp(22px, 6.4vw, 52px);
+      padding-top: calc(clamp(22px, 6.4vw, 52px) + var(--mock-sobre));
+      /* No retrato o card fica sozinho na coluna, entao a copy vai
+         centralizada — junto com o botao (ver .cta-acoes abaixo). */
+      text-align: center;
+    }
+    /* Titulo e paragrafo tem max-width em ch: sem o margin auto eles
+       ficariam encostados a esquerda mesmo com o texto centralizado. */
+    .cta-titulo { margin: 0 auto 10px; }
+    .cta-texto { margin: 0 auto 20px; line-height: 1.62; }
+    .cta-botao { padding: 14px 28px; }
+    .cta-acoes { justify-content: center; }
+  }
+  /* Flutuacao do retrato: a imagem esta ancorada no topo, entao o
+     translate vertical parte de zero. */
+  @keyframes cta-flutuar-mobile-topo {
+    0%, 100% { transform: translateX(-50%); }
+    50%      { transform: translate(-50%, -10px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cta-mockup-mobile { animation: none; }
+  }
+
+  @media (min-width: 701px) {
+    .cta {
+      display: grid;
+      align-items: center;
+    }
+    .cta-midia {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .cta-video { object-position: 62% center; }
+    /* Véu marinho discreto: preserva o vídeo e estabiliza o contraste
+       da copy sem pesar na composição. */
+    .cta-midia::after { background: rgba(4, 24, 47, .14); }
+    /* Desktop: a copy fica a esquerda, entao o mockup ocupa a metade
+       direita, centrado nela e na vertical. translateY sozinho — o
+       eixo X ja vem do right fixo. */
+    .cta-palco-mobile { display: none; }
+    .cta-mockup {
+      display: block;
+      left: auto;
+      right: -2vw;
+      transform: translateY(-50%);
+      width: min(80%, 1450px);
+      animation-name: cta-flutuar-desktop;
+    }
+    /* O respiro vai no <section> (o padding nao encolhe a imagem, que e
+       absoluta) e a coluna de texto fica livre para usar toda a
+       max-width — com box-sizing:border-box, padding aqui comeria a
+       largura da coluna. */
+    .cta { padding: clamp(56px, 6vw, 96px) clamp(32px, 7vw, 112px); }
+    .cta-conteudo {
+      max-width: 50rem;
+      margin: 0;
+      padding: clamp(52px, 5.4vw, 78px);
+    }
+  }
+
+  /* ===============================================================
+     RODAPE — barra compacta ao final de toda a pagina, em branco
+     solido. A hero e sticky e fica atras de tudo ate o fim do
+     documento, por isso o z-index 2: mesma camada das secoes que
+     passam por cima da hero.
+     =============================================================== */
+  .rodape {
+    position: relative;
+    z-index: 2;
+    background: #fff;
+    border-top: 1px solid rgba(4, 24, 47, .10);
+    color: #04182f;
+    font-family: Poppins, Arial, sans-serif;
+  }
+  .rodape-caixa {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px clamp(16px, 2.4vw, 32px);
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: clamp(12px, 1.8vw, 16px) clamp(22px, 5vw, 56px);
+  }
+  .rodape-marca {
+    margin: 0;
+    font-weight: 600;
+    font-size: clamp(14px, 3.2vw, 15px);
+    letter-spacing: -.01em;
+  }
+  .rodape-marca span { color: #4cc3ff; }
+  /* O auto daqui joga os links e o "voltar ao topo" para a direita. */
+  .rodape-nota {
+    margin: 0 auto 0 0;
+    font-weight: 300;
+    font-size: clamp(11px, 3vw, 12px);
+    color: rgba(4, 24, 47, .62);
+  }
+  .rodape-contato {
+    font-weight: 500;
+    font-size: clamp(12px, 3.2vw, 13px);
+    text-decoration: none;
+    color: #04182f;
+    padding-bottom: 2px;
+    border-bottom: 1px solid rgba(4, 24, 47, .30);
+    transition: border-color .2s ease;
+  }
+  .rodape-contato:hover { border-bottom-color: #04182f; }
+  /* Credito "Made by": link discreto para o Instagram, no mesmo peso
+     da nota, mas ganha cor no hover. */
+  .rodape-credito {
+    font-weight: 400;
+    font-size: clamp(11px, 3vw, 12px);
+    text-decoration: none;
+    color: rgba(4, 24, 47, .62);
+    padding-bottom: 2px;
+    border-bottom: 1px solid transparent;
+    transition: color .2s ease, border-color .2s ease;
+  }
+  .rodape-credito:hover { color: #04182f; border-bottom-color: rgba(4, 24, 47, .30); }
+  .rodape a:focus-visible { outline: 2px solid #4cc3ff; outline-offset: 3px; }
+
+  /* No retrato a barra vira duas linhas: marca e contato em cima, a
+     nota embaixo. */
+  @media (max-width: 700px) {
+    .rodape-caixa { gap: 6px 14px; padding: 10px 18px; }
+    .rodape-marca { margin-right: auto; font-size: 13px; }
+    .rodape-nota { font-size: 11px; }
+    .rodape-contato { font-size: 12px; }
+    .rodape-nota { flex: 1 1 100%; margin: 0; order: 3; }
+    .rodape-credito { font-size: 11px; order: 4; }
+    .rodape-contato { order: 2; margin-left: auto; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rodape-contato, .rodape-credito { transition: none; }
+  }
+
+  /* ===============================================================
+     TABLET — 701px a 1024px (iPad, iPad Air/Pro, Android 8"-11").
+     Bloco proprio, no fim da folha, para nao mexer no mobile
+     (<= 700px) nem no desktop (> 1024px): so o que esta aqui muda.
+
+     HERO: nas duas orientacoes os rotulos FRONT-END / WEB DESIGN
+     descem para logo abaixo do titulo, ladeando a tela do monitor —
+     em 50% da altura eles caiam em cima das letras (deitado) ou
+     boiavam sozinhos no meio do ceu (em pe). No retrato o monitor e o
+     titulo tambem crescem para ocupar a largura, senao a cena inteira
+     ficava espremida no rodape com dois tercos de ceu vazio em cima.
+
+     CTA: em pe, os aparelhos empilhados (o mesmo SVG do mobile) ficam
+     acima do card e invadem um pouco o vidro; deitado, a copy fica a
+     esquerda e o mockup largo a direita, mas cada um com metade da
+     largura — o tamanho do desktop cobria a copy inteira.
+     =============================================================== */
+  @media (min-width: 701px) and (max-width: 1024px) {
+    /* --- HERO: rotulos abaixo do titulo ----------------------------
+       O rodape do titulo (ver .camada-texto) e o mesmo calculo de la;
+       os rotulos assentam um respiro abaixo dele. */
+    .camada-rotulo {
+      top: auto;
+      bottom: calc(var(--monitor-w) * 0.2693 - var(--titulo-w) * 0.1048 - clamp(26px, 3.4vw, 40px));
+      transform: none;
+    }
+    /* O deslize de entrada vem sem o -50% vertical, que aqui nao existe. */
+    .revelar .rotulo-esquerda { animation-name: entrar-esquerda-tablet; }
+    .revelar .rotulo-direita  { animation-name: entrar-direita-tablet; }
+  }
+  @keyframes entrar-esquerda-tablet {
+    from { opacity: 0; transform: translateX(24px); }
+    to   { opacity: 1; transform: none; }
+  }
+  @keyframes entrar-direita-tablet {
+    from { opacity: 0; transform: translateX(-24px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  /* --- TABLET EM PE ------------------------------------------------ */
+  @media (min-width: 701px) and (max-width: 1024px) and (orientation: portrait) {
+    :root {
+      /* Monitor com ~52vw de tela visivel (0,256 x --monitor-w); em
+         svh para telas mais compridas ganharem um monitor maior. */
+      --monitor-w: clamp(190vw, 150svh, 210vw);
+      /* Titulo em linha unica, quase de borda a borda. */
+      --titulo-w: min(86vw, calc(var(--monitor-w) * 0.5));
+    }
+    /* Rotulos ancorados nas bordas da tela (e nao na moldura do
+       monitor): e o espaco que sobra ao lado dele. As larguras mantem
+       a razao 360:418 dos viewBox para o corpo do texto ser o mesmo. */
+    .rotulo-esquerda { left: 4vw; right: auto; width: min(16.9vw, 190px); }
+    .rotulo-direita  { right: 4.5vw; left: auto; width: min(19.6vw, 220px); }
+
+    /* CTA empilhada: mockup dos aparelhos em cima, card embaixo. */
+    .cta {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: auto;
+      min-height: 100svh;
+      /* Topo reserva a navbar fixa (10px + 62px de barra). */
+      padding: 104px clamp(32px, 6vw, 64px) clamp(40px, 6vw, 64px);
+      --mock-w: min(46vw, 400px);
+      --mock-sobre: clamp(56px, 8vw, 80px);
+    }
+    .cta-video { object-position: 50% center; }
+    .cta-mockup { display: none; }
+    .cta-palco-mobile {
+      display: block;
+      flex: 0 0 auto;
+      min-height: 0;
+      height: calc(var(--mock-w) * 1.4705 - var(--mock-sobre));
+      overflow: visible;
+    }
+    .cta-mockup-mobile {
+      top: 0;
+      width: var(--mock-w);
+      height: auto;
+      max-width: none;
+      max-height: none;
+      transform: translateX(-50%);
+      animation-name: cta-flutuar-mobile-topo;
+    }
+    .cta-conteudo {
+      width: 100%;
+      max-width: 44rem;
+      margin: 0 auto;
+      padding: clamp(36px, 5.6vw, 52px);
+      padding-top: calc(clamp(36px, 5.6vw, 52px) + var(--mock-sobre));
+      text-align: center;
+    }
+    .cta-titulo { margin: 0 auto 12px; font-size: clamp(34px, 5.4vw, 44px); }
+    .cta-texto  { margin: 0 auto 24px; }
+    .cta-acoes  { justify-content: center; }
+  }
+
+  /* --- TABLET DEITADO ------------------------------------------------ */
+  @media (min-width: 701px) and (max-width: 1024px) and (orientation: landscape) {
+    .cta { padding: clamp(48px, 6vw, 72px) clamp(32px, 5vw, 56px); }
+    /* Copy na metade esquerda, mais compacta. */
+    .cta-conteudo {
+      max-width: 54%;
+      padding: clamp(32px, 4vw, 44px);
+    }
+    .cta-titulo { font-size: clamp(28px, 3.6vw, 36px); margin-bottom: 12px; }
+    .cta-texto  { font-size: 15px; line-height: 1.66; margin-bottom: 22px; }
+    .cta-botao  { font-size: 15px; padding: 14px 28px; }
+    /* Mockup na metade direita, so encostando na borda do card. */
+    .cta-mockup { width: 52%; right: -1.5vw; }
+  }
+
+</style>
+</head>
+<body>
+
+<!-- ============ NAVBAR ============
+     Fixa e flutuante: o mesmo vidro do card da CTA por cima de
+     qualquer secao. O painel do retrato e irmao do botao dentro da
+     caixa (ver .navbar-painel: display:contents no desktop). -->
+<nav class="navbar" aria-label="Navegação principal">
+  <div class="navbar-caixa">
+    <a class="navbar-marca" href="#inicio">Wesley Gomes<span>.</span></a>
+
+    <div class="navbar-painel" id="navbar-painel">
+      <ul class="navbar-links">
+        <li><a class="navbar-link" href="#inicio">Início</a></li>
+        <li><a class="navbar-link" href="#projetos">Projetos</a></li>
+        <li><a class="navbar-link" href="#contato">Contato</a></li>
+      </ul>
+      <a class="navbar-botao" href="https://wa.me/5585991323925?text=Ol%C3%A1%2C%20Wesley!%20Vi%20seu%20portf%C3%B3lio%20e%20quero%20conversar%20sobre%20um%20projeto." target="_blank" rel="noopener">Vamos conversar <span>&rarr;</span></a>
+    </div>
+
+    <button class="navbar-menu" type="button" aria-expanded="false"
+            aria-controls="navbar-painel" aria-label="Abrir menu">
+      <span class="navbar-barra"></span>
+      <span class="navbar-barra"></span>
+    </button>
+  </div>
+</nav>
+
+<div class="palco" id="inicio">
+
+  <!-- 1. VÍDEO (duas camadas: crossfade no ponto de emenda do loop)
+       So a camada A baixa desde o inicio. A B nasce com preload="none"
+       e o script manda carregar quando a A ja estiver inteira no
+       buffer — a essa altura o clipe (6,9 MB) esta no cache e a B le
+       de la, em vez de baixar de novo em paralelo. -->
+  <video class="camada-video video-a" autoplay muted loop playsinline preload="auto" poster="assets/imagens/ceu.webp">
+    <source src="assets/videos/ceu_loop_1080p.mp4" type="video/mp4">
+  </video>
+  <video class="camada-video video-b" muted loop playsinline preload="none">
+    <source src="assets/videos/ceu_loop_1080p.mp4" type="video/mp4">
+  </video>
+
+  <div class="cena">
+
+    <!-- 2. TEXTO SVG (gradiente + surgimento de cima para baixo) -->
+    <div class="camada-texto">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 460" role="img" aria-label="PORTFÓLIO">
+        <defs>
+          <linearGradient id="portfolio-gradient" gradientUnits="userSpaceOnUse"
+                          x1="0" y1="137" x2="0" y2="340">
+            <stop offset="0%" stop-color="#04182f" stop-opacity="0.94"/>
+            <stop offset="40%" stop-color="#062a4e" stop-opacity="0.86"/>
+            <stop offset="70%" stop-color="#0a3f6d" stop-opacity="0.72"/>
+            <stop offset="86%" stop-color="#10538c" stop-opacity="0.52"/>
+            <stop offset="95%" stop-color="#1d6ea8" stop-opacity="0.22"/>
+            <stop offset="100%" stop-color="#2f8ac2" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <text x="960" y="340" text-anchor="middle" fill="url(#portfolio-gradient)"
+              font-family="Poppins, Arial, sans-serif" font-size="282" font-weight="800"
+              letter-spacing="-13">PORTFÓLIO</text>
+      </svg>
+    </div>
+
+    <!-- 2b. TEXTO SVG MOBILE : duas linhas (PORT / FOLIO) -->
+    <div class="camada-texto-mobile">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 720" role="img" aria-label="PORTFÓLIO">
+        <defs>
+          <linearGradient id="portfolio-gradient-mobile" gradientUnits="userSpaceOnUse"
+                          x1="0" y1="97" x2="0" y2="300">
+            <stop offset="0%" stop-color="#04182f" stop-opacity="0.94"/>
+            <stop offset="40%" stop-color="#062a4e" stop-opacity="0.86"/>
+            <stop offset="70%" stop-color="#0a3f6d" stop-opacity="0.72"/>
+            <stop offset="86%" stop-color="#10538c" stop-opacity="0.52"/>
+            <stop offset="95%" stop-color="#1d6ea8" stop-opacity="0.22"/>
+            <stop offset="100%" stop-color="#2f8ac2" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <text x="540" y="300" text-anchor="middle" fill="url(#portfolio-gradient-mobile)"
+              font-family="Poppins, Arial, sans-serif" font-size="282" font-weight="800"
+              letter-spacing="-13">PORT</text>
+        <!-- O translate desloca tambem o gradiente (userSpaceOnUse),
+             entao a segunda linha repete o mesmo degrade da primeira. -->
+        <g transform="translate(0 320)">
+          <text x="540" y="300" text-anchor="middle" fill="url(#portfolio-gradient-mobile)"
+                font-family="Poppins, Arial, sans-serif" font-size="282" font-weight="800"
+                letter-spacing="-13">FÓLIO</text>
+        </g>
+      </svg>
+    </div>
+
+    <!-- 3. MONITOR + MESA (3000 x 941, mesa de ponta a ponta)
+         WebP lossless: os mesmos pixels do PNG original, sem o
+         involucro SVG + base64 (2,5 MB -> 570 KB). -->
+    <img class="camada-monitor" src="assets/imagens/monitor-mesa-estendida.webp"
+         width="3000" height="941" fetchpriority="high" decoding="async" alt="Monitor e mesa">
+
+  </div>
+
+  <!-- 4. ROTULOS LATERAIS (acima da camada de video) -->
+  <div class="camada-rotulo rotulo-esquerda">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 40" role="img" aria-label="FRONT-END">
+      <title>FRONT-END</title>
+      <text x="0" y="29" fill="#FFFFFF"
+            font-family="Poppins, Arial, sans-serif" font-size="31" font-weight="300"
+            letter-spacing="6" textLength="252" lengthAdjust="spacingAndGlyphs">FRONT-END</text>
+      <circle cx="281" cy="20" r="3.5" fill="#FFFFFF"/>
+      <line x1="285" y1="20" x2="358" y2="20" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+  </div>
+
+  <div class="camada-rotulo rotulo-direita">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 418 40" role="img" aria-label="WEB DESIGN">
+      <title>WEB DESIGN</title>
+      <line x1="0" y1="20" x2="73" y2="20" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/>
+      <circle cx="78" cy="20" r="3.5" fill="#FFFFFF"/>
+      <text x="106" y="29" fill="#FFFFFF"
+            font-family="Poppins, Arial, sans-serif" font-size="31" font-weight="300"
+            letter-spacing="6" textLength="310" lengthAdjust="spacingAndGlyphs">WEB DESIGN</text>
+    </svg>
+  </div>
+
+</div>
+
+<!-- ============ SECAO BRANCA ============ -->
+<section class="secao-branca" id="projetos">
+  <div class="folha-branca">
+
+    <div class="portfolio">
+
+      <header class="portfolio-cabecalho">
+        <h2 class="portfolio-titulo">Projetos e templates</h2>
+        <p class="portfolio-texto">
+          De um lado, <strong>sites no ar</strong> feitos sob medida para clientes.
+          Do outro, <strong>templates prontos</strong> para adaptar à sua marca e
+          publicar em poucos dias. Tudo desenhado e codado do zero.
+        </p>
+      </header>
+
+      <!-- FILTROS — o valor de data-filtro casa com o data-categoria
+           dos cartoes; "todos" mostra a grade inteira. -->
+      <div class="portfolio-filtros" role="group" aria-label="Filtrar por tipo de trabalho">
+        <button class="filtro" type="button" data-filtro="todos" aria-pressed="true">Todos</button>
+        <button class="filtro" type="button" data-filtro="projeto" aria-pressed="false">Projetos</button>
+        <button class="filtro" type="button" data-filtro="template" aria-pressed="false">Templates</button>
+      </div>
+
+      <!-- GRADE DE PROJETOS
+           data-categoria="projeto"  = site real, entregue para cliente
+           data-categoria="template" = modelo pronto para personalizar
+           Para publicar um item novo, copie um <li> inteiro e troque
+           titulo, link e o data-categoria. A capa entra como
+           <img class="cartao-imagem" src="assets/capas/nome.webp" alt="..."
+                width="1200" height="900" loading="lazy">
+           dentro da <figure>; enquanto nao houver imagem, o
+           placeholder do CSS aparece no lugar. Se a capa nao for
+           16:10, defina a cor de fundo dela no <figure> com
+           style="--capa-fundo: #hex;" para as bordas se fundirem. O tipo de trabalho ja
+           e dito pelos filtros e pelo texto do link, entao o cartao
+           nao carrega mais etiqueta. -->
+      <ul class="portfolio-grade">
+
+        <li class="cartao" data-categoria="projeto">
+          <figure class="cartao-figura">
+            <img class="cartao-imagem" src="assets/capas/psindce-mockup-macbook-iphone.webp" alt="Mockup do site do Sindicato dos Psicologos do Ceara em MacBook e iPhone"
+                 width="1586" height="992" loading="lazy">
+          </figure>
+          <div class="cartao-corpo">
+            <h3 class="cartao-titulo">Sindicato dos Psicólogos do Ceará</h3>
+            <a class="cartao-link" href="https://psindce.org.br/" target="_blank" rel="noopener">Ver projeto <span>&rarr;</span></a>
+          </div>
+        </li>
+
+        <li class="cartao" data-categoria="projeto">
+          <figure class="cartao-figura">
+            <img class="cartao-imagem" src="assets/capas/evolva-mockup-macbook-iphone.webp" alt="Mockup do site da Evolva - Soluções Digitais em MacBook e iPhone"
+                 width="1587" height="991" loading="lazy">
+          </figure>
+          <div class="cartao-corpo">
+            <h3 class="cartao-titulo">Evolva - Soluções Digitais</h3>
+            <a class="cartao-link" href="../CLAUDE/PROJETOS/EVOLVA/evolva-main/index.html" target="_blank" rel="noopener">Ver projeto <span>&rarr;</span></a>
+          </div>
+        </li>
+
+        <li class="cartao" data-categoria="projeto">
+          <figure class="cartao-figura" style="--capa-fundo: #f8f7f1;">
+            <img class="cartao-imagem" src="assets/capas/wise-mockup-macbook-iphone.webp" alt="Mockup do site Walesson Psicologia em MacBook e iPhone"
+                 width="1672" height="941" loading="lazy">
+          </figure>
+          <div class="cartao-corpo">
+            <h3 class="cartao-titulo">Walesson Psicologia</h3>
+            <a class="cartao-link" href="#">Ver projeto <span>&rarr;</span></a>
+          </div>
+        </li>
+      </ul>
+
+      <div class="portfolio-rodape">
+        <p class="portfolio-pergunta">Quer o seu projeto aqui, do zero ou a partir de um template?</p>
+        <a class="portfolio-botao" href="https://wa.me/5585991323925?text=Ol%C3%A1%2C%20Wesley!%20Vi%20seu%20portf%C3%B3lio%20e%20quero%20conversar%20sobre%20um%20projeto." target="_blank" rel="noopener">Pedir um orçamento</a>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= CTA ================= -->
+<section class="cta" id="contato" aria-labelledby="cta-titulo">
+  <!-- Nada daqui baixa no carregamento inicial: sem autoplay, com
+       preload="none" e o poster guardado em data-poster. O script
+       destrava tudo quando a secao se aproxima (ver CARREGAMENTO DA
+       CTA). -->
+  <div class="cta-midia">
+    <video class="cta-video cta-video-a" muted loop playsinline preload="none"
+           data-poster="assets/imagens/cta.webp" aria-hidden="true">
+      <source src="assets/videos/cta-background.mp4" type="video/mp4">
+    </video>
+    <video class="cta-video cta-video-b" muted loop playsinline preload="none" aria-hidden="true">
+      <source src="assets/videos/cta-background.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- Mockup do retrato: item proprio do flex, entao ele ocupa a
+       altura acima do card em vez de ficar por cima dele. O alt fica
+       vazio porque a versao desktop, logo acima, ja descreve a cena
+       para o leitor de tela — so uma das duas aparece por vez. -->
+  <div class="cta-palco-mobile">
+    <!-- Mesmas seis imagens do mockup do desktop, so que empilhadas.
+         Os ids dos clipPath levam o prefixo ctam- para nao colidir com
+         os do desktop (ctad-), que vive no mesmo documento. -->
+    <svg class="cta-mockup-mobile" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 882.3" width="600" height="882.3"
+         preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+      <g transform="translate(-87.745 0)">
+        <!-- MacBook -->
+        <image x="108" y="20" width="559.49" height="320" preserveAspectRatio="xMidYMid meet" data-href="assets/imagens/cta-mockup/macbook.webp"/>
+        <g transform="translate(108 20) scale(0.5095537340619308 0.5095541401273885)">
+          <defs><clipPath id="ctam-macbook-tela"><path clip-rule="evenodd" d="M 415,131 L 665,88 Q 669,87 666,93 L 663,102 Q 661,108 670,106 L 744,84 Q 751,83 752,75 L 752,70 L 1054,20 Q 1075,14 1072,37 L 1015,383 Q 1013,397 1000,399 L 326,463 Q 314,464 318,451 L 398,148 Q 402,135 415,131 Z"/></clipPath></defs>
+          <image width="1098" height="628" preserveAspectRatio="none" clip-path="url(#ctam-macbook-tela)" data-href="assets/imagens/cta-mockup/macbook-tela.webp"/>
+        </g>
+      </g>
+      <g transform="translate(-593.2418 275.125) scale(1.15)">
+        <!-- iPad -->
+        <image x="653" y="82.5" width="247.464" height="252.5" preserveAspectRatio="xMidYMid meet" data-href="assets/imagens/cta-mockup/ipad.webp"/>
+        <g transform="translate(653 82.5) scale(0.3596860465116279 0.3596866096866097)">
+          <defs><clipPath id="ctam-ipad-tela"><path clip-rule="evenodd" d="M 179,156 L 613,32 Q 631,26 629,46 L 576,539 Q 574,555 558,559 L 57,648 Q 37,652 41,635 L 158,180 Q 161,163 179,156 Z"/></clipPath></defs>
+          <image width="688" height="702" preserveAspectRatio="none" clip-path="url(#ctam-ipad-tela)" data-href="assets/imagens/cta-mockup/ipad-tela.webp"/>
+        </g>
+      </g>
+      <g transform="translate(-777.175675 477.625) scale(1.15)">
+        <!-- iPhone -->
+        <image x="888" y="185" width="97.349" height="149.5" preserveAspectRatio="xMidYMid meet" data-href="assets/imagens/cta-mockup/iphone.webp"/>
+        <g transform="translate(888 185) scale(0.2897291666666667 0.28972868217054265)">
+          <defs><clipPath id="ctam-iphone-tela"><path clip-rule="evenodd" d="M 73,61 L 263,12 Q 298,3 298,32 L 297,411 Q 294,438 267,446 L 38,482 Q 9,487 12,458 L 41,104 Q 44,76 73,61 Z M 143,50 L 200,34 Q 214,30 212,44 Q 211,53 201,57 L 142,74 Q 130,78 131,65 Q 131,55 143,50 Z"/></clipPath></defs>
+          <image width="336" height="516" preserveAspectRatio="none" clip-path="url(#ctam-iphone-tela)" data-href="assets/imagens/cta-mockup/iphone-tela.webp"/>
+        </g>
+      </g>
+    </svg>
+  </div>
+
+  <div class="cta-conteudo">
+    <h2 class="cta-titulo" id="cta-titulo">Seu projeto no ar, impecável em <span class="cta-titulo-destaque">qualquer&nbsp;tela</span>.</h2>
+    <p class="cta-texto">
+      Do desktop ao celular, crio interfaces sob medida, rápidas e acessíveis,
+      desenhadas e codadas do começo ao&nbsp;fim.
+    </p>
+    <div class="cta-acoes">
+      <a class="cta-botao" href="https://wa.me/5585991323925?text=Ol%C3%A1%2C%20Wesley!%20Vi%20seu%20portf%C3%B3lio%20e%20quero%20conversar%20sobre%20um%20projeto." target="_blank" rel="noopener">Começar um projeto <span>&rarr;</span></a>
+    </div>
+  </div>
+
+  <!-- Mockup do desktop: irmao do card, e nao filho de .cta-midia —
+       so assim o z-index: 4 dele vale na secao inteira e os aparelhos
+       ficam na frente do card (ver .cta-mockup no CSS).
+       SVG inline: os <image> apontam para os WebP em
+       assets/imagens/cta-mockup/ e ficam sem href ate a CTA se
+       aproximar (data-href -> href, ver CARREGAMENTO DA CTA). -->
+  <svg class="cta-mockup" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1095 356" width="1095" height="356"
+       preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="cta-mockup-titulo">
+    <title id="cta-mockup-titulo">Notebook, tablet e celular com as telas em branco</title>
+    <!-- MacBook -->
+    <image x="108" y="20" width="559.49" height="320" preserveAspectRatio="xMidYMid meet" data-href="assets/imagens/cta-mockup/macbook.webp"/>
+    <g transform="translate(108 20) scale(0.5095537340619308 0.5095541401273885)">
+      <defs><clipPath id="ctad-macbook-tela"><path clip-rule="evenodd" d="M 415,131 L 665,88 Q 669,87 666,93 L 663,102 Q 661,108 670,106 L 744,84 Q 751,83 752,75 L 752,70 L 1054,20 Q 1075,14 1072,37 L 1015,383 Q 1013,397 1000,399 L 326,463 Q 314,464 318,451 L 398,148 Q 402,135 415,131 Z"/></clipPath></defs>
+      <image width="1098" height="628" preserveAspectRatio="none" clip-path="url(#ctad-macbook-tela)" data-href="assets/imagens/cta-mockup/macbook-tela.webp"/>
+    </g>
+    <!-- iPad -->
+    <image x="653" y="82.5" width="247.464" height="252.5" preserveAspectRatio="xMidYMid meet" data-href="assets/imagens/cta-mockup/ipad.webp"/>
+    <g transform="translate(653 82.5) scale(0.3596860465116279 0.3596866096866097)">
+      <defs><clipPath id="ctad-ipad-tela"><path clip-rule="evenodd" d="M 179,156 L 613,32 Q 631,26 629,46 L 576,539 Q 574,555 558,559 L 57,648 Q 37,652 41,635 L 158,180 Q 161,163 179,156 Z"/></clipPath></defs>
+      <image width="688" height="702" preserveAspectRatio="none" clip-path="url(#ctad-ipad-tela)" data-href="assets/imagens/cta-mockup/ipad-tela.webp"/>
+    </g>
+    <!-- iPhone -->
+    <image x="888" y="185" width="97.349" height="149.5" preserveAspectRatio="xMidYMid meet" data-href="assets/imagens/cta-mockup/iphone.webp"/>
+    <g transform="translate(888 185) scale(0.2897291666666667 0.28972868217054265)">
+      <defs><clipPath id="ctad-iphone-tela"><path clip-rule="evenodd" d="M 73,61 L 263,12 Q 298,3 298,32 L 297,411 Q 294,438 267,446 L 38,482 Q 9,487 12,458 L 41,104 Q 44,76 73,61 Z M 143,50 L 200,34 Q 214,30 212,44 Q 211,53 201,57 L 142,74 Q 130,78 131,65 Q 131,55 143,50 Z"/></clipPath></defs>
+      <image width="336" height="516" preserveAspectRatio="none" clip-path="url(#ctad-iphone-tela)" data-href="assets/imagens/cta-mockup/iphone-tela.webp"/>
+    </g>
+  </svg>
+</section>
+
+<!-- ============ RODAPE ============
+     Ultima faixa da pagina. Fica sobre a hero sticky (que segue
+     grudada ate aqui), entao o backdrop-filter tem o video do ceu
+     para desfocar — mesmo vidro do card da CTA. -->
+<footer class="rodape">
+  <div class="rodape-caixa">
+    <p class="rodape-marca">Wesley Gomes<span>.</span></p>
+    <p class="rodape-nota">&copy; 2026 Wesley Gomes. Todos os direitos reservados.</p>
+    <a class="rodape-credito" href="https://www.instagram.com/wesley.gomesds/" target="_blank" rel="noopener">Made by Wesley Gomes</a>
+    <a class="rodape-contato" href="https://wa.me/5585991323925?text=Ol%C3%A1%2C%20Wesley!%20Vi%20seu%20portf%C3%B3lio%20e%20quero%20conversar%20sobre%20um%20projeto." target="_blank" rel="noopener">Fale comigo no WhatsApp</a>
+  </div>
+</footer>
+
+<script>
+  const palco = document.querySelector('.palco');
+
+  function revelar() {
+    palco.classList.remove('revelar');
+    void palco.offsetWidth;          // reinicia a animação
+    palco.classList.add('revelar');
+  }
+
+  // espera a fonte, mas nunca trava (se a fonte nao carregar, revela mesmo assim)
+  const fontesProntas = document.fonts ? document.fonts.ready : Promise.resolve();
+  const limite = new Promise(function (r) { setTimeout(r, 1200); });
+  Promise.race([fontesProntas, limite]).then(function () {
+    setTimeout(revelar, 250);
+  });
+
+  // clique repete o efeito de surgimento
+  palco.addEventListener('click', revelar);
+
+  /* -----------------------------------------------------------------
+     LOOP SEM CORTE
+     A emenda fim->inicio do clipe e visivel. Duas copias do video se
+     revezam: quando a de cima chega perto do fim, a de baixo recomeca
+     do zero e a de cima faz um dissolve por cima dela. O corte vira uma
+     transicao suave.
+
+     O mesmo par serve a hero (ceu_loop_1080p.mp4) e a CTA
+     (cta-background.mp4) — criarLoopSuave devolve o passo de cada par e
+     um unico requestAnimationFrame toca os dois.
+
+     PESO: cada clipe vem da rede uma vez so. A copia B nasce com
+     preload="none" e so e mandada carregar quando a A ja esta inteira
+     no buffer — a essa altura o arquivo esta no cache do navegador e a
+     B le de la. Se a B ainda nao tiver quadros quando chegar a hora do
+     dissolve, o par pula essa volta (o atributo loop emenda no corte
+     seco) e tenta na proxima. O par so comeca a baixar em iniciar() —
+     a hero chama na hora, a CTA quando a secao se aproxima (ver
+     CARREGAMENTO DA CTA) — e pausa enquanto esta fora da tela, para
+     nao decodificar video que ninguem ve.
+     ----------------------------------------------------------------- */
+  const FADE = 0.9;                  // duracao do dissolve, em segundos
+
+  // true quando o buffer do video ja cobre o clipe inteiro
+  function bufferCompleto(v) {
+    const dur = v.duration;
+    if (!dur || !isFinite(dur) || !v.buffered.length) return false;
+    return v.buffered.end(v.buffered.length - 1) >= dur - 0.25;
+  }
+
+  function criarLoopSuave(seletorA, seletorB) {
+    const videos = [
+      document.querySelector(seletorA),
+      document.querySelector(seletorB)
+    ];
+    if (!videos[0] || !videos[1]) return null;
+
+    let topo = 0;                    // indice do video visivel (por cima)
+    let trocando = false;
+    let inicioFade = 0;
+    let iniciado = false;            // ja pode baixar e tocar
+    let pausado = false;             // fora da tela
+    let reservaPedida = false;       // copia B ja mandada carregar
+    let ultimoTempo = 0, voltas = 0; // voltas que a A deu no loop nativo
+
+    function silencioso(p) { if (p) p.catch(function () {}); }
+
+    function carregarReserva() {
+      if (reservaPedida) return;
+      reservaPedida = true;
+      videos[1].preload = 'auto';
+      videos[1].load();
+    }
+
+    function iniciar() {
+      if (iniciado) return;
+      iniciado = true;
+      const a = videos[0];
+      if (a.dataset.poster) a.poster = a.dataset.poster;
+      if (a.getAttribute('preload') === 'none') {   // par adiado (CTA)
+        a.preload = 'auto';
+        a.load();
+      }
+      // A B entra quando a A estiver inteira. 'progress' para de
+      // disparar quando o download acaba, entao os outros dois eventos
+      // cobrem o caso de o arquivo ja estar todo no buffer.
+      function conferir() { if (bufferCompleto(a)) carregarReserva(); }
+      a.addEventListener('progress', conferir);
+      a.addEventListener('suspend', conferir);
+      a.addEventListener('canplaythrough', conferir);
+      conferir();
+      tocar();
+    }
+
+    function tocar() {
+      if (!iniciado || pausado) return;
+      silencioso(videos[topo].play());
+      if (trocando) silencioso(videos[1 - topo].play());
+    }
+    function pausar() {
+      pausado = true;
+      videos.forEach(function (v) { v.pause(); });
+    }
+    function retomar() {
+      pausado = false;
+      tocar();
+    }
+
+    function passo() {
+      if (!iniciado || pausado) return;
+      const cima = videos[topo];
+      const baixo = videos[1 - topo];
+      const dur = cima.duration;
+      if (!dur || !isFinite(dur)) return;
+
+      // Garantia: se o buffer nunca se declarar completo, a B entra
+      // depois de duas voltas inteiras da A (a essa altura o clipe ja
+      // esta quase todo no cache) — nunca em paralelo desde o inicio.
+      if (cima.currentTime < ultimoTempo - 1) voltas++;
+      ultimoTempo = cima.currentTime;
+      if (voltas >= 2) carregarReserva();
+
+      // readyState 3 (HAVE_FUTURE_DATA): a B tem quadros para entrar
+      // sem travar. Sem isso, espera a proxima volta.
+      if (!trocando && dur - cima.currentTime <= FADE && baixo.readyState >= 3) {
+        trocando = true;
+        inicioFade = performance.now();
+        baixo.currentTime = 0;
+        silencioso(baixo.play());
+      }
+      if (trocando) {
+        const t = Math.min(1, (performance.now() - inicioFade) / (FADE * 1000));
+        cima.style.opacity = String(1 - t);
+        if (t >= 1) {
+          cima.pause();
+          cima.currentTime = 0;
+          cima.style.opacity = '1';
+          cima.style.zIndex = '1';
+          baixo.style.zIndex = '2';
+          topo = 1 - topo;
+          trocando = false;
+        }
+      }
+    }
+
+    return {
+      iniciar: iniciar, tocar: tocar, pausar: pausar, retomar: retomar,
+      passo: passo, principal: videos[0]
+    };
+  }
+
+  const heroLoop = criarLoopSuave('.video-a', '.video-b');
+  const ctaLoop  = criarLoopSuave('.cta-video-a', '.cta-video-b');
+  const loops = [heroLoop, ctaLoop].filter(Boolean);
+
+  function tocarVideo() { loops.forEach(function (l) { l.tocar(); }); }
+
+  function loopSuave() {
+    loops.forEach(function (l) { l.passo(); });
+    requestAnimationFrame(loopSuave);
+  }
+
+  /* -----------------------------------------------------------------
+     CARREGAMENTO DA CTA
+     Tudo que so aparece la embaixo — o video, o poster e os seis WebP
+     do mockup dos aparelhos — fica fora do carregamento inicial: os
+     <image> do mockup guardam o endereco em data-href e os videos em
+     data-poster + preload="none". carregarCta() destrava tudo de uma
+     vez, no que vier primeiro: a secao chegando a uma tela e meia de
+     distancia, ou o video da hero terminando de baixar (em conexao
+     boa a CTA fica pronta antes de o visitante rolar ate ela).
+     ----------------------------------------------------------------- */
+  const cta = document.querySelector('.cta');
+  let ctaCarregada = false;
+
+  function carregarCta() {
+    if (ctaCarregada) return;
+    ctaCarregada = true;
+    document.querySelectorAll('.cta [data-href]').forEach(function (el) {
+      el.setAttribute('href', el.dataset.href);
+    });
+    if (ctaLoop) ctaLoop.iniciar();
+  }
+
+  if (cta && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function (entradas, obs) {
+      if (entradas.some(function (e) { return e.isIntersecting; })) {
+        carregarCta();
+        obs.disconnect();
+      }
+    }, { rootMargin: '150% 0px' }).observe(cta);
+
+    // O par da CTA so roda enquanto a secao esta na tela.
+    if (ctaLoop) {
+      new IntersectionObserver(function (entradas) {
+        entradas.forEach(function (e) {
+          if (e.isIntersecting) ctaLoop.retomar(); else ctaLoop.pausar();
+        });
+      }).observe(cta);
+    }
+  } else {
+    carregarCta();
+  }
+
+  if (heroLoop) {
+    heroLoop.iniciar();
+    const a = heroLoop.principal;
+    function heroCompleta() { if (bufferCompleto(a)) carregarCta(); }
+    a.addEventListener('progress', heroCompleta);
+    a.addEventListener('suspend', heroCompleta);
+    a.addEventListener('canplaythrough', heroCompleta);
+  }
+
+  /* -----------------------------------------------------------------
+     HERO FORA DA TELA
+     A hero e sticky e fica atras da folha branca, da CTA e do rodape
+     ate o fim da pagina. Assim que o topo da secao branca passa do
+     topo da janela, nada da hero aparece mais — o par do ceu pausa
+     (dois 1080p decodificando a toa pesam no scroll) e volta quando a
+     hero reaparece.
+     ----------------------------------------------------------------- */
+  (function heroForaDaTela() {
+    if (!heroLoop) return;
+    var projetos = document.querySelector('.secao-branca');
+    if (!projetos) return;
+
+    var pedido = 0, escondida = false;
+    function medir() {
+      pedido = 0;
+      var agora = projetos.getBoundingClientRect().top <= 0;
+      if (agora === escondida) return;
+      escondida = agora;
+      if (escondida) heroLoop.pausar(); else heroLoop.retomar();
+    }
+    function agendar() { if (!pedido) pedido = requestAnimationFrame(medir); }
+
+    addEventListener('scroll', agendar, { passive: true });
+    addEventListener('resize', agendar);
+    medir();
+  })();
+
+  /* -----------------------------------------------------------------
+     SOBREPOSICAO — reserva para navegadores sem scroll-driven animations
+     O caminho normal e o animation-timeline do CSS. Aqui so entra se
+     view() nao existir: le a posicao da secao branca a cada quadro e
+     publica --progresso (0 a 1) em :root, que o CSS ja consome.
+     Nada de duracao, transition ou classe que roda uma vez: o valor e
+     sempre derivado do scroll, entao volta sozinho ao rolar para cima
+     e para no meio se o scroll parar no meio.
+     ----------------------------------------------------------------- */
+  (function sobreposicao() {
+    var temTimeline = window.CSS && CSS.supports &&
+                      CSS.supports('animation-timeline', 'view()');
+    var reduz = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (temTimeline || reduz) return;
+
+    var projetos = document.querySelector('.secao-branca');
+    var raiz = document.documentElement;
+    if (!projetos) return;
+
+    var pedido = 0, anterior = -1;
+    function medir() {
+      pedido = 0;
+      var altura = window.innerHeight || raiz.clientHeight;
+      var topo = projetos.getBoundingClientRect().top;
+      var p = (altura - topo) / altura;      // 0 = topo no rodape, 1 = topo no topo
+      p = p < 0 ? 0 : (p > 1 ? 1 : p);
+      if (p !== anterior) {
+        raiz.style.setProperty('--progresso', p.toFixed(4));
+        anterior = p;
+      }
+    }
+    function agendar() { if (!pedido) pedido = requestAnimationFrame(medir); }
+
+    addEventListener('scroll', agendar, { passive: true });
+    addEventListener('resize', agendar);
+    addEventListener('orientationchange', agendar);
+    medir();
+  })();
+
+  /* -----------------------------------------------------------------
+     FILTROS DO PORTFOLIO
+     Um unico listener na barra (delegacao): o botao clicado vira o
+     ativo e cada cartao e mostrado ou escondido pelo atributo hidden,
+     que o CSS ja trata. Sem JS os cartoes continuam todos visiveis.
+     ----------------------------------------------------------------- */
+  (function filtros() {
+    var barra = document.querySelector('.portfolio-filtros');
+    if (!barra) return;
+
+    var botoes = barra.querySelectorAll('.filtro');
+    var cartoes = document.querySelectorAll('.portfolio-grade .cartao');
+
+    barra.addEventListener('click', function (evento) {
+      var botao = evento.target.closest('.filtro');
+      if (!botao) return;
+
+      var alvo = botao.dataset.filtro;
+      botoes.forEach(function (b) {
+        b.setAttribute('aria-pressed', String(b === botao));
+      });
+      cartoes.forEach(function (cartao) {
+        cartao.hidden = alvo !== 'todos' && cartao.dataset.categoria !== alvo;
+      });
+    });
+  })();
+
+  /* -----------------------------------------------------------------
+     NAVBAR
+     Duas coisas: o menu do retrato (aria-expanded no botao, que o CSS
+     le pelo data-aberto da nav) e a troca de tema. A barra e de vidro
+     sem cor propria: sobre a folha branca o blur devolve branco e a
+     copy branca sumiria. Enquanto a folha cruza a linha do meio da
+     barra, .navbar--claro deixa a copy marinha; fora dela volta ao
+     branco. A medida roda no rAF, um por quadro de scroll.
+     ----------------------------------------------------------------- */
+  (function navbar() {
+    var barra = document.querySelector('.navbar');
+    if (!barra) return;
+
+    var caixa = barra.querySelector('.navbar-caixa');
+    var botao = barra.querySelector('.navbar-menu');
+    var folha = document.querySelector('.folha-branca');
+
+    function fechar() {
+      barra.dataset.aberto = 'false';
+      botao.setAttribute('aria-expanded', 'false');
+    }
+
+    if (botao) {
+      botao.addEventListener('click', function () {
+        var aberto = barra.dataset.aberto === 'true';
+        barra.dataset.aberto = String(!aberto);
+        botao.setAttribute('aria-expanded', String(!aberto));
+      });
+      // Clique em qualquer link do painel fecha o menu antes do scroll.
+      barra.querySelectorAll('.navbar-painel a').forEach(function (link) {
+        link.addEventListener('click', fechar);
+      });
+      document.addEventListener('keydown', function (evento) {
+        if (evento.key === 'Escape' && barra.dataset.aberto === 'true') {
+          fechar();
+          botao.focus();
+        }
+      });
+      // Toque/clique fora da barra fecha o menu.
+      document.addEventListener('pointerdown', function (evento) {
+        if (barra.dataset.aberto === 'true' && !barra.contains(evento.target)) fechar();
+      });
+      // Rolar a pagina ou sair do retrato tambem fecha.
+      addEventListener('scroll', function () {
+        if (barra.dataset.aberto === 'true') fechar();
+      }, { passive: true });
+      addEventListener('resize', function () {
+        if (barra.dataset.aberto === 'true' && innerWidth > 700) fechar();
+      });
+    }
+
+    var pedido = 0;
+    function medirTema() {
+      pedido = 0;
+      if (!folha) return;
+      var b = caixa.getBoundingClientRect();
+      var linha = b.top + b.height / 2;          // meio da barra
+      var f = folha.getBoundingClientRect();
+      barra.classList.toggle('navbar--claro', f.top <= linha && f.bottom >= linha);
+    }
+    function agendarTema() {
+      if (!pedido) pedido = requestAnimationFrame(medirTema);
+    }
+    addEventListener('scroll', agendarTema, { passive: true });
+    addEventListener('resize', agendarTema);
+    medirTema();
+  })();
+
+  requestAnimationFrame(loopSuave);
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) tocarVideo(); });
+  window.addEventListener('pointerdown', tocarVideo, { once: true });
+</script>
+
+</body>
+</html>
