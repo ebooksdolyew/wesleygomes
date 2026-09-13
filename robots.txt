@@ -1,0 +1,50 @@
+# robots.txt — wesleygomes.site
+# Portfolio de Wesley Gomes (front-end e web design)
+
+# ---- Buscadores e agentes em geral ----
+User-agent: *
+Allow: /
+Disallow: /404.html
+
+# Nao ha area privada no site: todo o conteudo pode ser indexado.
+
+# ---- Crawlers de IA: liberados, o conteudo e publico ----
+# O resumo legivel por LLMs esta em /llms.txt
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# ---- Raspadores agressivos de SEO: bloqueados para poupar banda ----
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+Sitemap: https://wesleygomes.site/sitemap.xml

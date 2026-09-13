@@ -1,0 +1,19 @@
+{
+  "name": "Wesley Gomes — Front-end e Web Design",
+  "short_name": "Wesley Gomes",
+  "description": "Portfólio de Wesley Gomes: sites sob medida e templates prontos para publicar.",
+  "lang": "pt-BR",
+  "dir": "ltr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0b1220",
+  "theme_color": "#04182f",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/assets/imagens/icone-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/imagens/icone-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/imagens/icone-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
