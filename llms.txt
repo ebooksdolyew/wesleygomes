@@ -22,8 +22,10 @@ acessibilidade. O primeiro contato acontece pelo WhatsApp.
 
 - [Sindicato dos Psicólogos do Ceará](https://psindce.org.br/): site
   institucional do sindicato, entregue e no ar.
-- Evolva — Soluções Digitais: site institucional de agência digital.
-- Walesson Psicologia: site de consultório de psicologia.
+- [Evolva — Soluções Digitais](https://evolva.pages.dev/): site
+  institucional de agência digital.
+- [Walesson Psicologia](https://walessonpsicologia.pages.dev/): site de
+  consultório de psicologia.
 
 ## Páginas
 
