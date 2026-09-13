@@ -742,6 +742,48 @@
   .video-a { z-index: 2; }   /* camada visível inicial */
   .video-b { z-index: 1; }   /* entra por baixo durante o crossfade */
 
+  /* ---------------------------------------------------------------
+     CONTROLE NATIVO DO IOS
+     O Safari do iPhone desenha um botao de play por cima de QUALQUER
+     <video> que nao esteja tocando — enquanto o clipe ainda carrega e,
+     principalmente, quando o sistema recusa o autoplay (Modo de Pouca
+     Energia ligado, aba voltando do segundo plano).
+
+     Os quatro videos daqui sao pano de fundo: ninguem deve dar play,
+     pausar ou entrar em tela cheia. Sem o controle, o que aparece
+     enquanto o clipe nao engata e o poster — a mesma imagem do
+     primeiro quadro — em vez de um botao no meio da tela.
+
+     pointer-events: none manda o toque atravessar o video e chegar na
+     .palco, que ja escuta o clique para repetir o surgimento.
+
+     Cada pseudo-elemento leva uma regra propria de proposito: um nome
+     que o navegador nao conheca invalida a LISTA inteira de seletores,
+     entao agrupa-los faria uma versao antiga do Safari derrubar junto
+     os que ela entende.
+     --------------------------------------------------------------- */
+  .camada-video, .cta-video { pointer-events: none; }
+
+  .camada-video::-webkit-media-controls { display: none !important; }
+  .cta-video::-webkit-media-controls { display: none !important; }
+  .camada-video::-webkit-media-controls-enclosure { display: none !important; }
+  .cta-video::-webkit-media-controls-enclosure { display: none !important; }
+  .camada-video::-webkit-media-controls-panel { display: none !important; }
+  .cta-video::-webkit-media-controls-panel { display: none !important; }
+
+  /* O botao grande do centro no iOS: alem do display, precisa perder a
+     aparencia nativa, senao o Safari volta a desenha-lo. */
+  .camada-video::-webkit-media-controls-start-playback-button {
+    display: none !important;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .cta-video::-webkit-media-controls-start-playback-button {
+    display: none !important;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
   /* A cena cobre a hero inteira: cada camada e ancorada pela altura
      visivel da tela, e nao por uma caixa proporcional. */
   .cena {
@@ -1957,13 +1999,27 @@
       a.addEventListener('suspend', conferir);
       a.addEventListener('canplaythrough', conferir);
       conferir();
+      // O primeiro play() costuma sair antes de existir quadro. Estes
+      // dois eventos repetem a tentativa assim que houver o que tocar.
+      a.addEventListener('loadeddata', tocar);
+      a.addEventListener('canplay', tocar);
       tocar();
+    }
+
+    /* O iOS so autoriza o autoplay de um video mudo e inline. Os dois
+       ja vem no HTML, mas o atributo nao sobrevive a um load(), entao a
+       propriedade e reposta antes de todo play(). */
+    function destravar(v) {
+      v.muted = true;
+      v.defaultMuted = true;
+      v.playsInline = true;
+      silencioso(v.play());
     }
 
     function tocar() {
       if (!iniciado || pausado) return;
-      silencioso(videos[topo].play());
-      if (trocando) silencioso(videos[1 - topo].play());
+      destravar(videos[topo]);
+      if (trocando) destravar(videos[1 - topo]);
     }
     function pausar() {
       pausado = true;
@@ -2022,6 +2078,35 @@
   const loops = [heroLoop, ctaLoop].filter(Boolean);
 
   function tocarVideo() { loops.forEach(function (l) { l.tocar(); }); }
+
+  /* -----------------------------------------------------------------
+     AUTOPLAY RECUSADO PELO SISTEMA
+     Estar mudo e inline resolve o caso comum, mas existem duas
+     situacoes em que o iPhone recusa o autoplay e nenhuma pagina pode
+     mudar isso:
+
+       1. Modo de Pouca Energia ligado — o iOS corta autoplay de video
+          por inteiro, em qualquer site, ate a bateria ser carregada ou
+          o modo ser desligado;
+       2. a aba voltando do segundo plano, quando o Safari as vezes
+          devolve os videos pausados.
+
+     Nos dois o play() e recusado e fica so o poster na tela (que, sem
+     o controle nativo, e uma imagem limpa — ver CONTROLE NATIVO DO IOS
+     no CSS). Em vez de deixar parado ate o fim da visita, tentamos de
+     novo no primeiro gesto do visitante: o Safari trata toque, clique,
+     tecla e scroll como autorizacao e o clipe engata na hora. Um gesto
+     basta, por isso os listeners saem sozinhos (once).
+
+     O pulo de volta do segundo plano fica escutando: e barato e pode
+     acontecer varias vezes na mesma visita.
+     ----------------------------------------------------------------- */
+  ['touchstart', 'pointerdown', 'click', 'keydown', 'scroll'].forEach(function (evento) {
+    addEventListener(evento, tocarVideo, { once: true, passive: true });
+  });
+  document.addEventListener('visibilitychange', function () {
+    if (!document.hidden) tocarVideo();
+  });
 
   function loopSuave() {
     loops.forEach(function (l) { l.passo(); });
