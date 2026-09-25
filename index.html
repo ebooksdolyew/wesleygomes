@@ -1352,9 +1352,11 @@
     .cta-mockup {
       display: block;
       left: auto;
-      right: -2vw;
+      right: -1vw;
       transform: translateY(-50%);
-      width: min(80%, 1450px);
+      /* Metade direita: o notebook so encosta na borda do card, sem
+         cobrir o titulo nem o paragrafo. */
+      width: min(58vw, 1150px);
       animation-name: cta-flutuar-desktop;
     }
     /* O respiro vai no <section> (o padding nao encolhe a imagem, que e
@@ -1362,11 +1364,16 @@
        max-width — com box-sizing:border-box, padding aqui comeria a
        largura da coluna. */
     .cta { padding: clamp(56px, 6vw, 96px) clamp(32px, 7vw, 112px); }
+    /* Card na metade esquerda (~46% da tela), proporcional ao mockup
+       da direita. */
     .cta-conteudo {
-      max-width: 50rem;
+      width: min(46vw, 44rem);
+      max-width: none;
       margin: 0;
-      padding: clamp(52px, 5.4vw, 78px);
+      padding: clamp(40px, 4vw, 68px);
     }
+    .cta-titulo { max-width: none; font-size: clamp(34px, 3.2vw, 56px); }
+    .cta-texto  { font-size: clamp(15px, 1.15vw, 18px); }
   }
 
   /* ===============================================================
