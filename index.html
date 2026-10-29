@@ -894,12 +894,6 @@
     z-index: 2;                 /* a hero fica grudada ate o fim da pagina */
     overflow: hidden;
     container-type: size;
-    /* Tela mais larga que a arte (monitor de PC, ~2:1): em vez de
-       encolher a arte pela altura — o arco azul parava antes das
-       bordas, com faixas de papel dos lados — a secao cresce o tanto
-       que falta para a arte ocupar a largura inteira. Nas demais
-       telas 100vw / --cta-r e menor que 100svh e nada muda. */
-    height: max(100svh, 100vw / var(--cta-r));
     background: var(--papel);
     color: var(--tinta);
   }
@@ -933,12 +927,19 @@
   }
 
   .cta-titulo { margin: 0; }
+  /* O SVG tem uma prancheta de sobra de cada lado (viewBox de 3x a
+     largura) so com o prolongamento do arco azul. Em tela mais larga
+     que a arte (monitor de PC, ~2:1) o quadro fica centrado com papel
+     nas laterais, e o arco segue por esse papel ate as bordas da tela
+     — a .cta corta o resto (overflow: hidden). */
   .cta-arte {
     position: absolute;
-    inset: 0;
+    top: 0;
+    left: -100%;
     display: block;
-    width: 100%;
+    width: 300%;
     height: 100%;
+    max-width: none;
   }
 
   /* 'top' = topo da tinta da frase (o acento do "ó"); com
@@ -1280,9 +1281,9 @@
   <div class="cta-quadro">
     <h2 class="cta-titulo" id="cta-titulo">
       <picture>
-        <source media="(max-aspect-ratio: 13/20)" srcset="assets/imagens/cta/cta-celular.svg" width="941" height="1672">
-        <source media="(max-aspect-ratio: 115/100)" srcset="assets/imagens/cta/cta-tablet-vertical.svg" width="1086" height="1448">
-        <img class="cta-arte" src="assets/imagens/cta/cta-desktop.svg" width="1672" height="941"
+        <source media="(max-aspect-ratio: 13/20)" srcset="assets/imagens/cta/cta-celular.svg" width="2823" height="1672">
+        <source media="(max-aspect-ratio: 115/100)" srcset="assets/imagens/cta/cta-tablet-vertical.svg" width="3258" height="1448">
+        <img class="cta-arte" src="assets/imagens/cta/cta-desktop.svg" width="5016" height="941"
              loading="lazy" decoding="async" alt="Vamos conversar?">
       </picture>
     </h2>
