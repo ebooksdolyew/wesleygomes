@@ -1157,7 +1157,9 @@
 
   <!-- Prancheta da hero: a arte vetorial (PORTFÓLIO, arco e assinatura
        azul) muda conforme a proporcao da tela — os cortes dos <source>
-       sao os mesmos das media queries do CSS (ver PRANCHETAS). -->
+       sao os mesmos das media queries do CSS (ver PRANCHETAS). O arco
+       se desenha sozinho ao carregar a pagina: a animacao mora dentro
+       de cada SVG (mascara com o traco, ver o <style> deles). -->
   <div class="hero-quadro">
     <h1 class="hero-titulo">
       <picture>
@@ -1266,14 +1268,17 @@
 <!-- ================= CTA ================= -->
 <section class="cta" id="contato" aria-labelledby="cta-titulo">
   <!-- Mesma montagem da hero: arte vetorial (titulo, arco e assinatura)
-       e, por cima, a frase e o botao em HTML. -->
+       e, por cima, a frase e o botao em HTML. O arco azul se desenha
+       sozinho (animacao dentro do SVG) a partir do momento em que a
+       arte carrega — por isso os enderecos ficam em data-srcset/data-src
+       e o script so os liga quando a secao entra na tela. -->
   <div class="cta-quadro">
     <h2 class="cta-titulo" id="cta-titulo">
       <picture>
-        <source media="(max-aspect-ratio: 13/20)" srcset="assets/imagens/cta/cta-celular.svg" width="2823" height="1672">
-        <source media="(max-aspect-ratio: 115/100)" srcset="assets/imagens/cta/cta-tablet-vertical.svg" width="3258" height="1448">
-        <img class="cta-arte" src="assets/imagens/cta/cta-desktop.svg" width="5016" height="941"
-             loading="lazy" decoding="async" alt="Vamos conversar?">
+        <source media="(max-aspect-ratio: 13/20)" data-srcset="assets/imagens/cta/cta-celular.svg" width="2823" height="1672">
+        <source media="(max-aspect-ratio: 115/100)" data-srcset="assets/imagens/cta/cta-tablet-vertical.svg" width="3258" height="1448">
+        <img class="cta-arte" data-src="assets/imagens/cta/cta-desktop.svg" width="5016" height="941"
+             decoding="async" alt="Vamos conversar?">
       </picture>
     </h2>
 
@@ -1327,16 +1332,36 @@
 
   /* -----------------------------------------------------------------
      SURGIMENTO DA CTA
-     A arte da CTA so se revela quando a secao entra na tela — antes
-     disso ninguem veria a animacao. Uma vez basta.
+     A arte da CTA so se revela (e o arco azul so se desenha) quando a
+     secao entra na tela — antes disso ninguem veria a animacao. Uma
+     vez basta.
      ----------------------------------------------------------------- */
   (function surgimentoCta() {
     var cta = document.querySelector('.cta');
     if (!cta) return;
-    if (!('IntersectionObserver' in window)) { cta.classList.add('revelar'); return; }
+
+    // A arte so e carregada aqui: o arco comeca a se desenhar quando o
+    // SVG carrega, entao carregar antes faria o desenho acontecer fora
+    // da tela.
+    function carregarArte() {
+      cta.querySelectorAll('[data-srcset]').forEach(function (s) {
+        s.srcset = s.dataset.srcset;
+      });
+      cta.querySelectorAll('img[data-src]').forEach(function (img) {
+        img.src = img.dataset.src;
+      });
+    }
+    function revelarCta() {
+      carregarArte();
+      cta.classList.add('revelar');
+    }
+
+    // Sem animacao nao ha o que esperar: a arte entra ja desenhada.
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) carregarArte();
+    if (!('IntersectionObserver' in window)) { revelarCta(); return; }
     new IntersectionObserver(function (entradas, obs) {
       if (entradas.some(function (e) { return e.isIntersecting; })) {
-        cta.classList.add('revelar');
+        revelarCta();
         obs.disconnect();
       }
     }, { threshold: .3 }).observe(cta);
