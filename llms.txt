@@ -24,7 +24,7 @@ acessibilidade. O primeiro contato acontece pelo WhatsApp.
   institucional do sindicato, entregue e no ar.
 - [Evolva — Soluções Digitais](https://evolva.pages.dev/): site
   institucional de agência digital.
-- [Walesson Psicologia](https://walessonpsicologia.pages.dev/): site de
+- [Walesson Psicologia](https://walessonsite.pages.dev/): site de
   consultório de psicologia.
 
 ## Páginas
