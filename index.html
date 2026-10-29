@@ -34,8 +34,8 @@
 <meta property="og:url" content="https://wesleygomes.site/">
 <meta property="og:title" content="Wesley Gomes | Portfólio de Front-end e Web Design">
 <meta property="og:description" content="Sites sob medida, desenhados e codados do zero, e templates prontos para adaptar à sua marca e publicar em poucos dias.">
-<meta property="og:image" content="https://wesleygomes.site/assets/imagens/og-image.jpg">
-<meta property="og:image:secure_url" content="https://wesleygomes.site/assets/imagens/og-image.jpg">
+<meta property="og:image" content="https://wesleygomes.site/assets/imagens/social/og-image.jpg">
+<meta property="og:image:secure_url" content="https://wesleygomes.site/assets/imagens/social/og-image.jpg">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -45,7 +45,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Wesley Gomes | Portfólio de Front-end e Web Design">
 <meta name="twitter:description" content="Sites sob medida, desenhados e codados do zero, e templates prontos para adaptar à sua marca e publicar em poucos dias.">
-<meta name="twitter:image" content="https://wesleygomes.site/assets/imagens/og-image.jpg">
+<meta name="twitter:image" content="https://wesleygomes.site/assets/imagens/social/og-image.jpg">
 <meta name="twitter:image:alt" content="Wesley Gomes — front-end e web design">
 
 <!-- Dados estruturados (schema.org): quem e, o que vende e onde atende.
@@ -60,7 +60,7 @@
       "@id": "https://wesleygomes.site/#pessoa",
       "name": "Wesley Gomes",
       "url": "https://wesleygomes.site/",
-      "image": "https://wesleygomes.site/assets/imagens/og-image.jpg",
+      "image": "https://wesleygomes.site/assets/imagens/social/og-image.jpg",
       "jobTitle": "Desenvolvedor Front-end e Web Designer",
       "description": "Desenvolvedor front-end e web designer em Fortaleza (CE). Cria sites sob medida do zero e templates prontos para personalizar.",
       "knowsLanguage": "pt-BR",
@@ -93,7 +93,7 @@
       "name": "Wesley Gomes | Portfólio de Front-end e Web Design",
       "isPartOf": { "@id": "https://wesleygomes.site/#site" },
       "about": { "@id": "https://wesleygomes.site/#pessoa" },
-      "primaryImageOfPage": "https://wesleygomes.site/assets/imagens/og-image.jpg",
+      "primaryImageOfPage": "https://wesleygomes.site/assets/imagens/social/og-image.jpg",
       "inLanguage": "pt-BR"
     },
     {
@@ -101,7 +101,7 @@
       "@id": "https://wesleygomes.site/#servico",
       "name": "Wesley Gomes — Criação de Sites",
       "url": "https://wesleygomes.site/",
-      "image": "https://wesleygomes.site/assets/imagens/og-image.jpg",
+      "image": "https://wesleygomes.site/assets/imagens/social/og-image.jpg",
       "description": "Criação de sites institucionais, landing pages e portfólios: projeto sob medida do zero ou template pronto adaptado à marca do cliente.",
       "founder": { "@id": "https://wesleygomes.site/#pessoa" },
       "priceRange": "$$",
@@ -185,12 +185,9 @@
      largura total. Por enquanto so o fundo — o conteudo entra aqui.
 
      Os cantos de cima sao arredondados e o vazio que eles deixam
-     mostra a propria hero, que agora fica grudada atras enquanto
-     esta folha sobe por cima. No inicio da sobreposicao isso da a
-     emenda com a mesa; no meio, mostra a hero recuando. Por isso a
-     secao em si e transparente — quem e opaco e a folha.
-     (mesa-faixa.png, usado antes para tapar as quinas quando as
-     secoes nao se sobrepunham, deixou de ser necessario.)
+     mostra a propria hero, que fica grudada atras enquanto esta folha
+     sobe por cima — e, no meio do caminho, mostra a hero recuando.
+     Por isso a secao em si e transparente — quem e opaco e a folha.
 
      A folha branca fica em um elemento proprio para o raio recortar
      so ela. Conteudo futuro da secao entra DENTRO de .folha-branca. */
@@ -370,8 +367,8 @@
 
   /* ---------------------------------------------------------------
      PORTFOLIO — conteudo da folha branca
-     A folha nao tem mais altura fixa: ela comeca com uma tela cheia
-     (para a emenda com a mesa continuar igual) e cresce conforme os
+     A folha nao tem altura fixa: ela comeca com uma tela cheia (cobre
+     a hero inteira ao final da sobreposicao) e cresce conforme os
      projetos entram. O recuo da hero nao depende disso — a faixa da
      animacao e 'entry', que mede so a entrada da secao na janela.
 
@@ -388,14 +385,6 @@
   }
 
   .portfolio-cabecalho { max-width: 44rem; }
-  .portfolio-sobretitulo {
-    margin: 0 0 12px;
-    font-weight: 500;
-    font-size: clamp(11px, 3vw, 13px);
-    letter-spacing: .22em;
-    text-transform: uppercase;
-    color: #2b7fb8;
-  }
   .portfolio-titulo {
     margin: 0 0 16px;
     font-weight: 800;
@@ -1146,7 +1135,7 @@
 <nav class="navbar" aria-label="Navegação principal">
   <div class="navbar-caixa">
     <a class="navbar-marca" href="#inicio">
-      <img src="assets/imagens/logo-wesley-gomes.webp" width="800" height="212" alt="Wesley Gomes">
+      <img src="assets/imagens/marca/logo-wesley-gomes.webp" width="800" height="212" alt="Wesley Gomes">
     </a>
     <ul class="navbar-links">
       <li><a class="navbar-link" href="#inicio" aria-current="true">Início</a></li>
@@ -1220,7 +1209,7 @@
            data-categoria="template" = modelo pronto para personalizar
            Para publicar um item novo, copie um <li> inteiro e troque
            titulo, link e o data-categoria. A capa entra como
-           <img class="cartao-imagem" src="assets/capas/nome.webp" alt="..."
+           <img class="cartao-imagem" src="assets/imagens/capas/nome.webp" alt="..."
                 width="1200" height="900" loading="lazy">
            dentro da <figure>; enquanto nao houver imagem, o
            placeholder do CSS aparece no lugar. Se a capa nao for
@@ -1232,7 +1221,7 @@
 
         <li class="cartao" data-categoria="projeto">
           <figure class="cartao-figura">
-            <img class="cartao-imagem" src="assets/capas/psindce-mockup-macbook-iphone.webp" alt="Mockup do site do Sindicato dos Psicologos do Ceara em MacBook e iPhone"
+            <img class="cartao-imagem" src="assets/imagens/capas/psindce-mockup-macbook-iphone.webp" alt="Mockup do site do Sindicato dos Psicologos do Ceara em MacBook e iPhone"
                  width="1586" height="992" loading="lazy">
           </figure>
           <div class="cartao-corpo">
@@ -1243,7 +1232,7 @@
 
         <li class="cartao" data-categoria="projeto">
           <figure class="cartao-figura">
-            <img class="cartao-imagem" src="assets/capas/evolva-mockup-macbook-iphone.webp" alt="Mockup do site da Evolva - Soluções Digitais em MacBook e iPhone"
+            <img class="cartao-imagem" src="assets/imagens/capas/evolva-mockup-macbook-iphone.webp" alt="Mockup do site da Evolva - Soluções Digitais em MacBook e iPhone"
                  width="1587" height="991" loading="lazy">
           </figure>
           <div class="cartao-corpo">
@@ -1254,7 +1243,7 @@
 
         <li class="cartao" data-categoria="projeto">
           <figure class="cartao-figura" style="--capa-fundo: #f8f7f1;">
-            <img class="cartao-imagem" src="assets/capas/wise-mockup-macbook-iphone.webp" alt="Mockup do site Walesson Psicologia em MacBook e iPhone"
+            <img class="cartao-imagem" src="assets/imagens/capas/wise-mockup-macbook-iphone.webp" alt="Mockup do site Walesson Psicologia em MacBook e iPhone"
                  width="1672" height="941" loading="lazy">
           </figure>
           <div class="cartao-corpo">
@@ -1304,7 +1293,7 @@
      grudada ate aqui). -->
 <footer class="rodape">
   <div class="rodape-caixa">
-    <p class="rodape-marca"><img src="assets/imagens/logo-wesley-gomes.webp" width="800" height="212" alt="Wesley Gomes" loading="lazy"></p>
+    <p class="rodape-marca"><img src="assets/imagens/marca/logo-wesley-gomes.webp" width="800" height="212" alt="Wesley Gomes" loading="lazy"></p>
     <p class="rodape-nota">&copy; 2026 Wesley Gomes. Todos os direitos reservados.</p>
     <ul class="rodape-legais">
       <li><a class="rodape-legal" href="/politica-de-privacidade/">Política de Privacidade</a></li>

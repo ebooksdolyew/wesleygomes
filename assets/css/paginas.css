@@ -3,14 +3,13 @@
    erro 404.
 
    A home (index.html) e um arquivo unico com o CSS embutido porque e
-   uma pagina de efeitos: video, sticky, scroll. Estas paginas sao de
-   leitura, entao compartilham esta folha. Mesma fonte (Poppins),
-   mesmo marinho e mesmo ciano da home.
+   uma pagina de efeitos: artes por proporcao de tela, sticky, scroll.
+   Estas paginas sao de leitura, entao compartilham esta folha (Poppins,
+   marinho e ciano); a marca e a mesma assinatura azul da home.
    =================================================================== */
 
 :root {
   --marinho: #04182f;
-  --marinho-fundo: #0b1220;
   --ciano: #4cc3ff;
   --tinta: #12233a;
   --tinta-fraca: rgba(4, 24, 47, .66);

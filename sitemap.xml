@@ -4,23 +4,23 @@
 
   <url>
     <loc>https://wesleygomes.site/</loc>
-    <lastmod>2026-09-13</lastmod>
+    <lastmod>2026-10-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
     <image:image>
-      <image:loc>https://wesleygomes.site/assets/imagens/og-image.jpg</image:loc>
+      <image:loc>https://wesleygomes.site/assets/imagens/social/og-image.jpg</image:loc>
       <image:title>Wesley Gomes — Front-end e Web Design</image:title>
     </image:image>
     <image:image>
-      <image:loc>https://wesleygomes.site/assets/capas/psindce-mockup-macbook-iphone.webp</image:loc>
+      <image:loc>https://wesleygomes.site/assets/imagens/capas/psindce-mockup-macbook-iphone.webp</image:loc>
       <image:title>Sindicato dos Psicólogos do Ceará</image:title>
     </image:image>
     <image:image>
-      <image:loc>https://wesleygomes.site/assets/capas/evolva-mockup-macbook-iphone.webp</image:loc>
+      <image:loc>https://wesleygomes.site/assets/imagens/capas/evolva-mockup-macbook-iphone.webp</image:loc>
       <image:title>Evolva — Soluções Digitais</image:title>
     </image:image>
     <image:image>
-      <image:loc>https://wesleygomes.site/assets/capas/wise-mockup-macbook-iphone.webp</image:loc>
+      <image:loc>https://wesleygomes.site/assets/imagens/capas/wise-mockup-macbook-iphone.webp</image:loc>
       <image:title>Walesson Psicologia</image:title>
     </image:image>
   </url>
@@ -34,7 +34,7 @@
 
   <url>
     <loc>https://wesleygomes.site/politica-de-cookies/</loc>
-    <lastmod>2026-09-13</lastmod>
+    <lastmod>2026-10-29</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
