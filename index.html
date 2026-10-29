@@ -12,15 +12,14 @@
 <meta name="description" content="Portfólio de Wesley Gomes, front-end e web designer em Fortaleza (CE). Sites sob medida, desenhados e codados do zero, e templates prontos para adaptar à sua marca.">
 <meta name="author" content="Wesley Gomes">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-<meta name="theme-color" content="#f5f1e9">
+<meta name="theme-color" content="#faf6ed">
 <meta name="color-scheme" content="light">
 <link rel="canonical" href="https://wesleygomes.site/">
 <link rel="alternate" hreflang="pt-BR" href="https://wesleygomes.site/">
 <link rel="alternate" hreflang="x-default" href="https://wesleygomes.site/">
 
 <!-- Icones e instalacao -->
-<link rel="icon" href="/favicon.ico" sizes="32x32">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32">
 <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -150,7 +149,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Poppins:wght@300;400;500;600;800&family=Urbanist:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600&family=Poppins:wght@300;400;500;600;800&family=Urbanist:wght@400;500;700&display=swap" rel="stylesheet">
 
 <!-- Arte da hero (e o LCP): pedida antes de o corpo ser lido. So a
      variante da proporcao atual baixa — os media sao os mesmos dos
@@ -163,7 +162,7 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; }
   html, body { min-height: 100%; margin: 0; }
-  body { background: #f5f1e9; overflow-x: hidden; }
+  body { background: #faf6ed; overflow-x: hidden; }
 
   /* Cada secao ocupa a tela inteira, mas o scroll e livre: sem
      scroll-snap, a rolagem para onde o usuario soltar.
@@ -240,34 +239,41 @@
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
     gap: 12px;
-    /* Altura da linha da arte (--nav-cy), contada do topo da TELA: a
-       barra fica sempre colada em cima, mesmo quando sobra papel acima
-       do quadro da hero (telas mais altas que a arte). */
-    min-height: calc(var(--ab-h) * var(--nav-cy) * 2);
-    /* Mesmo recuo nos dois lados, para a coluna do meio cair no
-       centro da pagina; a folga extra da direita vai no botao. */
+    /* Altura e centro da linha vem da arte (--nav-h e --nav-cy),
+       contados do topo da TELA: a barra fica sempre colada em cima,
+       mesmo quando sobra papel acima do quadro da hero. Se a barra e
+       mais baixa que 2 x --nav-cy (desktop, por causa da linha fina
+       embaixo), a diferenca vira respiro no topo. */
+    min-height: calc(var(--ab-h) * var(--nav-h));
+    padding-top: calc(var(--ab-h) * (var(--nav-cy) * 2 - var(--nav-h)));
     padding-inline: calc((100cqw - var(--ab-w)) / 2 + var(--ab-w) * var(--nav-esq));
     background: transparent;
-    border-bottom: 1px solid transparent;
-    transition: min-height .3s ease, background-color .3s ease, border-color .3s ease;
+    border-bottom: 1px solid var(--nav-linha, transparent);
+    transition: min-height .3s ease, padding .3s ease, background-color .3s ease, border-color .3s ease;
   }
   .navbar--rolada .navbar-caixa {
     min-height: clamp(52px, 6.4svh, 68px);
-    background: rgba(245, 241, 233, .84);
+    padding-top: 0;
+    background: rgba(250, 246, 237, .86);
     border-bottom-color: rgba(5, 5, 5, .08);
     -webkit-backdrop-filter: blur(16px);
     backdrop-filter: blur(16px);
   }
 
+  /* MARCA — a assinatura azul (logo-wesley-gomes.webp, 800 x 212). A
+     largura e a do "Wesley Gomes •" da referencia. */
   .navbar-marca {
     justify-self: start;
-    font-weight: 700;
-    font-size: max(13px, var(--ab-w) * var(--nav-marca));
-    letter-spacing: -.01em;
-    white-space: nowrap;
-    text-decoration: none;
-    color: inherit;
+    display: block;
+    line-height: 0;
   }
+  .navbar-marca img {
+    display: block;
+    width: max(88px, var(--ab-w) * var(--nav-marca));
+    height: auto;
+    transition: transform .25s ease;
+  }
+  .navbar-marca:hover img { transform: rotate(-2deg) scale(1.03); }
 
   .navbar-links {
     display: flex;
@@ -286,16 +292,16 @@
     text-decoration: none;
     color: inherit;
   }
-  /* Sublinhado fino: marca a secao atual (aria-current, ligado pelo
-     script) e cresce no hover nos outros links. */
+  /* Sublinhado azul, um pouco mais largo que a palavra: marca a secao
+     atual (aria-current, ligado pelo script) e cresce no hover. */
   .navbar-link::after {
     content: "";
     position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -.5em;
-    height: 1.5px;
-    background: currentColor;
+    left: -.2em;
+    right: -.2em;
+    bottom: -.55em;
+    height: 2px;
+    background: var(--azul);
     transform: scaleX(0);
     transform-origin: left;
     transition: transform .25s ease;
@@ -303,27 +309,53 @@
   .navbar-link:hover::after,
   .navbar-link[aria-current="true"]::after { transform: scaleX(1); }
 
+  /* CONTATO — texto + seta num circulo azul vazado. */
   .navbar-botao {
     justify-self: end;
-    margin-right: calc(var(--ab-w) * (var(--nav-dir) - var(--nav-esq)));
+    display: inline-flex;
+    align-items: center;
+    gap: var(--nav-icone-gap);
     font-weight: 700;
     font-size: max(11.5px, var(--ab-w) * var(--nav-botao));
     white-space: nowrap;
     text-decoration: none;
     color: inherit;
-    transition: color .2s ease;
   }
-  .navbar-botao:hover { color: var(--azul); }
+  .navbar-botao-icone {
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    width: var(--nav-icone);
+    height: var(--nav-icone);
+    border: max(1.5px, .1em) solid var(--azul);
+    border-radius: 50%;
+    color: var(--azul);
+    transition: background-color .2s ease, color .2s ease;
+  }
+  .navbar-botao-icone svg {
+    width: 42%;
+    height: 42%;
+    overflow: visible;
+    transition: transform .2s ease;
+  }
+  .navbar-botao:hover .navbar-botao-icone { background: var(--azul); color: #fff; }
+  .navbar-botao:hover .navbar-botao-icone svg { transform: translate(8%, -8%); }
 
   .navbar a:focus-visible { outline: 2px solid var(--azul); outline-offset: 4px; border-radius: 2px; }
 
-  /* Telefones: o corpo do texto bate no piso (os max() acima) e a
-     linha fica mais larga que na arte, entao a direita usa a mesma
-     margem da esquerda — senao "Vamos conversar" encosta nos links.
-     Abaixo de 360px nem assim cabe: os links saem e ficam a marca e
-     o contato. */
+  /* Telefones: com o corpo do texto no piso (os max() acima) a linha
+     inteira nao cabe — o contato vira so o circulo com a seta, um
+     pouco maior para o toque. Abaixo de 360px os links tambem saem. */
   @media (max-width: 480px) {
-    .navbar-botao { margin-right: 0; }
+    .navbar-botao-texto {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+    .navbar-botao-icone { width: 34px; height: 34px; border-width: 1.5px; }
   }
   @media (max-width: 359px) {
     .navbar-caixa { grid-template-columns: 1fr auto; }
@@ -331,7 +363,9 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .navbar-caixa, .navbar-link::after, .navbar-botao { transition: none; }
+    .navbar-caixa, .navbar-link::after, .navbar-marca img,
+    .navbar-botao-icone, .navbar-botao-icone svg { transition: none; }
+    .navbar-marca:hover img { transform: none; }
   }
 
   /* ---------------------------------------------------------------
@@ -624,14 +658,16 @@
      em %, corpo do texto em cqw (largura da prancheta).
      =============================================================== */
   :root {
-    --papel: #f5f1e9;           /* off-white puxado para o bege */
+    --papel: #faf6ed;           /* off-white puxado para o bege; com o grao por cima
+                                   fica no tom da referencia (#f9f5ec) */
     --tinta: #050505;
     --azul: #0047fe;
 
     /* HERO — desktop (1586 x 992) */
     --hero-r: 1.59879;
-    --nav-esq: .03846;  --nav-dir: .07314;  --nav-cy: .063;
-    --nav-marca: .01784; --nav-link: .01438; --nav-botao: .01356; --nav-gap: .0356;
+    --nav-esq: .03846; --nav-cy: .063;  --nav-h: .109;  --nav-linha: rgba(5, 5, 5, .14);
+    --nav-marca: .128;   --nav-link: .01438; --nav-botao: .01356; --nav-gap: .0356;
+    --nav-icone: 2.05em; --nav-icone-gap: .6em;
 
     /* CTA — desktop (1672 x 941) */
     --cta-r: 1.77683;
@@ -640,16 +676,18 @@
   @media (min-aspect-ratio: 1/1) and (max-aspect-ratio: 146/100) {
     :root {
       --hero-r: 1.33333;
-      --nav-esq: .0739;  --nav-dir: .1215;  --nav-cy: .0608;
-      --nav-marca: .02037; --nav-link: .01533; --nav-botao: .01457; --nav-gap: .04454;
+      --nav-esq: .0739;  --nav-cy: .0608; --nav-h: .1216; --nav-linha: transparent;
+      --nav-marca: .15;    --nav-link: .01533; --nav-botao: .01457; --nav-gap: .04454;
+      --nav-icone: 2.3em;  --nav-icone-gap: .8em;
     }
   }
   /* hero e cta: tablet em pe (1086 x 1448) */
   @media (min-aspect-ratio: 13/20) and (max-aspect-ratio: 1/1) {
     :root {
       --hero-r: .75;
-      --nav-esq: .07459; --nav-dir: .1289;  --nav-cy: .0735;
-      --nav-marca: .028;   --nav-link: .0199;  --nav-botao: .01896; --nav-gap: .04144;
+      --nav-esq: .07459; --nav-cy: .0735; --nav-h: .147;  --nav-linha: transparent;
+      --nav-marca: .2035;  --nav-link: .0199;  --nav-botao: .01896; --nav-gap: .04144;
+      --nav-icone: 2.57em; --nav-icone-gap: 1em;
     }
   }
   @media (min-aspect-ratio: 13/20) and (max-aspect-ratio: 115/100) {
@@ -659,8 +697,9 @@
   @media (max-aspect-ratio: 13/20) {
     :root {
       --hero-r: .5628;
-      --nav-esq: .05739; --nav-dir: .1265;  --nav-cy: .0646;
-      --nav-marca: .02826; --nav-link: .02253; --nav-botao: .02093; --nav-gap: .042;
+      --nav-esq: .05739; --nav-cy: .0646; --nav-h: .1292; --nav-linha: transparent;
+      --nav-marca: .2056;  --nav-link: .02253; --nav-botao: .02093; --nav-gap: .042;
+      --nav-icone: 2.55em; --nav-icone-gap: .8em;
       --cta-r: .5628;
     }
   }
@@ -675,6 +714,20 @@
     container-type: size;
     background: var(--papel);
     color: var(--tinta);
+  }
+  /* PAPEL — grao leve por cima do off-white, como na referencia. Um
+     ruido SVG de 240px repetido (nada para baixar) e misturado em
+     multiply, entao so escurece um pouco as fibras. */
+  .palco::before, .cta::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .3 0 0 0 0 .22 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+    background-size: 240px 240px;
+    mix-blend-mode: multiply;
+    opacity: .09;
   }
   .hero-quadro {
     position: absolute;
@@ -736,7 +789,7 @@
   .hero-rotulo {
     left: var(--rot-x);
     top: var(--rot-y);
-    font-weight: 600;
+    font-weight: 500;
     font-size: max(9px, var(--rot-fs));
     letter-spacing: var(--rot-ls);
     text-transform: uppercase;
@@ -747,7 +800,9 @@
     display: inline-block;
     width: .3em;
     height: .3em;
-    margin-inline: .14em;
+    /* Depois do disco nao entra o letter-spacing (ele nao e uma
+       letra): a margem da direita repoe, para o ponto ficar no meio. */
+    margin: 0 var(--rot-ls) 0 0;
     border-radius: 50%;
     vertical-align: .2em;
     overflow: hidden;
@@ -766,7 +821,7 @@
     text-decoration: none;
     /* Linha fina sob o conjunto todo; a grossa fica so sob o texto. */
     padding-bottom: .52em;
-    background: linear-gradient(currentColor, currentColor) left bottom / 100% 1px no-repeat;
+    background: linear-gradient(rgba(5, 5, 5, .28), rgba(5, 5, 5, .28)) left bottom / 100% 1px no-repeat;
   }
   .hero-link-texto {
     background: linear-gradient(currentColor, currentColor) left bottom / 100% .12em no-repeat;
@@ -922,7 +977,7 @@
     justify-content: center;
     gap: 1.55em;
     font-family: Inter, Arial, sans-serif;
-    font-weight: 400;
+    font-weight: 600;
     font-size: max(11px, var(--botao-fs));
     letter-spacing: var(--botao-ls);
     text-transform: uppercase;
@@ -998,13 +1053,8 @@
     margin: 0 auto;
     padding: clamp(12px, 1.8vw, 16px) clamp(22px, 5vw, 56px);
   }
-  .rodape-marca {
-    margin: 0;
-    font-weight: 600;
-    font-size: clamp(14px, 3.2vw, 15px);
-    letter-spacing: -.01em;
-  }
-  .rodape-marca span { color: #4cc3ff; }
+  .rodape-marca { margin: 0; line-height: 0; }
+  .rodape-marca img { display: block; width: clamp(84px, 9vw, 104px); height: auto; }
   /* O auto daqui joga os links e o "voltar ao topo" para a direita. */
   .rodape-nota {
     margin: 0 auto 0 0;
@@ -1072,7 +1122,7 @@
      nota embaixo. */
   @media (max-width: 700px) {
     .rodape-caixa { gap: 6px 14px; padding: 10px 18px; }
-    .rodape-marca { margin-right: auto; font-size: 13px; }
+    .rodape-marca { margin-right: auto; }
     .rodape-nota { font-size: 11px; }
     .rodape-contato { font-size: 12px; }
     .rodape-contato { order: 2; margin-left: auto; }
@@ -1094,13 +1144,22 @@
      prancheta da hero (ver NAVBAR no CSS). -->
 <nav class="navbar" aria-label="Navegação principal">
   <div class="navbar-caixa">
-    <a class="navbar-marca" href="#inicio">Wesley Gomes</a>
+    <a class="navbar-marca" href="#inicio">
+      <img src="assets/imagens/logo-wesley-gomes.webp" width="800" height="212" alt="Wesley Gomes">
+    </a>
     <ul class="navbar-links">
       <li><a class="navbar-link" href="#inicio" aria-current="true">Início</a></li>
       <li><a class="navbar-link" href="#projetos">Projetos</a></li>
       <li><a class="navbar-link" href="#contato">Contato</a></li>
     </ul>
-    <a class="navbar-botao" href="https://wa.me/5585991323925?text=Ol%C3%A1%2C%20Wesley!%20Vi%20seu%20portf%C3%B3lio%20e%20quero%20conversar%20sobre%20um%20projeto." target="_blank" rel="noopener">Vamos conversar</a>
+    <a class="navbar-botao" href="https://wa.me/5585991323925?text=Ol%C3%A1%2C%20Wesley!%20Vi%20seu%20portf%C3%B3lio%20e%20quero%20conversar%20sobre%20um%20projeto." target="_blank" rel="noopener">
+      <span class="navbar-botao-texto">Vamos conversar</span>
+      <span class="navbar-botao-icone" aria-hidden="true">
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1.5 10.5 10.5 1.5M3.5 1.5h7v7"/>
+        </svg>
+      </span>
+    </a>
   </div>
 </nav>
 
@@ -1244,7 +1303,7 @@
      grudada ate aqui). -->
 <footer class="rodape">
   <div class="rodape-caixa">
-    <p class="rodape-marca">Wesley Gomes<span>.</span></p>
+    <p class="rodape-marca"><img src="assets/imagens/logo-wesley-gomes.webp" width="800" height="212" alt="Wesley Gomes" loading="lazy"></p>
     <p class="rodape-nota">&copy; 2026 Wesley Gomes. Todos os direitos reservados.</p>
     <ul class="rodape-legais">
       <li><a class="rodape-legal" href="/politica-de-privacidade/">Política de Privacidade</a></li>
