@@ -172,8 +172,6 @@
        html { scroll-snap-type: y proximity; }
        .palco, .cta { scroll-snap-align: start; }                   */
   html { scroll-behavior: smooth; }
-  /* Verde do WhatsApp: todos os botoes de contato abrem uma conversa. */
-  :root { --whatsapp: #25d366; --whatsapp-escuro: #1ebe5b; }
   .palco, .cta {
     height: 100svh;
     min-height: 100svh;
@@ -544,37 +542,8 @@
   .cartao-link:focus-visible { outline: none; }
   .cartao:has(.cartao-link:focus-visible) { outline: 2px solid #2b7fb8; outline-offset: 3px; }
 
-  /* Rodape da secao: mesma pergunta do site de referencia. */
-  .portfolio-rodape {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 14px 22px;
-    margin-top: clamp(44px, 6vw, 72px);
-    padding-top: clamp(28px, 4vw, 44px);
-    border-top: 1px solid rgba(4, 24, 47, .12);
-  }
-  .portfolio-pergunta {
-    margin: 0;
-    flex: 1 1 18rem;
-    font-weight: 600;
-    font-size: clamp(18px, 3.4vw, 24px);
-    letter-spacing: -.01em;
-  }
-  .portfolio-botao {
-    font-weight: 600;
-    font-size: clamp(14px, 3.8vw, 15px);
-    text-decoration: none;
-    color: #fff;
-    background: var(--whatsapp);
-    padding: 14px 28px;
-    border-radius: 999px;
-    transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
-  }
-  .portfolio-botao:hover { transform: translateY(-2px); background: var(--whatsapp-escuro); box-shadow: 0 12px 26px rgba(37, 211, 102, .32); }
-
   @media (prefers-reduced-motion: reduce) {
-    .cartao, .cartao-link span, .portfolio-botao { transition: none; }
+    .cartao, .cartao-link span { transition: none; }
     .cartao:hover { transform: none; }
   }
 
@@ -1244,9 +1213,9 @@
         </li>
 
         <li class="cartao" data-categoria="projeto">
-          <figure class="cartao-figura" style="--capa-fundo: #f8f7f1;">
+          <figure class="cartao-figura">
             <img class="cartao-imagem" src="assets/imagens/capas/wise-mockup-macbook-iphone.webp" alt="Mockup do site Walesson Psicologia em MacBook e iPhone"
-                 width="1672" height="941" loading="lazy">
+                 width="1506" height="941" loading="lazy">
           </figure>
           <div class="cartao-corpo">
             <h3 class="cartao-titulo">Walesson Psicologia</h3>
@@ -1254,11 +1223,6 @@
           </div>
         </li>
       </ul>
-
-      <div class="portfolio-rodape">
-        <p class="portfolio-pergunta">Quer o seu projeto aqui, do zero ou a partir de um template?</p>
-        <a class="portfolio-botao" href="https://wa.me/5585991323925?text=Ol%C3%A1%2C%20Wesley!%20Vi%20seu%20portf%C3%B3lio%20e%20quero%20conversar%20sobre%20um%20projeto." target="_blank" rel="noopener">Pedir um orçamento</a>
-      </div>
 
     </div>
 
