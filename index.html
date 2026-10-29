@@ -240,9 +240,10 @@
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
     gap: 12px;
-    /* Centro da linha na mesma altura da arte: a faixa de papel que
-       sobra acima do quadro (telas mais altas que a arte) + --nav-cy. */
-    min-height: calc(100svh - var(--ab-h) + var(--ab-h) * var(--nav-cy) * 2);
+    /* Altura da linha da arte (--nav-cy), contada do topo da TELA: a
+       barra fica sempre colada em cima, mesmo quando sobra papel acima
+       do quadro da hero (telas mais altas que a arte). */
+    min-height: calc(var(--ab-h) * var(--nav-cy) * 2);
     /* Mesmo recuo nos dois lados, para a coluna do meio cair no
        centro da pagina; a folga extra da direita vai no botao. */
     padding-inline: calc((100cqw - var(--ab-w)) / 2 + var(--ab-w) * var(--nav-esq));
@@ -838,6 +839,12 @@
     z-index: 2;                 /* a hero fica grudada ate o fim da pagina */
     overflow: hidden;
     container-type: size;
+    /* Tela mais larga que a arte (monitor de PC, ~2:1): em vez de
+       encolher a arte pela altura — o arco azul parava antes das
+       bordas, com faixas de papel dos lados — a secao cresce o tanto
+       que falta para a arte ocupar a largura inteira. Nas demais
+       telas 100vw / --cta-r e menor que 100svh e nada muda. */
+    height: max(100svh, 100vw / var(--cta-r));
     background: var(--papel);
     color: var(--tinta);
   }
