@@ -1298,11 +1298,12 @@
      comecar exatamente quando o titulo termina, a arte da vez e
      recarregada como um blob novo (vem do cache, e instantaneo) logo
      antes de cada revelacao — o relogio do SVG zera junto com o
-     surgimento. O atraso do arco dentro de cada SVG (.91s a 1.04s) e
-     o instante em que o 'surgir' da .hero-arte (1.9s, com freio no
-     fim) acaba de mostrar o fundo da arte daquela versao; o resto do
-     tempo do 'surgir' nao muda nada na tela. Se algo falhar, revela
-     do jeito antigo. */
+     surgimento. O atraso do arco dentro de cada SVG (.2s a .64s) foi
+     acertado para a linha aparecer quando o PORTFOLIO fica solido no
+     'surgir' da .hero-arte (1.9s, mas com freio forte no fim), ja
+     descontado o comeco do traco, que nasce escondido atras do azul
+     do "Wesley" (no desktop o traco ainda arranca devagar, por isso o
+     atraso menor). Se algo falhar, revela do jeito antigo. */
   function recarregarArte() {
     const url = arte.currentSrc;
     if (!url || !window.fetch || !window.URL || !URL.createObjectURL) return Promise.resolve();
