@@ -1298,8 +1298,11 @@
      comecar exatamente quando o titulo termina, a arte da vez e
      recarregada como um blob novo (vem do cache, e instantaneo) logo
      antes de cada revelacao — o relogio do SVG zera junto com o
-     surgimento, e o atraso de 1.9s dentro do SVG e a mesma duracao
-     do 'surgir' da .hero-arte. Se algo falhar, revela do jeito antigo. */
+     surgimento. O atraso do arco dentro de cada SVG (.91s a 1.04s) e
+     o instante em que o 'surgir' da .hero-arte (1.9s, com freio no
+     fim) acaba de mostrar o fundo da arte daquela versao; o resto do
+     tempo do 'surgir' nao muda nada na tela. Se algo falhar, revela
+     do jeito antigo. */
   function recarregarArte() {
     const url = arte.currentSrc;
     if (!url || !window.fetch || !window.URL || !URL.createObjectURL) return Promise.resolve();
