@@ -462,7 +462,7 @@
      navegador. Some assim que uma <img> for colocada por cima. */
   .cartao-figura {
     position: relative;
-    aspect-ratio: 16 / 10;   /* mesma proporcao dos mockups (1586x992) */
+    aspect-ratio: 16 / 9;    /* proporcao dos mockups (16:9) */
     overflow: hidden;
     margin: 0;
     background:
@@ -491,11 +491,11 @@
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: contain;   /* imagem inteira, sem corte nem zoom */
+    object-fit: cover;     /* preenche o quadro 16:9; capas fora disso perdem so as bordas */
   }
   /* Com capa real, o placeholder some por completo e o fundo passa a
      ser a cor da propria capa (--capa-fundo, definida inline no
-     <figure>), para que capas fora de 16:10 nao mostrem faixas. */
+     <figure>), para que capas fora de 16:9 nao mostrem faixas. */
   .cartao-figura:has(.cartao-imagem) {
     background: var(--capa-fundo, #eef4fa);
   }
@@ -1185,7 +1185,7 @@
                 width="1200" height="900" loading="lazy">
            dentro da <figure>; enquanto nao houver imagem, o
            placeholder do CSS aparece no lugar. Se a capa nao for
-           16:10, defina a cor de fundo dela no <figure> com
+           16:9, defina a cor de fundo dela no <figure> com
            style="--capa-fundo: #hex;" para as bordas se fundirem. O tipo de trabalho ja
            e dito pelos filtros e pelo texto do link, entao o cartao
            nao carrega mais etiqueta. -->
@@ -1195,7 +1195,7 @@
         <li class="cartao" data-categoria="projeto">
           <figure class="cartao-figura">
             <img class="cartao-imagem" src="assets/imagens/capas/silverhand-mockup-macbook-iphone.webp" alt="Mockup do site da Silver Hand - Home e Landscaping em MacBook, iPad e iPhone"
-                 width="1505" height="941" loading="lazy">
+                 width="1672" height="941" loading="lazy">
           </figure>
           <div class="cartao-corpo">
             <h3 class="cartao-titulo">Silver Hand - Home e Landscaping</h3>
