@@ -1289,11 +1289,49 @@
 
 <script>
   const palco = document.querySelector('.palco');
+  const arte = palco.querySelector('.hero-arte');
+  let arteBlob = null;
+
+  /* O arco azul se desenha por uma animacao de dentro do SVG, que tem
+     relogio proprio: conta a partir do momento em que a imagem
+     carrega, nao de quando o titulo comeca a surgir. Para o arco
+     comecar exatamente quando o titulo termina, a arte da vez e
+     recarregada como um blob novo (vem do cache, e instantaneo) logo
+     antes de cada revelacao — o relogio do SVG zera junto com o
+     surgimento, e o atraso de 1.9s dentro do SVG e a mesma duracao
+     do 'surgir' da .hero-arte. Se algo falhar, revela do jeito antigo. */
+  function recarregarArte() {
+    const url = arte.currentSrc;
+    if (!url || !window.fetch || !window.URL || !URL.createObjectURL) return Promise.resolve();
+    const fontes = Array.prototype.slice.call(palco.querySelectorAll('picture source'));
+    const alvo = fontes.find(function (s) { return !s.media || matchMedia(s.media).matches; }) || arte;
+    return fetch(url)
+      .then(function (r) { return r.ok ? r.blob() : Promise.reject(); })
+      .then(function (blob) {
+        return new Promise(function (pronto) {
+          const antigo = arteBlob;
+          arteBlob = URL.createObjectURL(blob);
+          function fim() {
+            arte.removeEventListener('load', fim);
+            arte.removeEventListener('error', fim);
+            if (antigo) URL.revokeObjectURL(antigo);
+            pronto();
+          }
+          arte.addEventListener('load', fim);
+          arte.addEventListener('error', fim);
+          setTimeout(fim, 800);       // nunca trava a revelacao
+          if (alvo === arte) arte.src = arteBlob; else alvo.srcset = arteBlob;
+        });
+      })
+      .catch(function () {});
+  }
 
   function revelar() {
     palco.classList.remove('revelar');
-    void palco.offsetWidth;          // reinicia a animação
-    palco.classList.add('revelar');
+    recarregarArte().then(function () {
+      void palco.offsetWidth;          // reinicia a animação
+      palco.classList.add('revelar');
+    });
   }
 
   // espera a fonte, mas nunca trava (se a fonte nao carregar, revela mesmo assim)
