@@ -149,7 +149,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600&family=Poppins:wght@300;400;500;600;800&family=Urbanist:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@600&family=Poppins:wght@300;400;500;600;800&family=Urbanist:wght@400;500;700&display=swap" rel="stylesheet">
 
 <!-- Arte da hero (e o LCP): pedida antes de o corpo ser lido. So a
      variante da proporcao atual baixa — os media sao os mesmos dos
@@ -902,18 +902,18 @@
     max-width: none;
   }
 
-  /* 'top' = topo da tinta da frase (o acento do "ó"); com
-     line-height 1.256 a Inter desenha o acento a .2em do topo da
-     linha. */
+  /* Mesma fonte do rotulo da hero (Urbanist 500). 'top' = topo da
+     tinta da frase (o acento do "ó"); com line-height 1.256 a
+     Urbanist desenha o acento a .235em do topo da linha. */
   .cta-texto {
     position: absolute;
     left: 50%;
     top: var(--frase-y);
     width: max-content;
     max-width: 92%;
-    margin: -.2em 0 0;
+    margin: -.235em 0 0;
     transform: translateX(-50%);
-    font-family: Inter, Arial, sans-serif;
+    font-family: Urbanist, Arial, sans-serif;
     font-weight: 500;
     font-size: max(13px, var(--frase-fs));
     line-height: 1.256;
