@@ -462,7 +462,7 @@
      navegador. Some assim que uma <img> for colocada por cima. */
   .cartao-figura {
     position: relative;
-    aspect-ratio: 16 / 9;    /* proporcao dos mockups (16:9) */
+    aspect-ratio: 2 / 1;     /* mais achatado que os mockups (16:9): corta so o fundo de cima e de baixo */
     overflow: hidden;
     margin: 0;
     background:
@@ -491,11 +491,11 @@
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: cover;     /* preenche o quadro 16:9; capas fora disso perdem so as bordas */
+    object-fit: cover;     /* preenche o quadro 2:1; os mockups perdem so o fundo de cima e de baixo */
   }
   /* Com capa real, o placeholder some por completo e o fundo passa a
      ser a cor da propria capa (--capa-fundo, definida inline no
-     <figure>), para que capas fora de 16:9 nao mostrem faixas. */
+     <figure>), para que capas fora de 2:1 nao mostrem faixas. */
   .cartao-figura:has(.cartao-imagem) {
     background: var(--capa-fundo, #eef4fa);
   }
@@ -508,8 +508,8 @@
     display: flex;
     flex: 1 1 auto;
     flex-direction: column;
-    gap: 6px;
-    padding: 14px clamp(16px, 1.8vw, 20px) 16px;
+    gap: 4px;
+    padding: 12px clamp(16px, 1.8vw, 20px) 14px;
   }
   .cartao-titulo {
     margin: 0;
@@ -1186,7 +1186,7 @@
                 width="1200" height="900" loading="lazy">
            dentro da <figure>; enquanto nao houver imagem, o
            placeholder do CSS aparece no lugar. Se a capa nao for
-           16:9, defina a cor de fundo dela no <figure> com
+           2:1, defina a cor de fundo dela no <figure> com
            style="--capa-fundo: #hex;" para as bordas se fundirem. O tipo de trabalho ja
            e dito pelos filtros e pelo texto do link, entao o cartao
            nao carrega mais etiqueta. -->
