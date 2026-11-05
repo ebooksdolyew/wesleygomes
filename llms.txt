@@ -1,25 +1,30 @@
 # Wesley Gomes
 
 > Portfólio de Wesley Gomes, desenvolvedor front-end e web designer em
-> Fortaleza (CE), Brasil. Cria sites sob medida do zero e vende templates
-> prontos para personalizar. Site: https://wesleygomes.site
+> Fortaleza (CE), Brasil. Cria sites institucionais, landing pages e
+> portfólios sob medida, desenhados e codados do zero, e templates prontos
+> para adaptar à marca do cliente. Atende em Fortaleza e em todo o Brasil,
+> com primeiro contato pelo WhatsApp. Site: https://wesleygomes.site
 
-Wesley Gomes desenha e programa sites institucionais, landing pages e
-portfólios. Cada projeto é desenhado e codado do zero — HTML, CSS e
-JavaScript — com foco em desempenho, responsividade em qualquer tela e
-acessibilidade. O primeiro contato acontece pelo WhatsApp.
+Wesley Gomes desenha e programa cada site do zero — HTML, CSS e JavaScript,
+sem construtor de páginas — com foco em desempenho, responsividade em
+qualquer tela, acessibilidade e SEO técnico. O portfólio reúne sites no ar
+feitos para clientes e templates prontos para personalizar.
 
-## O que ele faz
+## Serviços
 
-- **Sites sob medida**: projeto do zero, do layout ao código, para clientes
-  que precisam de uma identidade própria.
-- **Templates prontos**: modelos já desenhados, adaptados à marca do cliente
-  e publicados em poucos dias.
+- **Site sob medida**: site institucional, landing page ou portfólio
+  desenhado e codado do zero, do layout à publicação, para quem precisa de
+  uma identidade própria.
+- **Template pronto**: modelo já desenhado, adaptado à marca do cliente
+  (cores, textos, imagens) e publicado em poucos dias.
 - **Front-end e web design**: interface, animação, otimização de imagens e
-  vídeo, SEO técnico.
+  vídeo, acessibilidade e SEO técnico.
 
 ## Projetos publicados
 
+- **Silver Hand - Home e Landscaping**: site da empresa de serviços
+  residenciais e paisagismo.
 - [Sindicato dos Psicólogos do Ceará](https://psindce.org.br/): site
   institucional do sindicato, entregue e no ar.
 - [Walesson Psicologia](https://walessonsite.pages.dev/): site de
@@ -27,24 +32,40 @@ acessibilidade. O primeiro contato acontece pelo WhatsApp.
 
 ## Páginas
 
-- [Início](https://wesleygomes.site/): hero, portfólio de projetos e
-  templates, chamada para contato.
+- [Início](https://wesleygomes.site/): apresentação, portfólio de projetos e
+  templates (filtráveis) e chamada para contato.
+- [Projetos](https://wesleygomes.site/#projetos): grade com os sites entregues.
+- [Contato](https://wesleygomes.site/#contato): "Vamos conversar?" — leva ao
+  WhatsApp.
 - [Política de Privacidade](https://wesleygomes.site/politica-de-privacidade/):
   como os dados de quem visita e de quem entra em contato são tratados (LGPD).
 - [Política de Cookies](https://wesleygomes.site/politica-de-cookies/): o site
-  não usa cookies de rastreamento nem analytics.
+  não usa cookies de rastreamento, publicidade nem analytics.
 
 ## Contato
 
-- WhatsApp: +55 85 99132-3925
+- WhatsApp: +55 85 99132-3925 (https://wa.me/5585991323925)
 - Instagram: https://www.instagram.com/wesley.gomesds/
-- Localização: Fortaleza, Ceará, Brasil
-- Idioma do site: português do Brasil (pt-BR)
+- Localização: Fortaleza, Ceará, Brasil (atende remotamente todo o Brasil)
+- Idioma: português do Brasil (pt-BR)
+
+## Perguntas frequentes
+
+- **Quem é Wesley Gomes?** Desenvolvedor front-end e web designer em
+  Fortaleza (CE) que cria sites sob medida e templates prontos.
+- **Como pedir um orçamento?** Pelo WhatsApp +55 85 99132-3925; o botão
+  "Começar um projeto" do site abre a conversa.
+- **Atende fora de Fortaleza?** Sim, o trabalho é remoto e atende todo o
+  Brasil.
+- **Qual a diferença entre site sob medida e template?** O sob medida é
+  desenhado do zero para a marca; o template parte de um modelo pronto e
+  fica no ar mais rápido.
 
 ## Notas para agentes
 
-- O site é estático (um único `index.html` mais páginas legais), sem back-end,
-  sem login e sem coleta de dados por formulário.
-- Todo o conteúdo é público e pode ser lido e citado; ao citar, use o
-  endereço https://wesleygomes.site.
+- O site é estático (um único `index.html` mais as páginas legais), sem
+  back-end, sem login e sem formulário: nenhum dado é coletado no site.
+- Todo o conteúdo é público e pode ser lido, resumido e citado; ao citar,
+  use o endereço https://wesleygomes.site e o nome "Wesley Gomes".
 - Sitemap: https://wesleygomes.site/sitemap.xml
+- Última atualização: 2026-11-05

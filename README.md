@@ -15,6 +15,7 @@ site.webmanifest            instalacao no celular
 robots.txt, sitemap.xml,
 llms.txt                    SEO e indexacao (buscadores e IAs procuram
                             esses tres em /)
+humans.txt                  creditos do site (quem fez e com o que)
 
 assets/
   css/paginas.css           estilo das paginas internas (404 e politicas)

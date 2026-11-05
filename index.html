@@ -3,20 +3,37 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Wesley Gomes | Portfólio de Front-end e Web Design</title>
+<title>Wesley Gomes | Criação de Sites e Web Design em Fortaleza</title>
 
 <!-- ============ SEO ============
      Dominio de producao: https://wesleygomes.site
      Ao publicar em outro endereco, troque a URL no canonical, nas tags
-     og:/twitter:, no JSON-LD, no sitemap.xml e no robots.txt. -->
-<meta name="description" content="Portfólio de Wesley Gomes, front-end e web designer em Fortaleza (CE). Sites sob medida, desenhados e codados do zero, e templates prontos para adaptar à sua marca.">
+     og:/twitter:, no JSON-LD, no sitemap.xml, no robots.txt e no
+     llms.txt. Ao mexer no conteudo, atualize tambem o dateModified do
+     JSON-LD e o <lastmod> do sitemap.xml. -->
+<meta name="description" content="Wesley Gomes, desenvolvedor front-end e web designer em Fortaleza (CE). Sites institucionais, landing pages e portfólios sob medida, além de templates prontos.">
 <meta name="author" content="Wesley Gomes">
+<meta name="creator" content="Wesley Gomes">
+<meta name="publisher" content="Wesley Gomes">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="format-detection" content="telephone=no">
 <meta name="theme-color" content="#faf6ed">
 <meta name="color-scheme" content="light">
 <link rel="canonical" href="https://wesleygomes.site/">
 <link rel="alternate" hreflang="pt-BR" href="https://wesleygomes.site/">
 <link rel="alternate" hreflang="x-default" href="https://wesleygomes.site/">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<!-- Resumo do site para IAs (ChatGPT, Claude, Perplexity, Gemini...). -->
+<link rel="alternate" type="text/markdown" href="/llms.txt" title="Resumo do site para IAs (llms.txt)">
+<link rel="author" href="/humans.txt">
+
+<!-- Local: Fortaleza, Ceara -->
+<meta name="geo.region" content="BR-CE">
+<meta name="geo.placename" content="Fortaleza">
+<meta name="geo.position" content="-3.7319;-38.5267">
+<meta name="ICBM" content="-3.7319, -38.5267">
 
 <!-- Icones e instalacao -->
 <link rel="icon" href="/favicon.ico" sizes="48x48">
@@ -27,30 +44,32 @@
 <meta name="apple-mobile-web-app-title" content="Wesley Gomes">
 <meta name="application-name" content="Wesley Gomes">
 
-<!-- Open Graph: WhatsApp, Facebook, LinkedIn -->
+<!-- Open Graph: WhatsApp, Facebook, LinkedIn, Instagram -->
 <meta property="og:type" content="website">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:site_name" content="Wesley Gomes">
 <meta property="og:url" content="https://wesleygomes.site/">
-<meta property="og:title" content="Wesley Gomes | Portfólio de Front-end e Web Design">
-<meta property="og:description" content="Sites sob medida, desenhados e codados do zero, e templates prontos para adaptar à sua marca e publicar em poucos dias.">
+<meta property="og:title" content="Wesley Gomes | Criação de Sites e Web Design em Fortaleza">
+<meta property="og:description" content="Sites sob medida, desenhados e codados do zero, e templates prontos para adaptar à sua marca e publicar em poucos dias. Atendimento em Fortaleza e em todo o Brasil.">
 <meta property="og:image" content="https://wesleygomes.site/assets/imagens/social/og-image.jpg">
 <meta property="og:image:secure_url" content="https://wesleygomes.site/assets/imagens/social/og-image.jpg">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Wesley Gomes — front-end e web design">
+<meta property="og:image:alt" content="Wesley Gomes — criação de sites, front-end e web design">
+<meta property="og:updated_time" content="2026-11-05T00:00:00-03:00">
 
 <!-- Twitter / X -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Wesley Gomes | Portfólio de Front-end e Web Design">
+<meta name="twitter:title" content="Wesley Gomes | Criação de Sites e Web Design em Fortaleza">
 <meta name="twitter:description" content="Sites sob medida, desenhados e codados do zero, e templates prontos para adaptar à sua marca e publicar em poucos dias.">
 <meta name="twitter:image" content="https://wesleygomes.site/assets/imagens/social/og-image.jpg">
-<meta name="twitter:image:alt" content="Wesley Gomes — front-end e web design">
+<meta name="twitter:image:alt" content="Wesley Gomes — criação de sites, front-end e web design">
 
-<!-- Dados estruturados (schema.org): quem e, o que vende e onde atende.
-     Se o Google mostrar erro no Rich Results Test, valide aqui:
-     https://search.google.com/test/rich-results -->
+<!-- Dados estruturados (schema.org): quem e, o que vende, onde atende
+     e o que ja entregou. Valide em:
+     https://search.google.com/test/rich-results
+     https://validator.schema.org/ -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -60,62 +79,131 @@
       "@id": "https://wesleygomes.site/#pessoa",
       "name": "Wesley Gomes",
       "url": "https://wesleygomes.site/",
-      "image": "https://wesleygomes.site/assets/imagens/social/og-image.jpg",
-      "jobTitle": "Desenvolvedor Front-end e Web Designer",
-      "description": "Desenvolvedor front-end e web designer em Fortaleza (CE). Cria sites sob medida do zero e templates prontos para personalizar.",
-      "knowsLanguage": "pt-BR",
-      "knowsAbout": ["Desenvolvimento front-end", "Web design", "HTML", "CSS", "JavaScript", "SEO técnico", "Landing pages", "Sites institucionais"],
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Fortaleza",
-        "addressRegion": "CE",
-        "addressCountry": "BR"
+      "image": {
+        "@type": "ImageObject",
+        "url": "https://wesleygomes.site/assets/imagens/social/og-image.jpg",
+        "width": 1200,
+        "height": 630
       },
+      "jobTitle": "Desenvolvedor Front-end e Web Designer",
+      "description": "Desenvolvedor front-end e web designer em Fortaleza (CE). Cria sites institucionais, landing pages e portfólios sob medida, do zero, e templates prontos para personalizar.",
+      "knowsLanguage": "pt-BR",
+      "knowsAbout": ["Criação de sites", "Desenvolvimento front-end", "Web design", "UI design", "HTML", "CSS", "JavaScript", "Design responsivo", "Acessibilidade web", "SEO técnico", "Performance web", "Landing pages", "Sites institucionais"],
+      "homeLocation": { "@type": "City", "name": "Fortaleza" },
+      "address": { "@id": "https://wesleygomes.site/#endereco" },
+      "contactPoint": { "@id": "https://wesleygomes.site/#contato" },
       "sameAs": [
-        "https://www.instagram.com/wesley.gomesds/",
-        "https://wa.me/5585991323925"
+        "https://www.instagram.com/wesley.gomesds/"
       ]
+    },
+    {
+      "@type": "PostalAddress",
+      "@id": "https://wesleygomes.site/#endereco",
+      "addressLocality": "Fortaleza",
+      "addressRegion": "CE",
+      "addressCountry": "BR"
+    },
+    {
+      "@type": "ContactPoint",
+      "@id": "https://wesleygomes.site/#contato",
+      "contactType": "Atendimento comercial",
+      "telephone": "+55-85-99132-3925",
+      "url": "https://wa.me/5585991323925",
+      "availableLanguage": ["pt-BR"],
+      "areaServed": "BR"
     },
     {
       "@type": "WebSite",
       "@id": "https://wesleygomes.site/#site",
       "url": "https://wesleygomes.site/",
       "name": "Wesley Gomes",
-      "alternateName": "Portfólio de Wesley Gomes",
-      "description": "Portfólio de Wesley Gomes: sites sob medida e templates prontos para publicar.",
+      "alternateName": ["Portfólio de Wesley Gomes", "wesleygomes.site"],
+      "description": "Portfólio de Wesley Gomes, front-end e web designer em Fortaleza: sites sob medida e templates prontos para publicar.",
       "inLanguage": "pt-BR",
-      "publisher": { "@id": "https://wesleygomes.site/#pessoa" }
+      "publisher": { "@id": "https://wesleygomes.site/#pessoa" },
+      "author": { "@id": "https://wesleygomes.site/#pessoa" },
+      "copyrightHolder": { "@id": "https://wesleygomes.site/#pessoa" },
+      "copyrightYear": 2026
     },
     {
-      "@type": "WebPage",
+      "@type": ["WebPage", "ProfilePage"],
       "@id": "https://wesleygomes.site/#pagina",
       "url": "https://wesleygomes.site/",
-      "name": "Wesley Gomes | Portfólio de Front-end e Web Design",
+      "name": "Wesley Gomes | Criação de Sites e Web Design em Fortaleza",
+      "description": "Wesley Gomes, desenvolvedor front-end e web designer em Fortaleza (CE). Sites institucionais, landing pages e portfólios sob medida, além de templates prontos.",
       "isPartOf": { "@id": "https://wesleygomes.site/#site" },
       "about": { "@id": "https://wesleygomes.site/#pessoa" },
-      "primaryImageOfPage": "https://wesleygomes.site/assets/imagens/social/og-image.jpg",
+      "mainEntity": { "@id": "https://wesleygomes.site/#pessoa" },
+      "hasPart": { "@id": "https://wesleygomes.site/#projetos" },
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "https://wesleygomes.site/assets/imagens/social/og-image.jpg",
+        "width": 1200,
+        "height": 630
+      },
+      "dateModified": "2026-11-05",
       "inLanguage": "pt-BR"
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://wesleygomes.site/#projetos",
+      "name": "Projetos e templates",
+      "description": "Sites entregues para clientes, desenhados e codados por Wesley Gomes.",
+      "numberOfItems": 3,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "item": {
+            "@type": "CreativeWork",
+            "name": "Silver Hand - Home e Landscaping",
+            "image": "https://wesleygomes.site/assets/imagens/capas/silverhand-mockup-macbook-iphone.webp",
+            "creator": { "@id": "https://wesleygomes.site/#pessoa" }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "item": {
+            "@type": "WebSite",
+            "name": "Sindicato dos Psicólogos do Ceará",
+            "url": "https://psindce.org.br/",
+            "image": "https://wesleygomes.site/assets/imagens/capas/psindce-mockup-macbook-iphone.webp",
+            "creator": { "@id": "https://wesleygomes.site/#pessoa" }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "item": {
+            "@type": "WebSite",
+            "name": "Walesson Psicologia",
+            "url": "https://walessonsite.pages.dev/",
+            "image": "https://wesleygomes.site/assets/imagens/capas/wise-mockup-macbook-iphone.webp",
+            "creator": { "@id": "https://wesleygomes.site/#pessoa" }
+          }
+        }
+      ]
     },
     {
       "@type": "ProfessionalService",
       "@id": "https://wesleygomes.site/#servico",
       "name": "Wesley Gomes — Criação de Sites",
       "url": "https://wesleygomes.site/",
+      "logo": "https://wesleygomes.site/assets/imagens/icones/icone-512.png",
       "image": "https://wesleygomes.site/assets/imagens/social/og-image.jpg",
-      "description": "Criação de sites institucionais, landing pages e portfólios: projeto sob medida do zero ou template pronto adaptado à marca do cliente.",
+      "description": "Criação de sites institucionais, landing pages e portfólios em Fortaleza (CE) e para todo o Brasil: projeto sob medida do zero ou template pronto adaptado à marca do cliente.",
       "founder": { "@id": "https://wesleygomes.site/#pessoa" },
       "priceRange": "$$",
-      "telephone": "+5585991323925",
+      "telephone": "+55-85-99132-3925",
+      "address": { "@id": "https://wesleygomes.site/#endereco" },
+      "contactPoint": { "@id": "https://wesleygomes.site/#contato" },
       "areaServed": [
         { "@type": "City", "name": "Fortaleza" },
+        { "@type": "State", "name": "Ceará" },
         { "@type": "Country", "name": "Brasil" }
       ],
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Fortaleza",
-        "addressRegion": "CE",
-        "addressCountry": "BR"
-      },
+      "knowsLanguage": "pt-BR",
       "sameAs": [
         "https://www.instagram.com/wesley.gomesds/"
       ],
@@ -128,7 +216,8 @@
             "itemOffered": {
               "@type": "Service",
               "name": "Site sob medida",
-              "description": "Projeto desenhado e codado do zero, do layout à publicação."
+              "serviceType": "Criação de sites",
+              "description": "Site institucional, landing page ou portfólio desenhado e codado do zero, do layout à publicação."
             }
           },
           {
@@ -136,7 +225,17 @@
             "itemOffered": {
               "@type": "Service",
               "name": "Template pronto",
+              "serviceType": "Criação de sites",
               "description": "Modelo já desenhado, adaptado à sua marca e publicado em poucos dias."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Front-end e web design",
+              "serviceType": "Desenvolvimento front-end",
+              "description": "Interface, animação, otimização de imagens e vídeo, acessibilidade e SEO técnico."
             }
           }
         ]

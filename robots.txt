@@ -1,50 +1,67 @@
-# robots.txt — wesleygomes.site
-# Portfolio de Wesley Gomes (front-end e web design)
+# robots.txt — https://wesleygomes.site
+# Portfolio de Wesley Gomes: criacao de sites, front-end e web design
+# em Fortaleza (CE). Atualizado em 2026-11-05.
+#
+# O site e estatico e todo o conteudo e publico: nao ha area privada,
+# login nem formulario. Fica de fora so a pagina de erro.
 
 # ---- Buscadores e agentes em geral ----
 User-agent: *
 Allow: /
 Disallow: /404.html
 
-# Nao ha area privada no site: todo o conteudo pode ser indexado.
+# ---- Crawlers e assistentes de IA: liberados ----
+# Resumo do site escrito para LLMs: https://wesleygomes.site/llms.txt
 
-# ---- Crawlers de IA: liberados, o conteudo e publico ----
-# O resumo legivel por LLMs esta em /llms.txt
+# OpenAI (ChatGPT)
 User-agent: GPTBot
-Allow: /
-
 User-agent: OAI-SearchBot
-Allow: /
-
 User-agent: ChatGPT-User
 Allow: /
+Disallow: /404.html
 
+# Anthropic (Claude)
 User-agent: ClaudeBot
-Allow: /
-
+User-agent: Claude-SearchBot
+User-agent: Claude-User
 User-agent: Claude-Web
+User-agent: anthropic-ai
 Allow: /
+Disallow: /404.html
 
+# Perplexity
 User-agent: PerplexityBot
+User-agent: Perplexity-User
 Allow: /
+Disallow: /404.html
 
+# Google (Gemini / AI Overviews) e Apple (Apple Intelligence)
 User-agent: Google-Extended
-Allow: /
-
+User-agent: Applebot
 User-agent: Applebot-Extended
 Allow: /
+Disallow: /404.html
+
+# Microsoft Copilot usa o Bingbot (coberto pelo grupo *).
+# Outros assistentes: Meta AI, Amazon, DuckDuckGo, Mistral, Cohere, Common Crawl
+User-agent: Meta-ExternalAgent
+User-agent: Meta-ExternalFetcher
+User-agent: Amazonbot
+User-agent: DuckAssistBot
+User-agent: MistralAI-User
+User-agent: cohere-ai
+User-agent: CCBot
+Allow: /
+Disallow: /404.html
 
 # ---- Raspadores agressivos de SEO: bloqueados para poupar banda ----
 User-agent: AhrefsBot
-Disallow: /
-
 User-agent: SemrushBot
-Disallow: /
-
 User-agent: MJ12bot
-Disallow: /
-
 User-agent: DotBot
+User-agent: BLEXBot
+User-agent: DataForSeoBot
+User-agent: Bytespider
 Disallow: /
 
 Sitemap: https://wesleygomes.site/sitemap.xml

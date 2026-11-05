@@ -1,23 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Sitemap de https://wesleygomes.site
+     Ao mudar o conteudo de uma pagina, atualize o <lastmod> dela.
+     Paginas novas entram aqui e no llms.txt. A 404 fica de fora. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 
   <url>
     <loc>https://wesleygomes.site/</loc>
-    <lastmod>2026-10-29</lastmod>
+    <lastmod>2026-11-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://wesleygomes.site/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://wesleygomes.site/"/>
     <image:image>
       <image:loc>https://wesleygomes.site/assets/imagens/social/og-image.jpg</image:loc>
-      <image:title>Wesley Gomes — Front-end e Web Design</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://wesleygomes.site/assets/imagens/capas/silverhand-mockup-macbook-iphone.webp</image:loc>
     </image:image>
     <image:image>
       <image:loc>https://wesleygomes.site/assets/imagens/capas/psindce-mockup-macbook-iphone.webp</image:loc>
-      <image:title>Sindicato dos Psicólogos do Ceará</image:title>
     </image:image>
     <image:image>
       <image:loc>https://wesleygomes.site/assets/imagens/capas/wise-mockup-macbook-iphone.webp</image:loc>
-      <image:title>Walesson Psicologia</image:title>
     </image:image>
   </url>
 

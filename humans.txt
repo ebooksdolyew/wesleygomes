@@ -1,0 +1,14 @@
+/* TEAM */
+  Design e desenvolvimento: Wesley Gomes
+  Função: Desenvolvedor front-end e web designer
+  Site: https://wesleygomes.site
+  Instagram: @wesley.gomesds (https://www.instagram.com/wesley.gomesds/)
+  WhatsApp: +55 85 99132-3925
+  Local: Fortaleza, Ceará, Brasil
+
+/* SITE */
+  Última atualização: 2026/11/05
+  Idioma: Português (pt-BR)
+  Padrões: HTML5, CSS3, JavaScript, SVG, schema.org (JSON-LD)
+  Tipografia: Poppins, Urbanist, Inter (Google Fonts)
+  Componentes: feito do zero, sem framework nem construtor de páginas

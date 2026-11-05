@@ -1,7 +1,8 @@
 {
-  "name": "Wesley Gomes — Front-end e Web Design",
+  "id": "/",
+  "name": "Wesley Gomes — Criação de Sites e Web Design",
   "short_name": "Wesley Gomes",
-  "description": "Portfólio de Wesley Gomes: sites sob medida e templates prontos para publicar.",
+  "description": "Portfólio de Wesley Gomes, front-end e web designer em Fortaleza: sites sob medida e templates prontos para publicar.",
   "lang": "pt-BR",
   "dir": "ltr",
   "start_url": "/",
@@ -10,6 +11,7 @@
   "orientation": "portrait-primary",
   "background_color": "#faf6ed",
   "theme_color": "#faf6ed",
+  "categories": ["business", "design", "portfolio"],
   "icons": [
     { "src": "/assets/imagens/icones/icone-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
     { "src": "/assets/imagens/icones/icone-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
