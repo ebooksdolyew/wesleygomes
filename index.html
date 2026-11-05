@@ -162,8 +162,15 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; }
   html, body { min-height: 100%; margin: 0; }
+  /* O fundo fica so no html (o "canvas" da janela), nao no body: e ele
+     que aparece no repuxo da rolagem (bounce do Safari/Mac/iPhone)
+     acima do topo e abaixo do fim. No topo o papel off-white continua
+     a hero; da metade da pagina para baixo o JS poe .fim-pagina e o
+     canvas fica branco, continuando o rodape. Todas as secoes tem
+     fundo proprio, entao dentro do documento nada muda. */
   html { background: #faf6ed; }
-  body { background: #faf6ed; overflow-x: hidden; }
+  html.fim-pagina { background: #fff; }
+  body { overflow-x: hidden; }
 
   /* Cada secao ocupa a tela inteira, mas o scroll e livre: sem
      scroll-snap, a rolagem para onde o usuario soltar.
@@ -1464,6 +1471,11 @@
     function medir() {
       pedido = 0;
       barra.classList.toggle('navbar--rolada', window.scrollY > 8);
+
+      /* Canvas branco da metade para baixo: o repuxo abaixo do rodape
+         fica branco como ele (ver html.fim-pagina no CSS). */
+      var raiz = document.documentElement;
+      raiz.classList.toggle('fim-pagina', window.scrollY > (raiz.scrollHeight - window.innerHeight) / 2);
 
       var linha = window.innerHeight * 0.4;
       var atual = 'inicio';
