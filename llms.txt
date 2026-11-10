@@ -13,32 +13,13 @@ feitos para clientes e templates prontos para personalizar.
 
 ## Serviços
 
-Cada serviço tem um cartão na seção "Serviços" da home
-(https://wesleygomes.site/#servicos), que abre o WhatsApp com o pedido de
-orçamento daquele serviço.
-
-- **Site institucional**: página principal e páginas internas (sobre,
-  serviços, notícias), desenhado e codado do zero para a marca.
-- **Landing page**: uma página só, feita para transformar visita em contato
-  no WhatsApp.
-- **Catálogo online**: vitrine de produtos ou serviços com pedido direto pelo
-  WhatsApp, sem taxa de plataforma.
-- **Sistema de agendamento**: o cliente escolhe serviço, dia e horário em
-  poucos passos e confirma pelo WhatsApp.
+- **Site sob medida**: site institucional, landing page ou portfólio
+  desenhado e codado do zero, do layout à publicação, para quem precisa de
+  uma identidade própria.
 - **Template pronto**: modelo já desenhado, adaptado à marca do cliente
   (cores, textos, imagens) e publicado em poucos dias.
-- **Redesign visual**: visual novo para um site existente, mantendo o que já
-  funciona.
-- **Domínio e hospedagem**: registro do domínio (.com.br), publicação do
-  site com certificado SSL e migração da hospedagem anterior; domínio e
-  contas ficam em nome do cliente.
-- **Ferramentas web sob medida**: automação no navegador para rotinas de
-  escritório (conferência de planilhas, conciliações, PDFs), sem enviar
-  arquivos para servidor.
-- **Manutenção e suporte**: alterações de texto, imagens, notícias e ajustes
-  em site já entregue, avulsas ou em plano mensal.
-- Também cuida de SEO técnico, otimização de imagens, acessibilidade,
-  cabeçalhos de segurança, formulário de contato e mapa do Google.
+- **Front-end e web design**: interface, animação, otimização de imagens e
+  vídeo, acessibilidade e SEO técnico.
 
 ## Projetos publicados
 
@@ -51,10 +32,8 @@ orçamento daquele serviço.
 
 ## Páginas
 
-- [Início](https://wesleygomes.site/): apresentação, serviços, portfólio de
-  projetos e templates (filtráveis) e chamada para contato.
-- [Serviços](https://wesleygomes.site/#servicos): banner com os nove serviços
-  e o botão "Pedir orçamento".
+- [Início](https://wesleygomes.site/): apresentação, portfólio de projetos e
+  templates (filtráveis) e chamada para contato.
 - [Projetos](https://wesleygomes.site/#projetos): grade com os sites entregues.
 - [Contato](https://wesleygomes.site/#contato): "Vamos conversar?" — leva ao
   WhatsApp.
@@ -89,4 +68,4 @@ orçamento daquele serviço.
 - Todo o conteúdo é público e pode ser lido, resumido e citado; ao citar,
   use o endereço https://wesleygomes.site e o nome "Wesley Gomes".
 - Sitemap: https://wesleygomes.site/sitemap.xml
-- Última atualização: 2026-11-10
+- Última atualização: 2026-11-05

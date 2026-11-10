@@ -57,7 +57,7 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Wesley Gomes — criação de sites, front-end e web design">
-<meta property="og:updated_time" content="2026-11-10T00:00:00-03:00">
+<meta property="og:updated_time" content="2026-11-05T00:00:00-03:00">
 
 <!-- Twitter / X -->
 <meta name="twitter:card" content="summary_large_image">
@@ -141,7 +141,7 @@
         "width": 1200,
         "height": 630
       },
-      "dateModified": "2026-11-10",
+      "dateModified": "2026-11-05",
       "inLanguage": "pt-BR"
     },
     {
@@ -215,36 +215,9 @@
             "@type": "Offer",
             "itemOffered": {
               "@type": "Service",
-              "name": "Site institucional",
+              "name": "Site sob medida",
               "serviceType": "Criação de sites",
-              "description": "Página principal e páginas internas (sobre, serviços, notícias), desenhado e codado do zero para a marca."
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Landing page",
-              "serviceType": "Criação de sites",
-              "description": "Página única, direta ao ponto, feita para transformar visita em contato no WhatsApp."
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Catálogo online",
-              "serviceType": "Criação de sites",
-              "description": "Vitrine de produtos ou serviços com pedido direto pelo WhatsApp, sem taxa de plataforma."
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Sistema de agendamento",
-              "serviceType": "Desenvolvimento web",
-              "description": "O cliente escolhe serviço, dia e horário em poucos passos e confirma pelo WhatsApp."
+              "description": "Site institucional, landing page ou portfólio desenhado e codado do zero, do layout à publicação."
             }
           },
           {
@@ -260,36 +233,9 @@
             "@type": "Offer",
             "itemOffered": {
               "@type": "Service",
-              "name": "Redesign visual",
-              "serviceType": "Web design",
-              "description": "Visual novo para um site existente, mantendo o que já funciona."
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Domínio e hospedagem",
-              "serviceType": "Hospedagem de sites",
-              "description": "Registro do domínio, publicação do site com certificado SSL e migração da hospedagem anterior, com tudo em nome do cliente."
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Ferramentas web sob medida",
-              "serviceType": "Desenvolvimento web",
-              "description": "Automação no navegador para rotinas de escritório: conferência de planilhas, conciliações e PDFs, sem enviar arquivos para servidor."
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Manutenção e suporte",
-              "serviceType": "Manutenção de sites",
-              "description": "Alterações de texto, imagens, notícias e ajustes em site entregue, avulsas ou em plano mensal."
+              "name": "Front-end e web design",
+              "serviceType": "Desenvolvimento front-end",
+              "description": "Interface, animação, otimização de imagens e vídeo, acessibilidade e SEO técnico."
             }
           }
         ]
@@ -538,7 +484,7 @@
   .portfolio {
     max-width: 1240px;
     margin: 0 auto;
-    padding: clamp(48px, 7vw, 96px) clamp(22px, 5vw, 56px) clamp(72px, 10vw, 128px);
+    padding: clamp(56px, 8vw, 104px) clamp(22px, 5vw, 56px) clamp(72px, 10vw, 128px);
     font-family: Poppins, Arial, sans-serif;
     color: #04182f;
   }
@@ -707,327 +653,6 @@
   @media (prefers-reduced-motion: reduce) {
     .cartao, .cartao-link span { transition: none; }
     .cartao:hover { transform: none; }
-  }
-
-  /* Ancoras da folha branca: o titulo nao fica escondido sob a navbar
-     fixa quando o link do menu leva ate ele. */
-  #servicos, #projetos { scroll-margin-top: clamp(56px, 7svh, 76px); }
-
-  /* ---------------------------------------------------------------
-     SERVICOS — banner no topo da folha branca, antes dos projetos.
-     E um pedaco do papel da hero (mesmo off-white com grao) recortado
-     dentro da folha, com o arco azul da assinatura cruzando o canto.
-     Cada servico e um cartao inteiro clicavel que abre o WhatsApp com
-     a mensagem daquele servico ja escrita (link esticado, como nos
-     cartoes do portfolio).
-
-     Para mudar um servico: troque titulo, texto e o ?text= do link
-     (texto em URL: espaco = %20, acentos com encodeURIComponent).
-     --------------------------------------------------------------- */
-  .servicos {
-    max-width: 1240px;
-    margin: 0 auto;
-    padding: clamp(28px, 5vw, 64px) clamp(14px, 3.4vw, 40px) 0;
-    font-family: Poppins, Arial, sans-serif;
-    color: #04182f;
-  }
-  .servicos-banner {
-    position: relative;
-    isolation: isolate;
-    overflow: hidden;
-    padding: clamp(30px, 5.4vw, 72px) clamp(18px, 4.4vw, 60px) clamp(26px, 4.4vw, 56px);
-    background: var(--papel);
-    border: 1px solid rgba(5, 5, 5, .06);
-    border-radius: clamp(20px, 2.4vw, 32px);
-  }
-  /* Grao do papel, igual ao da hero e da CTA. */
-  .servicos-banner::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .3 0 0 0 0 .22 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
-    background-size: 240px 240px;
-    mix-blend-mode: multiply;
-    opacity: .09;
-  }
-  /* Arco azul decorativo no canto de cima: se desenha quando o banner
-     entra na tela (o script liga .revelar). */
-  .servicos-arco {
-    position: absolute;
-    top: clamp(-40px, -2vw, -10px);
-    right: clamp(-120px, -6vw, -40px);
-    z-index: -1;
-    width: clamp(280px, 46vw, 640px);
-    height: auto;
-    overflow: visible;
-    pointer-events: none;
-  }
-  .servicos-arco path {
-    fill: none;
-    stroke: var(--azul);
-    stroke-width: 2.2;
-    stroke-linecap: round;
-    stroke-dasharray: 1;
-    stroke-dashoffset: 1;
-  }
-  .servicos.revelar .servicos-arco path {
-    transition: stroke-dashoffset 2.2s cubic-bezier(.22,.61,.36,1) .2s;
-    stroke-dashoffset: 0;
-  }
-
-  .servicos-topo {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: end;
-    gap: clamp(18px, 3vw, 40px);
-    margin-bottom: clamp(26px, 4vw, 48px);
-  }
-  .servicos-rotulo {
-    margin: 0 0 clamp(14px, 1.8vw, 20px);
-    font-family: Urbanist, Arial, sans-serif;
-    font-weight: 500;
-    font-size: clamp(11px, 2.8vw, 13px);
-    line-height: 1;
-    letter-spacing: .4em;
-    text-transform: uppercase;
-    color: var(--tinta);
-  }
-  /* Mesmo disco do rotulo da hero. */
-  .servicos-rotulo span {
-    display: inline-block;
-    width: .3em;
-    height: .3em;
-    margin: 0 .4em 0 0;
-    border-radius: 50%;
-    vertical-align: .2em;
-    overflow: hidden;
-    color: transparent;
-    background: var(--azul);
-  }
-  .servicos-titulo {
-    margin: 0 0 clamp(12px, 1.6vw, 18px);
-    max-width: 15ch;
-    font-weight: 800;
-    font-size: clamp(30px, 6.4vw, 60px);
-    line-height: 1.04;
-    letter-spacing: -.025em;
-    color: var(--tinta);
-  }
-  .servicos-titulo em {
-    font-style: normal;
-    color: var(--azul);
-  }
-  .servicos-texto {
-    margin: 0;
-    max-width: 50ch;
-    font-weight: 300;
-    font-size: clamp(14px, 4vw, 17px);
-    line-height: 1.62;
-    color: rgba(4, 24, 47, .70);
-  }
-  .servicos-texto strong { font-weight: 600; color: #04182f; }
-
-  /* Botao principal: o mesmo azul e o mesmo caixa-alta do botao da CTA. */
-  .servicos-botao {
-    display: inline-flex;
-    align-items: center;
-    gap: 1.2em;
-    padding: 1.15em 1.7em;
-    font-family: Inter, Arial, sans-serif;
-    font-weight: 600;
-    font-size: clamp(11.5px, 1.05vw, 13px);
-    letter-spacing: .09em;
-    text-transform: uppercase;
-    white-space: nowrap;
-    text-decoration: none;
-    color: #fff;
-    background: var(--azul);
-    border-radius: .5em;
-    transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease;
-  }
-  .servicos-botao svg {
-    flex: 0 0 auto;
-    width: 1.4em;
-    height: 1.05em;
-    overflow: visible;
-    transition: transform .2s ease;
-  }
-  .servicos-botao:hover {
-    transform: translateY(-2px);
-    background-color: #0039d6;
-    box-shadow: 0 12px 28px rgba(0, 71, 254, .28);
-  }
-  .servicos-botao:hover svg { transform: translateX(.25em); }
-  .servicos-botao:focus-visible { outline: 2px solid var(--azul); outline-offset: 4px; }
-
-  /* GRADE — 3 x 3 no desktop, 2 colunas no tablet, 1 no celular
-     (ver as media queries no fim deste bloco). */
-  .servicos-lista {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: clamp(12px, 1.6vw, 18px);
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    counter-reset: servico;
-  }
-  .servico {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding: clamp(18px, 2vw, 24px) clamp(18px, 1.8vw, 22px) clamp(16px, 1.8vw, 20px);
-    background: rgba(255, 255, 255, .78);
-    border: 1px solid rgba(4, 24, 47, .09);
-    border-radius: 16px;
-    counter-increment: servico;
-    transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease, background-color .28s ease;
-  }
-  .servico:hover {
-    transform: translateY(-4px);
-    background: #fff;
-    border-color: rgba(0, 71, 254, .28);
-    box-shadow: 0 16px 36px rgba(4, 24, 47, .12);
-  }
-  /* Numero do servico (01, 02...) e o icone, na mesma linha. */
-  .servico-cabeca {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 6px;
-  }
-  .servico-cabeca::before {
-    content: counter(servico, decimal-leading-zero);
-    font-family: Urbanist, Arial, sans-serif;
-    font-weight: 700;
-    font-size: 13px;
-    letter-spacing: .12em;
-    color: var(--azul);
-  }
-  .servico-icone {
-    display: grid;
-    place-items: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    color: var(--azul);
-    background: rgba(0, 71, 254, .08);
-    transition: background-color .28s ease, color .28s ease;
-  }
-  .servico-icone svg { width: 20px; height: 20px; }
-  .servico:hover .servico-icone { background: var(--azul); color: #fff; }
-
-  .servico-titulo {
-    margin: 0;
-    font-weight: 600;
-    font-size: clamp(16px, 1.5vw, 18px);
-    line-height: 1.28;
-    letter-spacing: -.01em;
-    color: #04182f;
-  }
-  .servico-texto {
-    margin: 0 0 6px;
-    font-weight: 300;
-    font-size: 14px;
-    line-height: 1.58;
-    color: rgba(4, 24, 47, .68);
-  }
-  .servico-link {
-    margin-top: auto;
-    align-self: flex-start;
-    font-weight: 500;
-    font-size: 13px;
-    text-decoration: none;
-    color: #04182f;
-    border-bottom: 1px solid rgba(4, 24, 47, .22);
-    padding-bottom: 2px;
-    transition: color .2s ease, border-color .2s ease;
-  }
-  /* Link esticado: o cartao inteiro abre a conversa. */
-  .servico-link::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-  }
-  .servico-link span { display: inline-block; transition: transform .2s ease; }
-  .servico:hover .servico-link { color: var(--azul); border-bottom-color: var(--azul); }
-  .servico:hover .servico-link span { transform: translateX(4px); }
-  .servico-link:focus-visible { outline: none; }
-  .servico:has(.servico-link:focus-visible) { outline: 2px solid var(--azul); outline-offset: 3px; }
-
-  /* FAIXA — o que acompanha os projetos, em pilulas. */
-  .servicos-extras {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 10px;
-    margin: clamp(22px, 3vw, 34px) 0 0;
-    padding: clamp(18px, 2.4vw, 24px) 0 0;
-    border-top: 1px solid rgba(5, 5, 5, .10);
-    list-style: none;
-  }
-  .servicos-extras-rotulo {
-    margin-right: 6px;
-    font-family: Urbanist, Arial, sans-serif;
-    font-weight: 700;
-    font-size: 13px;
-    letter-spacing: .02em;
-    color: var(--tinta);
-  }
-  .servicos-extra {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 14px;
-    font-weight: 400;
-    font-size: 13px;
-    line-height: 1.2;
-    color: rgba(4, 24, 47, .78);
-    background: rgba(255, 255, 255, .7);
-    border: 1px solid rgba(4, 24, 47, .10);
-    border-radius: 999px;
-  }
-  .servicos-extra::before {
-    content: "";
-    flex: 0 0 auto;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--azul);
-  }
-
-  /* Celular e tablet em pe: o botao desce para baixo do texto. */
-  @media (max-width: 760px) {
-    .servicos-topo { grid-template-columns: 1fr; align-items: start; }
-    .servicos-botao { justify-self: start; }
-    .servicos-extras-rotulo { flex: 1 1 100%; margin: 0 0 2px; }
-  }
-  /* Tablet e celular: o arco cortaria o titulo, entao so aparece acima
-     de 900px. No celular o rotulo perde um pouco do espacamento para
-     caber em uma linha. */
-  @media (max-width: 900px) {
-    .servicos-arco { display: none; }
-    .servicos-lista { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    /* Numero impar de servicos: o ultimo, sozinho na linha, ocupa as
-       duas colunas em vez de deixar um buraco ao lado. */
-    .servico:last-child:nth-child(odd) { grid-column: 1 / -1; }
-  }
-  @media (max-width: 600px) {
-    .servicos-lista { grid-template-columns: 1fr; }
-  }
-  @media (max-width: 560px) {
-    .servicos-rotulo { letter-spacing: .22em; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .servico, .servico-icone, .servico-link span,
-    .servicos-botao, .servicos-botao svg { transition: none; }
-    .servico:hover, .servicos-botao:hover { transform: none; }
-    .servicos-arco path { stroke-dashoffset: 0; }
-    .servicos.revelar .servicos-arco path { transition: none; }
   }
 
   /* ---------------------------------------------------------------
@@ -1591,7 +1216,6 @@
     </a>
     <ul class="navbar-links">
       <li><a class="navbar-link" href="#inicio" aria-current="true">Início</a></li>
-      <li><a class="navbar-link" href="#servicos">Serviços</a></li>
       <li><a class="navbar-link" href="#projetos">Projetos</a></li>
       <li><a class="navbar-link" href="#contato">Contato</a></li>
     </ul>
@@ -1637,154 +1261,10 @@
 </div>
 
 <!-- ============ SECAO BRANCA ============ -->
-<section class="secao-branca">
+<section class="secao-branca" id="projetos">
   <div class="folha-branca">
 
-    <!-- ============ SERVICOS ============
-         Banner de papel no topo da folha branca. Cada cartao abre o
-         WhatsApp com a mensagem daquele servico (ver SERVICOS no CSS).
-         A numeracao 01, 02... e automatica (contador do CSS). -->
-    <section class="servicos" id="servicos" aria-labelledby="servicos-titulo">
-      <div class="servicos-banner">
-
-        <svg class="servicos-arco" viewBox="0 0 640 360" aria-hidden="true">
-          <path pathLength="1" d="M8 300C120 330 250 300 340 220 430 140 470 60 632 24"/>
-        </svg>
-
-        <div class="servicos-topo">
-          <div>
-            <p class="servicos-rotulo">Serviços <span aria-hidden="true">•</span> Do layout à publicação</p>
-            <h2 class="servicos-titulo" id="servicos-titulo">Sites que trabalham <em>pelo seu negócio.</em></h2>
-            <p class="servicos-texto">
-              Desenho e programo cada projeto <strong>do zero</strong>, em HTML, CSS e
-              JavaScript, sem construtor de páginas: rápido, responsivo em qualquer
-              tela e pronto para o Google. Atendo em <strong>Fortaleza e em todo o Brasil</strong>.
-            </p>
-          </div>
-          <a class="servicos-botao" href="https://wa.me/5585991323925?text=Ol%C3%A1%2C%20Wesley%21%20Vi%20seu%20portf%C3%B3lio%20e%20quero%20um%20or%C3%A7amento%20de%20um%20projeto." target="_blank" rel="noopener">
-            Pedir orçamento
-            <svg viewBox="0 0 32 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M1 12h30M20 1l11 11-11 11"/>
-            </svg>
-          </a>
-        </div>
-
-        <ul class="servicos-lista">
-
-          <li class="servico">
-            <div class="servico-cabeca">
-              <span class="servico-icone" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M7 13h5M7 16h8"/></svg>
-              </span>
-            </div>
-            <h3 class="servico-titulo">Site institucional</h3>
-            <p class="servico-texto">Página principal e páginas internas (sobre, serviços, notícias) com a cara da sua marca, desenhado do zero.</p>
-            <a class="servico-link" href="https://wa.me/5585991323925?text=Ol%C3%A1%2C%20Wesley%21%20Vi%20seu%20portf%C3%B3lio%20e%20quero%20um%20or%C3%A7amento%20de%20um%20site%20institucional." target="_blank" rel="noopener">Pedir orçamento <span>&rarr;</span></a>
-          </li>
-
-          <li class="servico">
-            <div class="servico-cabeca">
-              <span class="servico-icone" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".8" fill="currentColor"/></svg>
-              </span>
-            </div>
-            <h3 class="servico-titulo">Landing page</h3>
-            <p class="servico-texto">Uma página só, direta ao ponto, feita para transformar visita em contato no WhatsApp.</p>
-            <a class="servico-link" href="https://wa.me/5585991323925?text=Ol%C3%A1%2C%20Wesley%21%20Vi%20seu%20portf%C3%B3lio%20e%20quero%20um%20or%C3%A7amento%20de%20uma%20landing%20page." target="_blank" rel="noopener">Pedir orçamento <span>&rarr;</span></a>
-          </li>
-
-          <li class="servico">
-            <div class="servico-cabeca">
-              <span class="servico-icone" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h16l-1.2 11.2a1 1 0 0 1-1 .8H6.2a1 1 0 0 1-1-.8z"/><path d="M8.5 8V6.5a3.5 3.5 0 0 1 7 0V8"/></svg>
-              </span>
-            </div>
-            <h3 class="servico-titulo">Catálogo online</h3>
-            <p class="servico-texto">Vitrine dos seus produtos ou serviços, com pedido direto pelo WhatsApp e sem taxa de plataforma.</p>
-            <a class="servico-link" href="https://wa.me/5585991323925?text=Ol%C3%A1%2C%20Wesley%21%20Vi%20seu%20portf%C3%B3lio%20e%20quero%20um%20or%C3%A7amento%20de%20um%20cat%C3%A1logo%20online." target="_blank" rel="noopener">Pedir orçamento <span>&rarr;</span></a>
-          </li>
-
-          <li class="servico">
-            <div class="servico-cabeca">
-              <span class="servico-icone" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M9 14.5l2 2 4-4"/></svg>
-              </span>
-            </div>
-            <h3 class="servico-titulo">Sistema de agendamento</h3>
-            <p class="servico-texto">O cliente escolhe o serviço, o dia e o horário em poucos passos e confirma pelo WhatsApp.</p>
-            <a class="servico-link" href="https://wa.me/5585991323925?text=Ol%C3%A1%2C%20Wesley%21%20Vi%20seu%20portf%C3%B3lio%20e%20quero%20um%20or%C3%A7amento%20de%20um%20sistema%20de%20agendamento." target="_blank" rel="noopener">Pedir orçamento <span>&rarr;</span></a>
-          </li>
-
-          <li class="servico">
-            <div class="servico-cabeca">
-              <span class="servico-icone" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><path d="M17 14v6M14 17h6"/></svg>
-              </span>
-            </div>
-            <h3 class="servico-titulo">Template pronto</h3>
-            <p class="servico-texto">Modelo já desenhado, adaptado às suas cores, textos e imagens, e no ar em poucos dias.</p>
-            <a class="servico-link" href="https://wa.me/5585991323925?text=Ol%C3%A1%2C%20Wesley%21%20Vi%20seu%20portf%C3%B3lio%20e%20quero%20um%20or%C3%A7amento%20de%20um%20template%20pronto." target="_blank" rel="noopener">Pedir orçamento <span>&rarr;</span></a>
-          </li>
-
-          <li class="servico">
-            <div class="servico-cabeca">
-              <span class="servico-icone" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 4.6L18.5 9l-4.7 1.6L12 15l-1.8-4.4L5.5 9l4.7-1.4z"/><path d="M18 15l.8 2 2 .8-2 .8L18 21l-.8-2.4-2-.8 2-.8z"/></svg>
-              </span>
-            </div>
-            <h3 class="servico-titulo">Redesign visual</h3>
-            <p class="servico-texto">Visual novo para o site que você já tem, moderno e rápido, mantendo o que já funciona.</p>
-            <a class="servico-link" href="https://wa.me/5585991323925?text=Ol%C3%A1%2C%20Wesley%21%20Vi%20seu%20portf%C3%B3lio%20e%20quero%20um%20or%C3%A7amento%20de%20um%20redesign%20do%20meu%20site." target="_blank" rel="noopener">Pedir orçamento <span>&rarr;</span></a>
-          </li>
-
-          <li class="servico">
-            <div class="servico-cabeca">
-              <span class="servico-icone" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.4 2.4 3.6 5.2 3.6 8.5s-1.2 6.1-3.6 8.5c-2.4-2.4-3.6-5.2-3.6-8.5s1.2-6.1 3.6-8.5z"/></svg>
-              </span>
-            </div>
-            <h3 class="servico-titulo">Domínio e hospedagem</h3>
-            <p class="servico-texto">Registro do domínio (.com.br), publicação com certificado SSL e migração da hospedagem antiga, tudo no seu nome.</p>
-            <a class="servico-link" href="https://wa.me/5585991323925?text=Ol%C3%A1%2C%20Wesley%21%20Vi%20seu%20portf%C3%B3lio%20e%20quero%20um%20or%C3%A7amento%20de%20dom%C3%ADnio%20e%20hospedagem." target="_blank" rel="noopener">Pedir orçamento <span>&rarr;</span></a>
-          </li>
-
-          <li class="servico">
-            <div class="servico-cabeca">
-              <span class="servico-icone" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 4.5l-3 15"/></svg>
-              </span>
-            </div>
-            <h3 class="servico-titulo">Ferramentas web sob medida</h3>
-            <p class="servico-texto">Automação no navegador para a rotina do escritório: conferência de planilhas, conciliações e PDFs, sem enviar arquivos para servidor.</p>
-            <a class="servico-link" href="https://wa.me/5585991323925?text=Ol%C3%A1%2C%20Wesley%21%20Vi%20seu%20portf%C3%B3lio%20e%20quero%20um%20or%C3%A7amento%20de%20uma%20ferramenta%20web%20sob%20medida." target="_blank" rel="noopener">Pedir orçamento <span>&rarr;</span></a>
-          </li>
-
-          <li class="servico">
-            <div class="servico-cabeca">
-              <span class="servico-icone" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.2L3.8 17a1.6 1.6 0 0 0 2.3 2.3l5.5-5.5a4 4 0 0 0 5.2-5.4l-2.4 2.4-2.2-.5-.5-2.2z"/></svg>
-              </span>
-            </div>
-            <h3 class="servico-titulo">Manutenção e suporte</h3>
-            <p class="servico-texto">Textos, imagens, notícias e ajustes no site já entregue, de forma avulsa ou em plano mensal.</p>
-            <a class="servico-link" href="https://wa.me/5585991323925?text=Ol%C3%A1%2C%20Wesley%21%20Vi%20seu%20portf%C3%B3lio%20e%20quero%20um%20or%C3%A7amento%20de%20manuten%C3%A7%C3%A3o%20do%20meu%20site." target="_blank" rel="noopener">Pedir orçamento <span>&rarr;</span></a>
-          </li>
-        </ul>
-
-        <ul class="servicos-extras" aria-label="Também cuido de">
-          <li class="servicos-extras-rotulo" aria-hidden="true">Também cuido de:</li>
-          <li class="servicos-extra">SEO técnico</li>
-          <li class="servicos-extra">Imagens otimizadas</li>
-          <li class="servicos-extra">Acessibilidade</li>
-          <li class="servicos-extra">Cabeçalhos de segurança</li>
-          <li class="servicos-extra">Formulário de contato</li>
-          <li class="servicos-extra">Mapa do Google</li>
-        </ul>
-
-      </div>
-    </section>
-
-    <div class="portfolio" id="projetos">
+    <div class="portfolio">
 
       <header class="portfolio-cabecalho">
         <h2 class="portfolio-titulo">Projetos e templates</h2>
@@ -2003,23 +1483,6 @@
   })();
 
   /* -----------------------------------------------------------------
-     ARCO DOS SERVICOS
-     O traco azul do banner se desenha uma vez, quando o banner entra
-     na tela (a transicao mora no CSS, em .servicos.revelar).
-     ----------------------------------------------------------------- */
-  (function arcoServicos() {
-    var servicos = document.querySelector('.servicos');
-    if (!servicos) return;
-    if (!('IntersectionObserver' in window)) { servicos.classList.add('revelar'); return; }
-    new IntersectionObserver(function (entradas, obs) {
-      if (entradas.some(function (e) { return e.isIntersecting; })) {
-        servicos.classList.add('revelar');
-        obs.disconnect();
-      }
-    }, { threshold: .25 }).observe(servicos);
-  })();
-
-  /* -----------------------------------------------------------------
      SOBREPOSICAO — reserva para navegadores sem scroll-driven animations
      O caminho normal e o animation-timeline do CSS. Aqui so entra se
      view() nao existir: le a posicao da secao branca a cada quadro e
@@ -2099,7 +1562,7 @@
     if (!barra) return;
 
     var links = barra.querySelectorAll('.navbar-link');
-    var secoes = ['servicos', 'projetos', 'contato'].map(function (id) {
+    var secoes = ['projetos', 'contato'].map(function (id) {
       return document.getElementById(id);
     });
 
