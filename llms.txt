@@ -29,14 +29,16 @@ orçamento daquele serviço.
   (cores, textos, imagens) e publicado em poucos dias.
 - **Redesign visual**: visual novo para um site existente, mantendo o que já
   funciona.
+- **Domínio e hospedagem**: registro do domínio (.com.br), publicação do
+  site com certificado SSL e migração da hospedagem anterior; domínio e
+  contas ficam em nome do cliente.
 - **Ferramentas web sob medida**: automação no navegador para rotinas de
   escritório (conferência de planilhas, conciliações, PDFs), sem enviar
   arquivos para servidor.
 - **Manutenção e suporte**: alterações de texto, imagens, notícias e ajustes
   em site já entregue, avulsas ou em plano mensal.
-- Também cuida de domínio, publicação e certificado SSL, SEO técnico,
-  otimização de imagens, acessibilidade, cabeçalhos de segurança e migração
-  de hospedagem.
+- Também cuida de SEO técnico, otimização de imagens, acessibilidade,
+  cabeçalhos de segurança, formulário de contato e mapa do Google.
 
 ## Projetos publicados
 
@@ -51,7 +53,7 @@ orçamento daquele serviço.
 
 - [Início](https://wesleygomes.site/): apresentação, serviços, portfólio de
   projetos e templates (filtráveis) e chamada para contato.
-- [Serviços](https://wesleygomes.site/#servicos): banner com os oito serviços
+- [Serviços](https://wesleygomes.site/#servicos): banner com os nove serviços
   e o botão "Pedir orçamento".
 - [Projetos](https://wesleygomes.site/#projetos): grade com os sites entregues.
 - [Contato](https://wesleygomes.site/#contato): "Vamos conversar?" — leva ao
