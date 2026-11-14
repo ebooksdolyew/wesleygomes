@@ -1201,7 +1201,8 @@
   }
 
   /* A arte da CTA surge do mesmo jeito que a da hero, quando a secao
-     entra na tela (o script liga .revelar na .cta). */
+     entra na tela (o script liga .revelar na .cta). O arco azul dela e
+     estatico: ja vem desenhado, sem a animacao de traco da hero. */
   .cta-arte {
     -webkit-mask-image: linear-gradient(to bottom,
         #000 0%, #000 38.46%, rgba(0,0,0,0) 61.54%, rgba(0,0,0,0) 100%);
@@ -1902,17 +1903,16 @@
 <!-- ================= CTA ================= -->
 <section class="cta" id="contato" aria-labelledby="cta-titulo">
   <!-- Mesma montagem da hero: arte vetorial (titulo, arco e assinatura)
-       e, por cima, a frase e o botao em HTML. O arco azul se desenha
-       sozinho (animacao dentro do SVG) a partir do momento em que a
-       arte carrega — por isso os enderecos ficam em data-srcset/data-src
-       e o script so os liga quando a secao entra na tela. -->
+       e, por cima, a frase e o botao em HTML. Aqui o arco azul e
+       estatico: ja vem desenhado no SVG, sem animacao de traco. A arte
+       so surge (de cima para baixo) quando a secao entra na tela. -->
   <div class="cta-quadro">
     <h2 class="cta-titulo" id="cta-titulo">
       <picture>
-        <source media="(max-aspect-ratio: 13/20)" data-srcset="assets/imagens/cta/cta-celular.svg" width="2823" height="1672">
-        <source media="(max-aspect-ratio: 115/100)" data-srcset="assets/imagens/cta/cta-tablet-vertical.svg" width="3258" height="1448">
-        <img class="cta-arte" data-src="assets/imagens/cta/cta-desktop.svg" width="5016" height="941"
-             decoding="async" alt="Vamos conversar?">
+        <source media="(max-aspect-ratio: 13/20)" srcset="assets/imagens/cta/cta-celular.svg" width="2823" height="1672">
+        <source media="(max-aspect-ratio: 115/100)" srcset="assets/imagens/cta/cta-tablet-vertical.svg" width="3258" height="1448">
+        <img class="cta-arte" src="assets/imagens/cta/cta-desktop.svg" width="5016" height="941"
+             loading="lazy" decoding="async" alt="Vamos conversar?">
       </picture>
     </h2>
 
@@ -2008,36 +2008,18 @@
 
   /* -----------------------------------------------------------------
      SURGIMENTO DA CTA
-     A arte da CTA so se revela (e o arco azul so se desenha) quando a
-     secao entra na tela — antes disso ninguem veria a animacao. Uma
-     vez basta.
+     A arte da CTA (com o arco azul estatico, ja desenhado) surge de
+     cima para baixo quando a secao entra na tela. Uma vez basta. A
+     imagem em si carrega sozinha (loading="lazy"); com movimento
+     reduzido o CSS ja a mostra pronta.
      ----------------------------------------------------------------- */
   (function surgimentoCta() {
     var cta = document.querySelector('.cta');
     if (!cta) return;
-
-    // A arte so e carregada aqui: o arco comeca a se desenhar quando o
-    // SVG carrega, entao carregar antes faria o desenho acontecer fora
-    // da tela.
-    function carregarArte() {
-      cta.querySelectorAll('[data-srcset]').forEach(function (s) {
-        s.srcset = s.dataset.srcset;
-      });
-      cta.querySelectorAll('img[data-src]').forEach(function (img) {
-        img.src = img.dataset.src;
-      });
-    }
-    function revelarCta() {
-      carregarArte();
-      cta.classList.add('revelar');
-    }
-
-    // Sem animacao nao ha o que esperar: a arte entra ja desenhada.
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) carregarArte();
-    if (!('IntersectionObserver' in window)) { revelarCta(); return; }
+    if (!('IntersectionObserver' in window)) { cta.classList.add('revelar'); return; }
     new IntersectionObserver(function (entradas, obs) {
       if (entradas.some(function (e) { return e.isIntersecting; })) {
-        revelarCta();
+        cta.classList.add('revelar');
         obs.disconnect();
       }
     }, { threshold: .3 }).observe(cta);
@@ -2050,7 +2032,7 @@
          .revelar e surgem como a hero;
        - a onda dos servicos e a linha dos projetos so tem a arte
          carregada aqui, porque o desenho do traco comeca quando o SVG
-         carrega (como na CTA).
+         carrega.
      A classe --animar de cada secao, que esconde os titulos ate a hora
      de surgir, so entra com JS e sem movimento reduzido.
      ----------------------------------------------------------------- */
