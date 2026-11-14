@@ -22,7 +22,8 @@ assets/
   imagens/
     hero/                   arte da hero, uma por proporcao de tela
     servicos/               arte da secao Servicos (titulos, frases em
-                            italico e a onda, tracados da referencia)
+                            italico e a onda, tracados da referencia),
+                            pintada na cor do papel para o fundo azul
     projetos/               arte da secao Projetos (PROJETOS e a frase
                             azul, montados com as letras tracadas dos
                             servicos, e a linha azul com o mesmo pincel)
