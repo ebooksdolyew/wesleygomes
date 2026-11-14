@@ -279,15 +279,32 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; }
   html, body { min-height: 100%; margin: 0; }
-  /* O fundo fica so no html (o "canvas" da janela), nao no body: e ele
-     que aparece no repuxo da rolagem (bounce do Safari/Mac/iPhone)
-     acima do topo e abaixo do fim. No topo o papel off-white continua
-     a hero; da metade da pagina para baixo o JS poe .fim-pagina e o
-     canvas fica branco, continuando o rodape. Todas as secoes tem
-     fundo proprio, entao dentro do documento nada muda. */
+  /* UMA FOLHA SO — o site inteiro e um papel continuo: nenhuma secao
+     tem fundo proprio, divisoria, canto ou sombra, e nada se empilha
+     (a rolagem e comum, de cima a baixo). O off-white fica no html (o
+     "canvas" da janela, que aparece tambem no repuxo da rolagem do
+     Safari/Mac/iPhone) e o grao fica num unico ::before do body, do
+     topo ao fim da pagina — sem emenda entre as secoes. */
   html { background: #faf6ed; }
-  html.fim-pagina { background: #fff; }
-  body { overflow-x: hidden; }
+  body {
+    position: relative;         /* ancora do grao */
+    overflow-x: hidden;
+  }
+  /* PAPEL — grao leve por cima do off-white, como na referencia. Um
+     ruido SVG de 240px repetido (nada para baixar) e misturado em
+     multiply, entao so escurece um pouco as fibras. Fica atras de todo
+     o conteudo (z-index -1) e na frente so do fundo do html. */
+  body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .3 0 0 0 0 .22 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+    background-size: 240px 240px;
+    mix-blend-mode: multiply;
+    opacity: .09;
+  }
 
   /* Cada secao ocupa a tela inteira, mas o scroll e livre: sem
      scroll-snap, a rolagem para onde o usuario soltar.
@@ -301,39 +318,22 @@
     height: 100svh;
     min-height: 100svh;
   }
-  /* A folha comeca com uma tela cheia e cresce com os projetos. */
-  .secao-branca { min-height: 100svh; }
-
-  /* Secao de projetos entre os servicos e a CTA: mesma proporcao de
-     tela, largura total. Apesar do nome (secao-branca/folha-branca,
-     de quando ela era branca), a folha agora e do mesmo papel da hero:
-     a cor --papel e o grao por cima.
-
-     Os cantos de cima sao arredondados. A folha sobe um raio por cima
-     do fim da secao de servicos (margin-top negativo), entao o vazio
-     dos cantos mostra o papel dos servicos — e nao a hero, que fica
-     grudada la atras. Por isso a secao em si e transparente — quem e
-     opaco e a folha.
-
-     A folha fica em um elemento proprio para o raio recortar so ela.
-     Conteudo da secao entra DENTRO de .folha-branca. */
-  :root { --raio-topo: clamp(20px, 2.4vw, 40px); }
+  /* Secao de projetos entre os servicos e a CTA, largura total, no
+     mesmo papel do resto (os nomes secao-branca/folha-branca ficaram
+     de quando ela era uma folha branca empilhada por cima). */
+  :root {
+    /* folga embaixo dos servicos; entra tambem na conta da escala dos
+       projetos, para os titulos das duas secoes terem o mesmo tamanho */
+    --folga-servicos: clamp(20px, 2.4vw, 40px);
+  }
   .secao-branca {
     position: relative;
-    z-index: 2;                 /* sobe por cima da hero e dos servicos */
     width: 100%;
-    margin-top: calc(-1 * var(--raio-topo));
   }
   .folha-branca {
-    position: relative;         /* ancora do grao (::before) */
     overflow: hidden;           /* corta a linha azul que passa da borda da tela; */
     overflow: clip;             /* clip: nem script nem a busca do navegador rolam a folha de lado */
-    min-height: 100svh;
-    border-radius: var(--raio-topo) var(--raio-topo) 0 0;
-    background: var(--papel);   /* o papel da hero; opaco: a hero nao vaza por tras */
-    box-shadow: 0 -12px 36px rgba(5, 5, 5, .07);     /* camada deslizando */
   }
-  .folha-branca::before { border-radius: inherit; }   /* o grao segue os cantos */
 
   /* ===============================================================
      NAVBAR — fixa no topo, em linha unica como na arte da hero:
@@ -355,7 +355,7 @@
     top: 0;
     left: 0;
     right: 0;
-    z-index: 20;                /* acima das secoes (z-index 2) */
+    z-index: 20;                /* acima de todo o conteudo */
     container-type: inline-size;
     font-family: Urbanist, Arial, sans-serif;
     color: var(--tinta);
@@ -520,7 +520,6 @@
   .projetos-area {
     --nav-rolada: clamp(52px, 6.4svh, 68px);   /* altura da navbar encolhida */
     position: relative;
-    z-index: 1;                 /* acima do grao do papel */
     padding: calc(var(--nav-rolada) + clamp(28px, 7vw, 64px)) 0 clamp(72px, 10vw, 128px);
     container-type: inline-size;
     color: var(--tinta);
@@ -745,7 +744,7 @@
     .projetos-area { padding-top: var(--nav-rolada); }
     .projetos-quadro {
       --u: calc(100cqw / 1672);
-      width: min(100cqw, (100svh - var(--nav-rolada) - var(--raio-topo)) * 1672 / 941);
+      width: min(100cqw, (100svh - var(--nav-rolada) - var(--folga-servicos)) * 1672 / 941);
       margin: 0 auto;
       padding: 0;
     }
@@ -779,54 +778,15 @@
     .portfolio-grade { margin: calc(56 * var(--u)) calc(94 * var(--u)) 0; }
   }
 
-  /* ---------------------------------------------------------------
-     SOBREPOSICAO (overlap scroll)
-     A hero gruda no topo e as secoes seguintes deslizam por cima
-     dela. O recuo da hero (escala + opacidade) e ligado ao scroll,
-     nao ao tempo: quadro a quadro, reversivel, e para junto com o
-     dedo/roda. Quem cobre a hero e a primeira secao depois dela, a
-     de servicos. Duas implementacoes, a segunda so como reserva:
-       1) animation-timeline com a view() da propria secao de servicos;
-       2) --progresso (0 a 1) calculado no rAF, para navegadores sem
-          suporte a scroll-driven animations.
-     --------------------------------------------------------------- */
+  /* A hero e uma secao comum: rola junto com o resto, sem grudar no
+     topo e sem recuar. */
   .palco {
-    position: sticky;
-    top: 0;
-    z-index: 1;                 /* fica por baixo das secoes seguintes */
+    position: relative;
     overflow: hidden;
     width: 100%;
-
     /* Prende as camadas internas da hero (arte, rotulo e link) dentro
-       dela. Sem isso elas disputam o empilhamento com as secoes
-       seguintes e pintam por cima da folha branca. */
+       dela. */
     isolation: isolate;
-
-    /* Reserva: so transform e opacity, ambas compostas na GPU. */
-    transform: scale(calc(1 - 0.05 * var(--progresso, 0)));
-    opacity: calc(1 - 0.4 * var(--progresso, 0));
-    will-change: transform, opacity;
-  }
-
-  @keyframes hero-recua {
-    from { transform: scale(1);    opacity: 1;   }
-    to   { transform: scale(0.95); opacity: 0.6; }
-  }
-
-  /* Caminho principal: a linha do tempo e a posicao da secao de
-     servicos na tela. 'entry 0%' = topo da secao no rodape da janela;
-     'entry 100%' = topo da secao no topo da janela (a secao tem pelo
-     menos 100svh, entao o percurso e de uma tela). */
-  @supports (animation-timeline: view()) {
-    :root { timeline-scope: --cobre-hero; }
-    .servicos { view-timeline: --cobre-hero block; }
-    .palco {
-      transform: none;
-      opacity: 1;
-      animation: hero-recua linear both;
-      animation-timeline: --cobre-hero;
-      animation-range: entry 0% entry 100%;
-    }
   }
 
   /* ===============================================================
@@ -903,22 +863,7 @@
      --------------------------------------------------------------- */
   .palco {
     container-type: size;
-    background: var(--papel);
     color: var(--tinta);
-  }
-  /* PAPEL — grao leve por cima do off-white, como na referencia. Um
-     ruido SVG de 240px repetido (nada para baixar) e misturado em
-     multiply, entao so escurece um pouco as fibras. */
-  .palco::before, .servicos::before, .folha-branca::before, .cta::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .3 0 0 0 0 .22 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
-    background-size: 240px 240px;
-    mix-blend-mode: multiply;
-    opacity: .09;
   }
   .hero-quadro {
     position: absolute;
@@ -1064,9 +1009,6 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    /* Mantem a sobreposicao (o empilhamento e estrutural), mas sem
-       recuo: nada de escala nem de fade acompanhando o scroll. */
-    .palco { animation: none; transform: none; opacity: 1; }
     .hero-arte { -webkit-mask-position: 0% 0%; mask-position: 0% 0%; }
     .hero-rotulo, .hero-link { opacity: 1; }
     .revelar .hero-arte,
@@ -1082,10 +1024,8 @@
      =============================================================== */
   .cta {
     position: relative;
-    z-index: 2;                 /* a hero fica grudada ate o fim da pagina */
     overflow: hidden;
     container-type: size;
-    background: var(--papel);
     color: var(--tinta);
   }
   .cta-quadro {
@@ -1224,9 +1164,8 @@
   }
 
   /* ===============================================================
-     SERVICOS — a folha de papel que sobe por cima da hero (com o
-     mesmo raio e a mesma sombra da folha branca, que agora vem depois
-     dela). Mesma montagem da hero e da CTA: o que e desenho (titulo
+     SERVICOS — logo depois da hero, no mesmo papel continuo da pagina.
+     Mesma montagem da hero e da CTA: o que e desenho (titulo
      SERVICOS, as duas frases em italico azul, os titulos das colunas
      e a onda com a seta) e arte vetorial tracada da referencia, em
      assets/imagens/servicos/; o resto e texto de verdade, em Urbanist.
@@ -1245,21 +1184,15 @@
   .servicos {
     --nav-rolada: clamp(52px, 6.4svh, 68px);   /* altura da navbar encolhida */
     position: relative;
-    z-index: 2;                 /* sobe por cima da hero */
-    min-height: 100svh;
     overflow: hidden;           /* corta a onda nas bordas da tela; */
     overflow: clip;             /* clip: nada rola a secao de lado */
-    padding: calc(var(--nav-rolada) + clamp(28px, 7vw, 64px)) 0 calc(var(--raio-topo) + clamp(40px, 9vw, 88px));
-    border-radius: var(--raio-topo) var(--raio-topo) 0 0;
-    background: var(--papel);
-    box-shadow: 0 -12px 36px rgba(5, 5, 5, .07);     /* camada deslizando */
+    padding: calc(var(--nav-rolada) + clamp(28px, 7vw, 64px)) 0 clamp(40px, 9vw, 88px);
     color: var(--tinta);
     font-family: Urbanist, Arial, sans-serif;
     --servicos-peso: 500;       /* corpo do texto */
   }
   .servicos-area {
     position: relative;
-    z-index: 1;                 /* acima do grao do papel */
     container-type: inline-size;
   }
   .servicos-quadro {
@@ -1426,7 +1359,7 @@
   @media (min-aspect-ratio: 1/1) and (min-width: 900px) and (min-height: 500px) {
     .servicos {
       height: 100svh;
-      padding: var(--nav-rolada) 0 var(--raio-topo);
+      padding: var(--nav-rolada) 0 var(--folga-servicos);
     }
     .servicos-area {
       height: 100%;
@@ -1541,16 +1474,11 @@
   }
 
   /* ===============================================================
-     RODAPE — barra compacta ao final de toda a pagina, em branco
-     solido. A hero e sticky e fica atras de tudo ate o fim do
-     documento, por isso o z-index 2: mesma camada das secoes que
-     passam por cima da hero.
+     RODAPE — barra compacta ao final de toda a pagina, no mesmo papel
+     do resto, sem linha em cima.
      =============================================================== */
   .rodape {
     position: relative;
-    z-index: 2;
-    background: #fff;
-    border-top: 1px solid rgba(4, 24, 47, .10);
     color: #04182f;
     font-family: Poppins, Arial, sans-serif;
   }
@@ -1704,7 +1632,7 @@
 </div>
 
 <!-- ============ SERVICOS ============
-     Folha de papel que sobe por cima da hero. Titulos e frases em
+     Logo depois da hero, no mesmo papel da pagina. Titulos e frases em
      italico sao artes vetoriais (assets/imagens/servicos/), o resto e
      texto. Escala e coordenadas: ver SERVICOS no CSS. -->
 <section class="servicos" id="servicos" aria-labelledby="servicos-titulo">
@@ -1798,8 +1726,8 @@
 </section>
 
 <!-- ============ PROJETOS ============
-     A folha de papel dos projetos sobe um raio por cima do fim dos
-     servicos. PROJETOS e a frase azul sao artes vetoriais
+     No mesmo papel da pagina, depois dos servicos. PROJETOS e a frase
+     azul sao artes vetoriais
      (assets/imagens/projetos/), o resto e texto. Escala e coordenadas:
      ver PROJETOS no CSS. -->
 <section class="secao-branca" id="projetos" aria-labelledby="projetos-titulo">
@@ -1928,8 +1856,7 @@
 </section>
 
 <!-- ============ RODAPE ============
-     Ultima faixa da pagina. Fica sobre a hero sticky (que segue
-     grudada ate aqui). -->
+     Ultima faixa da pagina, no mesmo papel do resto. -->
 <footer class="rodape">
   <div class="rodape-caixa">
     <p class="rodape-marca"><img src="assets/imagens/marca/logo-wesley-gomes.webp" width="800" height="212" alt="Wesley Gomes" loading="lazy"></p>
@@ -2071,46 +1998,6 @@
   })();
 
   /* -----------------------------------------------------------------
-     SOBREPOSICAO — reserva para navegadores sem scroll-driven animations
-     O caminho normal e o animation-timeline do CSS. Aqui so entra se
-     view() nao existir: le a posicao da secao de servicos (a primeira
-     que cobre a hero) a cada quadro e publica --progresso (0 a 1) em
-     :root, que o CSS ja consome.
-     Nada de duracao, transition ou classe que roda uma vez: o valor e
-     sempre derivado do scroll, entao volta sozinho ao rolar para cima
-     e para no meio se o scroll parar no meio.
-     ----------------------------------------------------------------- */
-  (function sobreposicao() {
-    var temTimeline = window.CSS && CSS.supports &&
-                      CSS.supports('animation-timeline', 'view()');
-    var reduz = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (temTimeline || reduz) return;
-
-    var cobre = document.querySelector('.servicos');
-    var raiz = document.documentElement;
-    if (!cobre) return;
-
-    var pedido = 0, anterior = -1;
-    function medir() {
-      pedido = 0;
-      var altura = window.innerHeight || raiz.clientHeight;
-      var topo = cobre.getBoundingClientRect().top;
-      var p = (altura - topo) / altura;      // 0 = topo no rodape, 1 = topo no topo
-      p = p < 0 ? 0 : (p > 1 ? 1 : p);
-      if (p !== anterior) {
-        raiz.style.setProperty('--progresso', p.toFixed(4));
-        anterior = p;
-      }
-    }
-    function agendar() { if (!pedido) pedido = requestAnimationFrame(medir); }
-
-    addEventListener('scroll', agendar, { passive: true });
-    addEventListener('resize', agendar);
-    addEventListener('orientationchange', agendar);
-    medir();
-  })();
-
-  /* -----------------------------------------------------------------
      FILTROS DO PORTFOLIO
      Um unico listener na barra (delegacao): o botao clicado vira o
      ativo e cada cartao e mostrado ou escondido pelo atributo hidden,
@@ -2143,8 +2030,7 @@
        - .navbar--rolada: fora do topo da pagina a barra ganha o fundo
          de papel com blur e encolhe (ver NAVBAR no CSS);
        - aria-current: o link da secao que esta sob a linha de 40% da
-         tela fica sublinhado. A hero e sticky (o topo dela e sempre 0),
-         entao quem decide e o topo das secoes que passam por cima.
+         tela fica sublinhado (antes de projetos, vale o Inicio).
      ----------------------------------------------------------------- */
   (function navbar() {
     var barra = document.querySelector('.navbar');
@@ -2159,11 +2045,6 @@
     function medir() {
       pedido = 0;
       barra.classList.toggle('navbar--rolada', window.scrollY > 8);
-
-      /* Canvas branco da metade para baixo: o repuxo abaixo do rodape
-         fica branco como ele (ver html.fim-pagina no CSS). */
-      var raiz = document.documentElement;
-      raiz.classList.toggle('fim-pagina', window.scrollY > (raiz.scrollHeight - window.innerHeight) / 2);
 
       var linha = window.innerHeight * 0.4;
       var atual = 'inicio';
