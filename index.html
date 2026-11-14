@@ -925,6 +925,16 @@
   .revelar .hero-arte {
     animation: surgir 1.9s cubic-bezier(.22,.61,.36,1) forwards;
   }
+  /* Depois que a arte surge, a mascara sai (o script poe .surgiu no fim
+     da animacao). Mantida, ela obriga o Safari do iPhone a desenhar a
+     imagem como camada mascarada, em blocos, e a emenda entre dois
+     blocos aparecia como uma listra fina cortando o "Wesley Gomes". */
+  .hero-arte.surgiu, .cta-arte.surgiu,
+  .servicos--animar .servicos-titulo img.surgiu, .servicos--animar .servicos-lema img.surgiu,
+  .projetos--animar .projetos-titulo img.surgiu, .projetos--animar .projetos-lema img.surgiu {
+    -webkit-mask-image: none;
+            mask-image: none;
+  }
   @keyframes surgir {
     from { -webkit-mask-position: 0% 100%; mask-position: 0% 100%; }
     to   { -webkit-mask-position: 0% 0%;   mask-position: 0% 0%;   }
@@ -1950,6 +1960,7 @@
 
   function revelar() {
     palco.classList.remove('revelar');
+    arte.classList.remove('surgiu');   // a mascara volta para surgir de novo
     recarregarArte().then(function () {
       void palco.offsetWidth;          // reinicia a animação
       palco.classList.add('revelar');
@@ -1961,6 +1972,12 @@
   const limite = new Promise(function (r) { setTimeout(r, 1200); });
   Promise.race([fontesProntas, limite]).then(function () {
     setTimeout(revelar, 250);
+  });
+
+  // fim do 'surgir' (hero, CTA, servicos e projetos): tira a mascara
+  // (ver .surgiu no CSS)
+  document.addEventListener('animationend', function (e) {
+    if (e.animationName === 'surgir') e.target.classList.add('surgiu');
   });
 
   // clique repete o efeito de surgimento (menos no link "Ver projetos")
