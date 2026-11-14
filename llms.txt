@@ -35,7 +35,7 @@ feitos para clientes e templates prontos para personalizar.
   residenciais e paisagismo.
 - [Sindicato dos Psicólogos do Ceará](https://psindce.org.br/): site
   institucional do sindicato, entregue e no ar.
-- [Walesson Psicologia](https://walessonsite.pages.dev/): site de
+- [Walesson Psicologia](https://psicologobrasileiroonline.com.br/): site de
   consultório de psicologia.
 
 ## Páginas

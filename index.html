@@ -178,7 +178,7 @@
           "item": {
             "@type": "WebSite",
             "name": "Walesson Psicologia",
-            "url": "https://walessonsite.pages.dev/",
+            "url": "https://psicologobrasileiroonline.com.br/",
             "image": "https://wesleygomes.site/assets/imagens/capas/wise-mockup-macbook-iphone.webp",
             "creator": { "@id": "https://wesleygomes.site/#pessoa" }
           }
@@ -556,12 +556,14 @@
   }
   .filtro:focus-visible { outline: 2px solid #2b7fb8; outline-offset: 3px; }
 
-  /* GRADE — 3 colunas no desktop, 2 no tablet, 1 no celular, sem
-     media query: o minmax cuida da quebra sozinho. */
+  /* GRADE — no celular, sem media query: o minmax cuida da quebra
+     sozinho (1 coluna, ou 2 em tela de celular mais larga). No desktop
+     e no tablet os cards crescem: ver CARDS GRANDES mais abaixo. */
   .portfolio-grade {
+    --grade-espaco: clamp(20px, 2.6vw, 34px);
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 286px), 1fr));
-    gap: clamp(20px, 2.6vw, 34px);
+    gap: var(--grade-espaco);
     list-style: none;
     margin: 0;
     padding: 0;
@@ -588,7 +590,7 @@
      navegador. Some assim que uma <img> for colocada por cima. */
   .cartao-figura {
     position: relative;
-    aspect-ratio: 2 / 1;     /* mais achatado que os mockups (16:9): corta so o fundo de cima e de baixo */
+    aspect-ratio: 2 / 1;     /* celular: mais achatado que os mockups (16:9), corta so o fundo de cima e de baixo */
     overflow: hidden;
     margin: 0;
     background:
@@ -673,6 +675,26 @@
   @media (prefers-reduced-motion: reduce) {
     .cartao, .cartao-link span { transition: none; }
     .cartao:hover { transform: none; }
+  }
+
+  /* CARDS GRANDES — desktop e tablet (a partir de 701px, o mesmo
+     corte do rodape). Dois cards por linha e a capa na proporcao real
+     dos mockups (1672 x 941): a imagem aparece inteira, sem corte, e o
+     card cresce junto com ela. Com numero impar de cards, o ultimo
+     fica centrado na linha dele. */
+  @media (min-width: 701px) {
+    .portfolio-grade {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .cartao { flex: 0 1 calc((100% - var(--grade-espaco)) / 2); }
+    .cartao-figura { aspect-ratio: 1672 / 941; }
+    .cartao-corpo {
+      gap: 6px;
+      padding: 16px clamp(18px, 2vw, 26px) 18px;
+    }
+    .cartao-titulo { font-size: clamp(16px, 1.5vw, 19px); }
   }
 
   /* ---------------------------------------------------------------
@@ -1754,7 +1776,7 @@
           </figure>
           <div class="cartao-corpo">
             <h3 class="cartao-titulo">Walesson Psicologia</h3>
-            <a class="cartao-link" href="https://walessonsite.pages.dev/" target="_blank" rel="noopener">Ver projeto <span>&rarr;</span></a>
+            <a class="cartao-link" href="https://psicologobrasileiroonline.com.br/" target="_blank" rel="noopener">Ver projeto <span>&rarr;</span></a>
           </div>
         </li>
       </ul>
