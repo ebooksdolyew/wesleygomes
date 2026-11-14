@@ -399,6 +399,7 @@
   }
   @media (hover: hover) {
     :is(.navbar-botao, .cartao):hover .botao-seta,
+    .servico:has(.servico-titulo-link:hover) .botao-seta,
     .botao-seta:hover {
       color: var(--papel);
       background-size: 104% 104%;
@@ -413,8 +414,10 @@
   }
   @media (hover: hover) and (prefers-reduced-motion: no-preference) {
     :is(.navbar-botao, .cartao):hover .seta-sai,
+    .servico:has(.servico-titulo-link:hover) .seta-sai,
     .botao-seta:hover .seta-sai { transform: translate(20px, -20px); }
     :is(.navbar-botao, .cartao):hover .seta-entra,
+    .servico:has(.servico-titulo-link:hover) .seta-entra,
     .botao-seta:hover .seta-entra { transform: none; }
   }
   /* afundar no toque. O link dos cards fica de fora: um transform nele
@@ -1313,6 +1316,9 @@
     right: 0;
   }
   .servico-icone:focus-visible { outline: 2px solid var(--azul); outline-offset: 4px; }
+  /* O titulo tambem leva ao WhatsApp (mesmo destino da seta) e acende
+     a seta no hover. Fica fora do Tab: a seta ja e o foco do teclado. */
+  .servico-titulo-link { display: block; width: fit-content; line-height: 0; }
 
   /* Rotulo azul espacado (SERVICOS AVULSOS...). */
   .servico-rotulo {
@@ -1714,7 +1720,7 @@
 
         <li class="servico servico--sites">
           <h3 class="servico-titulo">
-            <img src="assets/imagens/servicos/servico-sites.svg" width="266" height="168" loading="lazy" decoding="async" alt="Sites &amp; páginas">
+            <a class="servico-titulo-link" href="https://wa.me/5585991323925?text=Ol%C3%A1%2C%20Wesley!%20Vi%20seu%20portf%C3%B3lio%20e%20quero%20um%20site%20novo%3A%20pode%20ser%20um%20site%20institucional%2C%20uma%20landing%20page%20ou%20o%20redesign%20do%20meu%20site%20atual.%20Podemos%20conversar%20sobre%20o%20projeto%3F" target="_blank" rel="noopener" tabindex="-1"><img src="assets/imagens/servicos/servico-sites.svg" width="266" height="168" loading="lazy" decoding="async" alt="Sites &amp; páginas"></a>
           </h3>
           <a class="servico-icone botao-seta" href="https://wa.me/5585991323925?text=Ol%C3%A1%2C%20Wesley!%20Vi%20seu%20portf%C3%B3lio%20e%20quero%20um%20site%20novo%3A%20pode%20ser%20um%20site%20institucional%2C%20uma%20landing%20page%20ou%20o%20redesign%20do%20meu%20site%20atual.%20Podemos%20conversar%20sobre%20o%20projeto%3F" target="_blank" rel="noopener" aria-label="Pedir um site ou landing page pelo WhatsApp">
             <svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path class="seta-sai" d="M1.5 10.5 10.5 1.5M3.5 1.5h7v7"/><path class="seta-entra" d="M1.5 10.5 10.5 1.5M3.5 1.5h7v7"/></svg>
@@ -1729,7 +1735,7 @@
 
         <li class="servico servico--manutencao">
           <h3 class="servico-titulo">
-            <img src="assets/imagens/servicos/servico-manutencao.svg" width="360" height="168" loading="lazy" decoding="async" alt="Manutenção de sites">
+            <a class="servico-titulo-link" href="https://wa.me/5585991323925?text=Ol%C3%A1%2C%20Wesley!%20Vi%20seu%20portf%C3%B3lio%20e%20preciso%20de%20manuten%C3%A7%C3%A3o%20no%20meu%20site%3A%20alterar%20textos%2C%20imagens%20ou%20contatos%2C%20corrigir%20links%2C%20publicar%20not%C3%ADcias%20ou%20ajustar%20o%20layout.%20Podemos%20conversar%3F" target="_blank" rel="noopener" tabindex="-1"><img src="assets/imagens/servicos/servico-manutencao.svg" width="360" height="168" loading="lazy" decoding="async" alt="Manutenção de sites"></a>
           </h3>
           <a class="servico-icone botao-seta" href="https://wa.me/5585991323925?text=Ol%C3%A1%2C%20Wesley!%20Vi%20seu%20portf%C3%B3lio%20e%20preciso%20de%20manuten%C3%A7%C3%A3o%20no%20meu%20site%3A%20alterar%20textos%2C%20imagens%20ou%20contatos%2C%20corrigir%20links%2C%20publicar%20not%C3%ADcias%20ou%20ajustar%20o%20layout.%20Podemos%20conversar%3F" target="_blank" rel="noopener" aria-label="Pedir manutenção do site pelo WhatsApp">
             <svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path class="seta-sai" d="M1.5 10.5 10.5 1.5M3.5 1.5h7v7"/><path class="seta-entra" d="M1.5 10.5 10.5 1.5M3.5 1.5h7v7"/></svg>
@@ -1752,7 +1758,7 @@
 
         <li class="servico servico--automacao">
           <h3 class="servico-titulo">
-            <img src="assets/imagens/servicos/servico-automacao.svg" width="364" height="168" loading="lazy" decoding="async" alt="Automação sob medida">
+            <a class="servico-titulo-link" href="https://wa.me/5585991323925?text=Ol%C3%A1%2C%20Wesley!%20Vi%20seu%20portf%C3%B3lio%20e%20quero%20automatizar%20tarefas%20manuais%20e%20repetitivas%20da%20minha%20rotina%20administrativa%20%28RH%20e%20Departamento%20Pessoal%29.%20Podemos%20conversar%20sobre%20uma%20ferramenta%20sob%20medida%3F" target="_blank" rel="noopener" tabindex="-1"><img src="assets/imagens/servicos/servico-automacao.svg" width="364" height="168" loading="lazy" decoding="async" alt="Automação sob medida"></a>
           </h3>
           <a class="servico-icone botao-seta" href="https://wa.me/5585991323925?text=Ol%C3%A1%2C%20Wesley!%20Vi%20seu%20portf%C3%B3lio%20e%20quero%20automatizar%20tarefas%20manuais%20e%20repetitivas%20da%20minha%20rotina%20administrativa%20%28RH%20e%20Departamento%20Pessoal%29.%20Podemos%20conversar%20sobre%20uma%20ferramenta%20sob%20medida%3F" target="_blank" rel="noopener" aria-label="Pedir uma automação sob medida pelo WhatsApp">
             <svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path class="seta-sai" d="M1.5 10.5 10.5 1.5M3.5 1.5h7v7"/><path class="seta-entra" d="M1.5 10.5 10.5 1.5M3.5 1.5h7v7"/></svg>
