@@ -41,7 +41,7 @@ feitos para clientes e templates prontos para personalizar.
 ## Páginas
 
 - [Início](https://wesleygomes.site/): apresentação, serviços, portfólio de
-  projetos e templates (filtráveis) e chamada para contato.
+  projetos e chamada para contato.
 - [Serviços](https://wesleygomes.site/#servicos): sites e páginas, manutenção
   de sites e automação sob medida.
 - [Projetos](https://wesleygomes.site/#projetos): grade com os sites entregues.

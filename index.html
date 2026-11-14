@@ -508,7 +508,7 @@
      sao artes vetoriais (assets/imagens/projetos/), montadas com as
      mesmas letras tracadas dos servicos; a linha azul e o mesmo pincel
      da onda dos servicos levado para um caminho novo (entra pela
-     direita, da um laco e termina numa seta que aponta os filtros). O
+     direita, da um laco e termina numa seta que aponta os projetos). O
      resto e texto em Urbanist, com a tinta preta e o azul do site.
 
      --u vale 1px da prancheta de 1672, com a mesma conta dos servicos:
@@ -559,7 +559,7 @@
   .projetos-sub br { display: none; }     /* as quebras valem so na prancheta */
 
   /* No retrato a linha tem arte propria, ja recortada: vai da seta (em
-     cima dos filtros) ate a borda direita da tela. */
+     cima dos cards) ate a borda direita da tela. */
   .projetos-cabecalho picture { display: block; }
   .projetos-linha {
     display: block;
@@ -572,45 +572,6 @@
   /* Antes de o script ligar a arte, a faixa fica reservada mas vazia. */
   .projetos-linha:not([src]) { visibility: hidden; }
 
-  /* FILTROS — abas com o sublinhado azul da navbar. O estado ativo vive
-     no aria-pressed, entao o leitor de tela e o CSS leem a mesma coisa. */
-  .portfolio-filtros {
-    display: flex;
-    flex-wrap: wrap;
-    gap: calc(14 * var(--u)) calc(40 * var(--u));
-    margin: calc(8 * var(--u)) 0 0;
-  }
-  .filtro {
-    position: relative;
-    padding: 0 0 calc(10 * var(--u));
-    border: 0;
-    background: none;
-    font: inherit;
-    font-weight: 500;
-    font-size: max(15px, calc(26 * var(--u)));
-    line-height: 1;
-    color: rgba(5, 5, 5, .5);
-    cursor: pointer;
-    transition: color .2s ease;
-  }
-  .filtro::after {
-    content: "";
-    position: absolute;
-    left: -.2em;
-    right: -.2em;
-    bottom: 0;
-    height: 2px;
-    background: var(--azul);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform .25s ease;
-  }
-  .filtro:hover,
-  .filtro[aria-pressed="true"] { color: var(--tinta); }
-  .filtro:hover::after,
-  .filtro[aria-pressed="true"]::after { transform: scaleX(1); }
-  .filtro:focus-visible { outline: 2px solid var(--azul); outline-offset: 6px; border-radius: 2px; }
-
   /* GRADE — 1 coluna no celular; 2 a partir de 701px (ver abaixo). */
   .portfolio-grade {
     --grade-espaco: calc(84 * var(--u));
@@ -620,7 +581,6 @@
     padding: 0;
     list-style: none;
   }
-  .cartao[hidden] { display: none; }
   /* --uc: 1px de um card de 700 (a largura dele na prancheta). A
      legenda acompanha a largura do proprio card, entao fica certa com 1
      ou 2 colunas, em qualquer tela. */
@@ -724,7 +684,7 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .filtro, .filtro::after, .cartao-imagem, .cartao-link, .cartao-link svg { transition: none; }
+    .cartao-imagem, .cartao-link, .cartao-link svg { transition: none; }
     .cartao:hover .cartao-imagem, .cartao:hover .cartao-link svg { transform: none; }
   }
 
@@ -780,7 +740,6 @@
       height: calc(261 * var(--u));
       aspect-ratio: auto;
     }
-    .portfolio-filtros { margin: 0 calc(94 * var(--u)); }
     .portfolio-grade { margin: calc(56 * var(--u)) calc(94 * var(--u)) 0; }
   }
 
@@ -1763,25 +1722,15 @@
           </picture>
         </header>
 
-        <!-- FILTROS — o valor de data-filtro casa com o data-categoria
-             dos cartoes; "todos" mostra a grade inteira. -->
-        <div class="portfolio-filtros" role="group" aria-label="Filtrar por tipo de trabalho">
-          <button class="filtro" type="button" data-filtro="todos" aria-pressed="true">Todos</button>
-          <button class="filtro" type="button" data-filtro="projeto" aria-pressed="false">Projetos</button>
-          <button class="filtro" type="button" data-filtro="template" aria-pressed="false">Templates</button>
-        </div>
-
         <!-- GRADE DE PROJETOS
-             data-categoria="projeto"  = site real, entregue para cliente
-             data-categoria="template" = modelo pronto para personalizar
              Para publicar um item novo, copie um <li> inteiro e troque a
              capa (assets/imagens/capas/, de preferencia mockup 1672 x 941),
-             o alt, o rotulo azul (o tipo do site), o titulo, o link (e o
-             aria-label dele) e o data-categoria. -->
+             o alt, o rotulo azul (o tipo do site), o titulo e o link (e o
+             aria-label dele). -->
         <ul class="portfolio-grade">
 
         <!-- Silver Hand: falta o endereco do site (href="#"). -->
-        <li class="cartao" data-categoria="projeto">
+        <li class="cartao">
           <figure class="cartao-figura">
             <img class="cartao-imagem" src="assets/imagens/capas/silverhand-mockup-macbook-iphone.webp" alt="Mockup do site da Silver Hand - Home e Landscaping em MacBook, iPad e iPhone"
                  width="1672" height="941" loading="lazy" decoding="async">
@@ -1797,7 +1746,7 @@
           </div>
         </li>
 
-        <li class="cartao" data-categoria="projeto">
+        <li class="cartao">
           <figure class="cartao-figura">
             <img class="cartao-imagem" src="assets/imagens/capas/psindce-mockup-macbook-iphone.webp" alt="Mockup do site do Sindicato dos Psicólogos do Ceará em MacBook, iPad e iPhone"
                  width="1672" height="941" loading="lazy" decoding="async">
@@ -1813,7 +1762,7 @@
           </div>
         </li>
 
-        <li class="cartao" data-categoria="projeto">
+        <li class="cartao">
           <figure class="cartao-figura">
             <img class="cartao-imagem" src="assets/imagens/capas/wise-mockup-macbook-iphone.webp" alt="Mockup do site Walesson Psicologia em MacBook, iPad e iPhone"
                  width="1672" height="941" loading="lazy" decoding="async">
@@ -2002,33 +1951,6 @@
              '.servicos-titulo, .servicos-lema', '.servicos-onda');
     preparar(document.querySelector('.secao-branca'), 'projetos--animar',
              '.projetos-titulo, .projetos-lema', '.projetos-linha');
-  })();
-
-  /* -----------------------------------------------------------------
-     FILTROS DO PORTFOLIO
-     Um unico listener na barra (delegacao): o botao clicado vira o
-     ativo e cada cartao e mostrado ou escondido pelo atributo hidden,
-     que o CSS ja trata. Sem JS os cartoes continuam todos visiveis.
-     ----------------------------------------------------------------- */
-  (function filtros() {
-    var barra = document.querySelector('.portfolio-filtros');
-    if (!barra) return;
-
-    var botoes = barra.querySelectorAll('.filtro');
-    var cartoes = document.querySelectorAll('.portfolio-grade .cartao');
-
-    barra.addEventListener('click', function (evento) {
-      var botao = evento.target.closest('.filtro');
-      if (!botao) return;
-
-      var alvo = botao.dataset.filtro;
-      botoes.forEach(function (b) {
-        b.setAttribute('aria-pressed', String(b === botao));
-      });
-      cartoes.forEach(function (cartao) {
-        cartao.hidden = alvo !== 'todos' && cartao.dataset.categoria !== alvo;
-      });
-    });
   })();
 
   /* -----------------------------------------------------------------
