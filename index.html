@@ -336,6 +336,95 @@
   }
 
   /* ===============================================================
+     BOTOES AZUIS — um sistema so para todos eles:
+       - .botao-seta: o circulo azul vazado com a seta (o contato da
+         navbar, os tres servicos e os cards dos projetos). Cada um so
+         define o tamanho (--tam) e o lugar; o visual e o movimento sao
+         daqui;
+       - .cta-botao: o botao cheio da CTA (ver CTA, mais abaixo).
+     Regras comuns:
+       - anel e traco da seta com a mesma espessura (--anel); a seta usa
+         vector-effect: non-scaling-stroke, entao o peso e o mesmo em
+         qualquer tamanho de botao;
+       - hover (ou foco pelo teclado): o azul enche o circulo como uma
+         gota que cresce do centro, e a seta sai pela diagonal enquanto
+         outra igual entra pelo lado oposto. No botao cheio, um azul mais fundo varre da
+         esquerda para a direita e a seta troca na horizontal;
+       - hover so com mouse (@media (hover: hover)), para o efeito nao
+         ficar preso depois de um toque; no toque, um leve afundar;
+       - com movimento reduzido, so a cor muda.
+     =============================================================== */
+  :root {
+    --azul-fundo: #0034c9;                      /* o azul do hover do botao cheio */
+    --curva-botao: cubic-bezier(.65, 0, .35, 1);
+  }
+  .botao-seta {
+    --anel: 2px;
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    width: var(--tam);
+    height: var(--tam);
+    border: var(--anel) solid var(--azul);
+    border-radius: 50%;
+    overflow: hidden;             /* a seta que sai some no anel */
+    color: var(--azul);
+    /* a gota: um disco azul centrado, de tamanho zero ate acender */
+    background: radial-gradient(circle closest-side, var(--azul) calc(100% - 1px), transparent) center / 0% 0% no-repeat;
+    transition: background-size .45s var(--curva-botao), color .3s ease, transform .2s ease;
+  }
+  .botao-seta svg {
+    width: 44%;
+    height: 44%;
+    overflow: visible;
+  }
+  .botao-seta path,
+  .cta-botao-seta path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: var(--anel, 2px);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+    transition: transform .5s var(--curva-botao);
+  }
+  .botao-seta .seta-entra { transform: translate(-20px, 20px); }
+
+  /* aceso: o circulo cheio de azul e a seta em papel */
+  .navbar-botao:focus-visible .botao-seta,
+  .botao-seta:focus-visible {
+    color: var(--papel);
+    background-size: 104% 104%;
+  }
+  @media (hover: hover) {
+    :is(.navbar-botao, .cartao):hover .botao-seta,
+    .botao-seta:hover {
+      color: var(--papel);
+      background-size: 104% 104%;
+    }
+  }
+  /* a troca de setas */
+  @media (prefers-reduced-motion: no-preference) {
+    .navbar-botao:focus-visible .seta-sai,
+    .botao-seta:focus-visible .seta-sai { transform: translate(20px, -20px); }
+    .navbar-botao:focus-visible .seta-entra,
+    .botao-seta:focus-visible .seta-entra { transform: none; }
+  }
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    :is(.navbar-botao, .cartao):hover .seta-sai,
+    .botao-seta:hover .seta-sai { transform: translate(20px, -20px); }
+    :is(.navbar-botao, .cartao):hover .seta-entra,
+    .botao-seta:hover .seta-entra { transform: none; }
+  }
+  /* afundar no toque. O link dos cards fica de fora: um transform nele
+     prenderia o ::after esticado (que cobre o card) dentro do circulo. */
+  .navbar-botao:active .botao-seta,
+  .servico-icone:active { transform: scale(.93); }
+  @media (prefers-reduced-motion: reduce) {
+    .botao-seta, .botao-seta path, .cta-botao-seta path { transition: none; }
+  }
+
+  /* ===============================================================
      NAVBAR — fixa no topo, em linha unica como na arte da hero:
      marca a esquerda, links no centro da pagina e "Vamos conversar"
      a direita. Sem caixa nem pilula: so texto sobre o papel.
@@ -437,7 +526,7 @@
   .navbar-link:hover::after,
   .navbar-link[aria-current="true"]::after { transform: scaleX(1); }
 
-  /* CONTATO — texto + seta num circulo azul vazado. */
+  /* CONTATO — texto + seta num circulo azul vazado (ver BOTOES AZUIS). */
   .navbar-botao {
     justify-self: end;
     display: inline-flex;
@@ -449,31 +538,14 @@
     text-decoration: none;
     color: inherit;
   }
-  .navbar-botao-icone {
-    display: grid;
-    place-items: center;
-    flex: 0 0 auto;
-    width: var(--nav-icone);
-    height: var(--nav-icone);
-    border: max(1.5px, .1em) solid var(--azul);
-    border-radius: 50%;
-    color: var(--azul);
-    transition: background-color .2s ease, color .2s ease;
-  }
-  .navbar-botao-icone svg {
-    width: 42%;
-    height: 42%;
-    overflow: visible;
-    transition: transform .2s ease;
-  }
-  .navbar-botao:hover .navbar-botao-icone { background: var(--azul); color: #fff; }
-  .navbar-botao:hover .navbar-botao-icone svg { transform: translate(8%, -8%); }
+  .navbar-botao-icone { --tam: var(--nav-icone); }
 
   .navbar a:focus-visible { outline: 2px solid var(--azul); outline-offset: 4px; border-radius: 2px; }
 
   /* Telefones: com o corpo do texto no piso (os max() acima) a linha
      inteira nao cabe — o contato vira so o circulo com a seta, um
-     pouco maior para o toque. Abaixo de 360px os links tambem saem. */
+     pouco maior para o toque (e com 5px de folga em volta, a area de
+     toque chega a 44px). Abaixo de 360px os links tambem saem. */
   @media (max-width: 480px) {
     .navbar-botao-texto {
       position: absolute;
@@ -483,7 +555,8 @@
       clip-path: inset(50%);
       white-space: nowrap;
     }
-    .navbar-botao-icone { width: 34px; height: 34px; border-width: 1.5px; }
+    .navbar-botao { padding: 5px; margin: -5px; }
+    .navbar-botao-icone { --tam: 34px; }
   }
   @media (max-width: 359px) {
     .navbar-caixa { grid-template-columns: 1fr auto; }
@@ -497,8 +570,7 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .navbar-caixa, .navbar-link::after, .navbar-marca img,
-    .navbar-botao-icone, .navbar-botao-icone svg { transition: none; }
+    .navbar-caixa, .navbar-link::after, .navbar-marca img { transition: none; }
     .navbar-marca:hover img { transform: none; }
   }
 
@@ -647,23 +719,11 @@
     line-height: 1.15;
     letter-spacing: -.01em;
   }
+  /* a seta no circulo (ver BOTOES AZUIS); acende com o card inteiro */
   .cartao-link {
+    --tam: max(38px, calc(51 * var(--uc)));
     grid-column: 2;
     grid-row: 1 / span 2;
-    display: grid;
-    place-items: center;
-    width: max(38px, calc(51 * var(--uc)));
-    height: max(38px, calc(51 * var(--uc)));
-    border: max(1.5px, calc(1.8 * var(--uc))) solid var(--azul);
-    border-radius: 50%;
-    color: var(--azul);
-    transition: background-color .2s ease, color .2s ease;
-  }
-  .cartao-link svg {
-    width: 37%;
-    height: 37%;
-    overflow: visible;
-    transition: transform .2s ease;
   }
   /* Link esticado: o pseudo-elemento cobre o cartao inteiro, entao
      capa e titulo tambem abrem o projeto. O <a> continua sendo o unico
@@ -674,8 +734,6 @@
     inset: 0;
     cursor: pointer;
   }
-  .cartao:hover .cartao-link { background: var(--azul); color: #fff; }
-  .cartao:hover .cartao-link svg { transform: translate(8%, -8%); }
   .cartao-link:focus-visible { outline: none; }
   .cartao:has(.cartao-link:focus-visible) {
     outline: 2px solid var(--azul);
@@ -684,8 +742,8 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .cartao-imagem, .cartao-link, .cartao-link svg { transition: none; }
-    .cartao:hover .cartao-imagem, .cartao:hover .cartao-link svg { transform: none; }
+    .cartao-imagem { transition: none; }
+    .cartao:hover .cartao-imagem { transform: none; }
   }
 
   /* CARDS GRANDES — desktop e tablet (a partir de 701px, o mesmo corte
@@ -1080,29 +1138,52 @@
     text-transform: uppercase;
     white-space: nowrap;
     text-decoration: none;
-    color: #fff;
-    background: var(--azul);
+    color: var(--papel);
+    /* o azul mais fundo do hover entra como uma faixa que cresce da
+       esquerda (ver BOTOES AZUIS) */
+    background-color: var(--azul);
+    background-image: linear-gradient(var(--azul-fundo), var(--azul-fundo));
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: 0% 100%;
     border-radius: .42em;
-    transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease;
+    transition: background-size .5s var(--curva-botao), transform .2s ease;
   }
-  .cta-botao svg {
+  /* a seta: o recorte esconde a que sai e a que entra */
+  .cta-botao-seta {
     flex: 0 0 auto;
-    width: 1.4em;
-    height: 1.05em;
+    display: block;
+    width: 1.35em;
+    height: .96em;
+    overflow: hidden;
+  }
+  .cta-botao-seta svg {
+    display: block;
+    width: 100%;
+    height: 100%;
     overflow: visible;
-    transition: transform .2s ease;
   }
-  .cta-botao:hover {
-    transform: translateY(-2px);
-    background-color: #0039d6;
-    box-shadow: 0 12px 28px rgba(0, 71, 254, .28);
+  .cta-botao-seta .seta-entra { transform: translateX(-32px); }
+  .cta-botao:focus-visible {
+    outline: 2px solid var(--azul);
+    outline-offset: 4px;
+    background-size: 100% 100%;
   }
-  .cta-botao:hover svg { transform: translateX(.25em); }
-  .cta-botao:focus-visible { outline: 2px solid var(--azul); outline-offset: 4px; }
+  @media (hover: hover) {
+    .cta-botao:hover { background-size: 100% 100%; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .cta-botao:focus-visible .seta-sai { transform: translateX(32px); }
+    .cta-botao:focus-visible .seta-entra { transform: none; }
+  }
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .cta-botao:hover .seta-sai { transform: translateX(32px); }
+    .cta-botao:hover .seta-entra { transform: none; }
+  }
+  .cta-botao:active { transform: scale(.98); }
 
   @media (prefers-reduced-motion: reduce) {
-    .cta-botao, .cta-botao svg { transition: none; }
-    .cta-botao:hover { transform: none; }
+    .cta-botao { transition: none; }
   }
 
   /* A arte da CTA surge do mesmo jeito que a da hero, quando a secao
@@ -1222,29 +1303,14 @@
   .servico--manutencao .servico-titulo img { width: calc(360 * var(--u)); }
   .servico--automacao .servico-titulo img  { width: calc(364 * var(--u)); }
 
-  /* Seta no circulo azul vazado: a mesma da navbar. Leva ao WhatsApp
-     com a mensagem do servico. */
+  /* Seta no circulo azul vazado, a mesma da navbar (ver BOTOES
+     AZUIS). Leva ao WhatsApp com a mensagem do servico. */
   .servico-icone {
+    --tam: max(40px, calc(51 * var(--u)));
     position: absolute;
     top: calc(44 * var(--u));
     right: 0;
-    display: grid;
-    place-items: center;
-    width: max(40px, calc(51 * var(--u)));
-    height: max(40px, calc(51 * var(--u)));
-    border: max(1.5px, calc(1.8 * var(--u))) solid var(--azul);
-    border-radius: 50%;
-    color: var(--azul);
-    transition: background-color .2s ease, color .2s ease;
   }
-  .servico-icone svg {
-    width: 37%;
-    height: 37%;
-    overflow: visible;
-    transition: transform .2s ease;
-  }
-  .servico-icone:hover { background: var(--azul); color: #fff; }
-  .servico-icone:hover svg { transform: translate(8%, -8%); }
   .servico-icone:focus-visible { outline: 2px solid var(--azul); outline-offset: 4px; }
 
   /* Rotulo azul espacado (SERVICOS AVULSOS...). */
@@ -1386,7 +1452,7 @@
     .servico--manutencao .servico-titulo { left: calc(577 * var(--u));  top: calc(345 * var(--u)); }
     .servico--automacao .servico-titulo  { left: calc(1122 * var(--u)); top: calc(346 * var(--u)); }
 
-    .servico-icone { right: auto; width: calc(51 * var(--u)); height: calc(51 * var(--u)); }
+    .servico-icone { right: auto; --tam: calc(51 * var(--u)); }
     .servico--sites .servico-icone      { left: calc(442.5 * var(--u)); top: calc(359 * var(--u)); }
     .servico--manutencao .servico-icone { left: calc(992 * var(--u));   top: calc(358.5 * var(--u)); }
     .servico--automacao .servico-icone  { left: calc(1548 * var(--u));  top: calc(358 * var(--u)); }
@@ -1433,10 +1499,6 @@
     animation: surgir 1.9s cubic-bezier(.22,.61,.36,1) .25s forwards;
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .servico-icone, .servico-icone svg { transition: none; }
-    .servico-icone:hover svg { transform: none; }
-  }
 
   /* ===============================================================
      RODAPE — barra compacta ao final de toda a pagina, no mesmo papel
@@ -1558,10 +1620,8 @@
     </ul>
     <a class="navbar-botao" href="https://wa.me/5585991323925?text=Ol%C3%A1%2C%20Wesley!%20Vi%20seu%20portf%C3%B3lio%20e%20quero%20conversar%20sobre%20um%20projeto." target="_blank" rel="noopener">
       <span class="navbar-botao-texto">Vamos conversar</span>
-      <span class="navbar-botao-icone" aria-hidden="true">
-        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M1.5 10.5 10.5 1.5M3.5 1.5h7v7"/>
-        </svg>
+      <span class="navbar-botao-icone botao-seta" aria-hidden="true">
+        <svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path class="seta-sai" d="M1.5 10.5 10.5 1.5M3.5 1.5h7v7"/><path class="seta-entra" d="M1.5 10.5 10.5 1.5M3.5 1.5h7v7"/></svg>
       </span>
     </a>
   </div>
@@ -1631,10 +1691,8 @@
           <h3 class="servico-titulo">
             <img src="assets/imagens/servicos/servico-sites.svg" width="266" height="168" loading="lazy" decoding="async" alt="Sites &amp; páginas">
           </h3>
-          <a class="servico-icone" href="https://wa.me/5585991323925?text=Ol%C3%A1%2C%20Wesley!%20Vi%20seu%20portf%C3%B3lio%20e%20quero%20um%20site%20ou%20uma%20landing%20page." target="_blank" rel="noopener" aria-label="Pedir um site ou landing page pelo WhatsApp">
-            <svg viewBox="0 0 12 12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M1.5 10.5 10.5 1.5M3.5 1.5h7v7"/>
-            </svg>
+          <a class="servico-icone botao-seta" href="https://wa.me/5585991323925?text=Ol%C3%A1%2C%20Wesley!%20Vi%20seu%20portf%C3%B3lio%20e%20quero%20um%20site%20ou%20uma%20landing%20page." target="_blank" rel="noopener" aria-label="Pedir um site ou landing page pelo WhatsApp">
+            <svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path class="seta-sai" d="M1.5 10.5 10.5 1.5M3.5 1.5h7v7"/><path class="seta-entra" d="M1.5 10.5 10.5 1.5M3.5 1.5h7v7"/></svg>
           </a>
           <ul class="servico-itens">
             <li>Sites institucionais</li>
@@ -1648,10 +1706,8 @@
           <h3 class="servico-titulo">
             <img src="assets/imagens/servicos/servico-manutencao.svg" width="360" height="168" loading="lazy" decoding="async" alt="Manutenção de sites">
           </h3>
-          <a class="servico-icone" href="https://wa.me/5585991323925?text=Ol%C3%A1%2C%20Wesley!%20Vi%20seu%20portf%C3%B3lio%20e%20preciso%20de%20manuten%C3%A7%C3%A3o%20no%20meu%20site." target="_blank" rel="noopener" aria-label="Pedir manutenção do site pelo WhatsApp">
-            <svg viewBox="0 0 12 12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M1.5 10.5 10.5 1.5M3.5 1.5h7v7"/>
-            </svg>
+          <a class="servico-icone botao-seta" href="https://wa.me/5585991323925?text=Ol%C3%A1%2C%20Wesley!%20Vi%20seu%20portf%C3%B3lio%20e%20preciso%20de%20manuten%C3%A7%C3%A3o%20no%20meu%20site." target="_blank" rel="noopener" aria-label="Pedir manutenção do site pelo WhatsApp">
+            <svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path class="seta-sai" d="M1.5 10.5 10.5 1.5M3.5 1.5h7v7"/><path class="seta-entra" d="M1.5 10.5 10.5 1.5M3.5 1.5h7v7"/></svg>
           </a>
           <p class="servico-rotulo">Serviços avulsos</p>
           <ul class="servico-itens">
@@ -1673,10 +1729,8 @@
           <h3 class="servico-titulo">
             <img src="assets/imagens/servicos/servico-automacao.svg" width="364" height="168" loading="lazy" decoding="async" alt="Automação sob medida">
           </h3>
-          <a class="servico-icone" href="https://wa.me/5585991323925?text=Ol%C3%A1%2C%20Wesley!%20Vi%20seu%20portf%C3%B3lio%20e%20quero%20saber%20sobre%20automa%C3%A7%C3%B5es%20sob%20medida." target="_blank" rel="noopener" aria-label="Pedir uma automação sob medida pelo WhatsApp">
-            <svg viewBox="0 0 12 12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M1.5 10.5 10.5 1.5M3.5 1.5h7v7"/>
-            </svg>
+          <a class="servico-icone botao-seta" href="https://wa.me/5585991323925?text=Ol%C3%A1%2C%20Wesley!%20Vi%20seu%20portf%C3%B3lio%20e%20quero%20saber%20sobre%20automa%C3%A7%C3%B5es%20sob%20medida." target="_blank" rel="noopener" aria-label="Pedir uma automação sob medida pelo WhatsApp">
+            <svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path class="seta-sai" d="M1.5 10.5 10.5 1.5M3.5 1.5h7v7"/><path class="seta-entra" d="M1.5 10.5 10.5 1.5M3.5 1.5h7v7"/></svg>
           </a>
           <p class="servico-rotulo">Ferramentas personalizadas</p>
           <p class="servico-texto">Desenvolvo ferramentas e automações <br>que eliminam tarefas manuais e repetitivas <br>em rotinas administrativas, principalmente <br>de RH e Departamento Pessoal.</p>
@@ -1738,10 +1792,8 @@
           <div class="cartao-corpo">
             <p class="cartao-rotulo">Serviços residenciais</p>
             <h3 class="cartao-titulo">Silver Hand - Home e Landscaping</h3>
-            <a class="cartao-link" href="#" target="_blank" rel="noopener" aria-label="Ver o projeto Silver Hand - Home e Landscaping">
-              <svg viewBox="0 0 12 12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M1.5 10.5 10.5 1.5M3.5 1.5h7v7"/>
-              </svg>
+            <a class="cartao-link botao-seta" href="#" target="_blank" rel="noopener" aria-label="Ver o projeto Silver Hand - Home e Landscaping">
+              <svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path class="seta-sai" d="M1.5 10.5 10.5 1.5M3.5 1.5h7v7"/><path class="seta-entra" d="M1.5 10.5 10.5 1.5M3.5 1.5h7v7"/></svg>
             </a>
           </div>
         </li>
@@ -1754,10 +1806,8 @@
           <div class="cartao-corpo">
             <p class="cartao-rotulo">Site institucional</p>
             <h3 class="cartao-titulo">Sindicato dos Psicólogos do Ceará</h3>
-            <a class="cartao-link" href="https://psindce.org.br/" target="_blank" rel="noopener" aria-label="Ver o projeto Sindicato dos Psicólogos do Ceará">
-              <svg viewBox="0 0 12 12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M1.5 10.5 10.5 1.5M3.5 1.5h7v7"/>
-              </svg>
+            <a class="cartao-link botao-seta" href="https://psindce.org.br/" target="_blank" rel="noopener" aria-label="Ver o projeto Sindicato dos Psicólogos do Ceará">
+              <svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path class="seta-sai" d="M1.5 10.5 10.5 1.5M3.5 1.5h7v7"/><path class="seta-entra" d="M1.5 10.5 10.5 1.5M3.5 1.5h7v7"/></svg>
             </a>
           </div>
         </li>
@@ -1770,10 +1820,8 @@
           <div class="cartao-corpo">
             <p class="cartao-rotulo">Consultório de psicologia</p>
             <h3 class="cartao-titulo">Walesson Psicologia</h3>
-            <a class="cartao-link" href="https://psicologobrasileiroonline.com.br/" target="_blank" rel="noopener" aria-label="Ver o projeto Walesson Psicologia">
-              <svg viewBox="0 0 12 12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M1.5 10.5 10.5 1.5M3.5 1.5h7v7"/>
-              </svg>
+            <a class="cartao-link botao-seta" href="https://psicologobrasileiroonline.com.br/" target="_blank" rel="noopener" aria-label="Ver o projeto Walesson Psicologia">
+              <svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path class="seta-sai" d="M1.5 10.5 10.5 1.5M3.5 1.5h7v7"/><path class="seta-entra" d="M1.5 10.5 10.5 1.5M3.5 1.5h7v7"/></svg>
             </a>
           </div>
         </li>
@@ -1804,9 +1852,7 @@
 
     <a class="cta-botao" href="https://wa.me/5585991323925?text=Ol%C3%A1%2C%20Wesley!%20Vi%20seu%20portf%C3%B3lio%20e%20quero%20conversar%20sobre%20um%20projeto." target="_blank" rel="noopener">
       Começar um projeto
-      <svg viewBox="0 0 32 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M1 12h30M20 1l11 11-11 11"/>
-      </svg>
+      <span class="cta-botao-seta" aria-hidden="true"><svg viewBox="0 0 28 20" focusable="false"><path class="seta-sai" d="M2 10h23M17.5 2.5 25 10l-7.5 7.5"/><path class="seta-entra" d="M2 10h23M17.5 2.5 25 10l-7.5 7.5"/></svg></span>
     </a>
   </div>
 </section>
