@@ -301,11 +301,13 @@
     height: 100svh;
     min-height: 100svh;
   }
-  /* A folha branca comeca com uma tela cheia e cresce com os projetos. */
+  /* A folha comeca com uma tela cheia e cresce com os projetos. */
   .secao-branca { min-height: 100svh; }
 
-  /* Secao branca (projetos) entre os servicos e a CTA: mesma
-     proporcao de tela, largura total.
+  /* Secao de projetos entre os servicos e a CTA: mesma proporcao de
+     tela, largura total. Apesar do nome (secao-branca/folha-branca,
+     de quando ela era branca), a folha agora e do mesmo papel da hero:
+     a cor --papel e o grao por cima.
 
      Os cantos de cima sao arredondados. A folha sobe um raio por cima
      do fim da secao de servicos (margin-top negativo), entao o vazio
@@ -313,8 +315,8 @@
      grudada la atras. Por isso a secao em si e transparente — quem e
      opaco e a folha.
 
-     A folha branca fica em um elemento proprio para o raio recortar
-     so ela. Conteudo da secao entra DENTRO de .folha-branca. */
+     A folha fica em um elemento proprio para o raio recortar so ela.
+     Conteudo da secao entra DENTRO de .folha-branca. */
   :root { --raio-topo: clamp(20px, 2.4vw, 40px); }
   .secao-branca {
     position: relative;
@@ -323,11 +325,13 @@
     margin-top: calc(-1 * var(--raio-topo));
   }
   .folha-branca {
+    position: relative;         /* ancora do grao (::before) */
     min-height: 100svh;
     border-radius: var(--raio-topo) var(--raio-topo) 0 0;
-    background: #ffffff;        /* opaco: a hero nao vaza por tras */
+    background: var(--papel);   /* o papel da hero; opaco: a hero nao vaza por tras */
     box-shadow: 0 -12px 36px rgba(5, 5, 5, .07);     /* camada deslizando */
   }
+  .folha-branca::before { border-radius: inherit; }   /* o grao segue os cantos */
 
   /* ===============================================================
      NAVBAR — fixa no topo, em linha unica como na arte da hero:
@@ -502,6 +506,8 @@
      dentro dela que ele cobre o placeholder.
      --------------------------------------------------------------- */
   .portfolio {
+    position: relative;
+    z-index: 1;                 /* acima do grao do papel */
     max-width: 1240px;
     margin: 0 auto;
     padding: clamp(56px, 8vw, 104px) clamp(22px, 5vw, 56px) clamp(72px, 10vw, 128px);
@@ -827,7 +833,7 @@
   /* PAPEL — grao leve por cima do off-white, como na referencia. Um
      ruido SVG de 240px repetido (nada para baixar) e misturado em
      multiply, entao so escurece um pouco as fibras. */
-  .palco::before, .servicos::before, .cta::before {
+  .palco::before, .servicos::before, .folha-branca::before, .cta::before {
     content: "";
     position: absolute;
     inset: 0;
