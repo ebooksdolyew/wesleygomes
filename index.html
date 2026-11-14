@@ -266,7 +266,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@600&family=Poppins:wght@300;400;500;600;800&family=Urbanist:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@600&family=Urbanist:wght@400;500;700&display=swap" rel="stylesheet">
 
 <!-- Arte da hero (e o LCP): pedida antes de o corpo ser lido. So a
      variante da proporcao atual baixa — os media sao os mesmos dos
@@ -1501,103 +1501,127 @@
 
 
   /* ===============================================================
-     RODAPE — barra compacta ao final de toda a pagina, no mesmo papel
-     do resto, sem linha em cima.
+     RODAPE — o espelho da navbar no fim da pagina, no mesmo papel e
+     na mesma letra (Urbanist):
+       - desktop e tablet deitado (a partir de 1000px): duas linhas nas
+         mesmas bordas da navbar — a assinatura comeca onde comeca a de cima e o contato
+         termina onde termina o "Vamos conversar":
+           assinatura .............. Made by Wesley Gomes  Fale comigo
+           (c) 2026 Wesley Gomes ...     Politica de Privacidade  Cookies
+       - tablet em pe, celular deitado e celular: tudo centrado, no eixo
+         da CTA logo acima: assinatura / links / (c) / politicas. (Abaixo
+         de 1000px as duas linhas nao cabem entre as bordas da navbar.)
+     Links com o sublinhado azul da navbar no hover; o contato, que e a
+     acao principal, ja vem sublinhado.
      =============================================================== */
   .rodape {
     position: relative;
-    color: #04182f;
-    font-family: Poppins, Arial, sans-serif;
+    container-type: inline-size;
+    color: var(--tinta);
+    font-family: Urbanist, Arial, sans-serif;
   }
   .rodape-caixa {
+    /* a mesma prancheta e a mesma margem da navbar (ver NAVBAR) */
+    --ab-w: min(100cqw, 100svh * var(--hero-r));
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-areas:
+      "marca"
+      "links"
+      "nota"
+      "legais";
+    justify-content: center;
+    justify-items: center;
+    gap: 14px;
+    padding: 36px 20px 40px;
+    text-align: center;
+  }
+  .rodape-marca { grid-area: marca; margin: 0 0 4px; line-height: 0; }
+  .rodape-marca img { display: block; width: clamp(96px, 8vw, 118px); height: auto; }
+  .rodape-links {
+    grid-area: links;
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
-    gap: 10px clamp(16px, 2.4vw, 32px);
-    max-width: 1240px;
-    margin: 0 auto;
-    padding: clamp(12px, 1.8vw, 16px) clamp(22px, 5vw, 56px);
+    justify-content: center;
+    align-items: baseline;
+    gap: 10px 26px;
   }
-  .rodape-marca { margin: 0; line-height: 0; }
-  .rodape-marca img { display: block; width: clamp(84px, 9vw, 104px); height: auto; }
-  /* O auto daqui joga os links e o "voltar ao topo" para a direita. */
   .rodape-nota {
-    margin: 0 auto 0 0;
-    font-weight: 300;
-    font-size: clamp(11px, 3vw, 12px);
-    color: rgba(4, 24, 47, .62);
+    grid-area: nota;
+    margin: 0;
+    font-size: 13px;
+    color: rgba(5, 5, 5, .58);
   }
-  /* Links legais: privacidade e cookies. Ficam entre a nota e o
-     contato, no mesmo peso discreto do credito. */
   .rodape-legais {
+    grid-area: legais;
     display: flex;
     flex-wrap: wrap;
-    gap: 6px 16px;
+    justify-content: center;
+    gap: 6px 22px;
     margin: 0;
     padding: 0;
     list-style: none;
   }
+
+  .rodape a {
+    position: relative;
+    text-decoration: none;
+    color: inherit;
+    transition: color .2s ease;
+  }
+  .rodape a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -.3em;
+    height: 1.5px;
+    background: var(--azul);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .25s ease;
+  }
+  @media (hover: hover) {
+    .rodape a:hover::after { transform: scaleX(1); }
+    .rodape-legal:hover { color: var(--tinta); }
+  }
+  .rodape a:focus-visible { outline: 2px solid var(--azul); outline-offset: 5px; border-radius: 2px; }
+  .rodape-contato, .rodape-credito { font-size: 15px; }
+  .rodape-contato { font-weight: 700; }
+  .rodape-contato::after { transform: scaleX(1); }
+  .rodape-credito { font-weight: 500; }
   .rodape-legal {
-    font-weight: 400;
-    font-size: clamp(11.5px, 3vw, 12.5px);
-    text-decoration: none;
-    color: rgba(4, 24, 47, .62);
-    padding-bottom: 2px;
-    border-bottom: 1px solid transparent;
-    transition: color .2s ease, border-color .2s ease;
-  }
-  .rodape-legal:hover { color: #04182f; border-bottom-color: rgba(4, 24, 47, .30); }
-  .rodape-contato {
     font-weight: 500;
-    font-size: clamp(12px, 3.2vw, 13px);
-    text-decoration: none;
-    color: #04182f;
-    padding-bottom: 2px;
-    border-bottom: 1px solid rgba(4, 24, 47, .30);
-    transition: border-color .2s ease;
-  }
-  .rodape-contato:hover { border-bottom-color: #04182f; }
-  /* Credito "Made by": link discreto para o Instagram, no mesmo peso
-     da nota, mas ganha cor no hover. */
-  .rodape-credito {
-    font-weight: 400;
-    font-size: clamp(11px, 3vw, 12px);
-    text-decoration: none;
-    color: rgba(4, 24, 47, .62);
-    padding-bottom: 2px;
-    border-bottom: 1px solid transparent;
-    transition: color .2s ease, border-color .2s ease;
-  }
-  .rodape-credito:hover { color: #04182f; border-bottom-color: rgba(4, 24, 47, .30); }
-  .rodape a:focus-visible { outline: 2px solid #4cc3ff; outline-offset: 3px; }
-
-  /* Entre 701px e 1100px a barra nao cabe mais em uma linha so com os
-     links legais: vira duas linhas limpas. O ::after e um item do flex
-     com 100% de base, entao ele forca a quebra entre a ordem 3 e a 5. */
-  @media (min-width: 701px) and (max-width: 1100px) {
-    .rodape-caixa::after { content: ""; flex-basis: 100%; height: 0; order: 4; }
-    .rodape-marca { order: 1; }
-    .rodape-legais { order: 2; }
-    .rodape-contato { order: 3; margin-left: auto; }
-    .rodape-nota { order: 5; margin: 0 auto 0 0; }
-    .rodape-credito { order: 6; }
+    font-size: 13px;
+    color: rgba(5, 5, 5, .58);
   }
 
-  /* No retrato a barra vira duas linhas: marca e contato em cima, a
-     nota embaixo. */
-  @media (max-width: 700px) {
-    .rodape-caixa { gap: 6px 14px; padding: 10px 18px; }
-    .rodape-marca { margin-right: auto; }
-    .rodape-nota { font-size: 11px; }
-    .rodape-contato { font-size: 12px; }
-    .rodape-contato { order: 2; margin-left: auto; }
-    .rodape-legais { flex: 1 1 100%; order: 3; }
-    .rodape-nota { flex: 1 1 100%; margin: 0; order: 4; }
-    .rodape-credito { font-size: 11px; order: 5; }
+  /* celular: os dois links cabem numa linha a partir de 390px */
+  @media (max-width: 480px) {
+    .rodape-links { gap: 10px 20px; }
+    .rodape-contato, .rodape-credito { font-size: 14px; }
+  }
+
+  /* desktop e tablet deitado: as duas linhas nas bordas da navbar */
+  @media (min-width: 1000px) {
+    .rodape-caixa {
+      grid-template-columns: auto 1fr auto;
+      grid-template-areas:
+        "marca . links"
+        "nota  . legais";
+      justify-content: stretch;
+      justify-items: start;
+      align-items: center;
+      gap: 12px 32px;
+      padding: clamp(30px, 3vw, 44px) calc((100cqw - var(--ab-w)) / 2 + var(--ab-w) * var(--nav-esq)) clamp(32px, 3.2vw, 48px);
+      text-align: left;
+    }
+    .rodape-marca { margin: 0; }
+    .rodape-links, .rodape-legais { justify-self: end; justify-content: flex-end; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .rodape-contato, .rodape-credito, .rodape-legal { transition: none; }
+    .rodape a, .rodape a::after { transition: none; }
   }
 
 </style>
@@ -1858,17 +1882,20 @@
 </section>
 
 <!-- ============ RODAPE ============
-     Ultima faixa da pagina, no mesmo papel do resto. -->
+     Ultima faixa da pagina, no mesmo papel do resto. A ordem no HTML e
+     a da leitura: assinatura, links, (c) e politicas (ver RODAPE no CSS). -->
 <footer class="rodape">
   <div class="rodape-caixa">
     <p class="rodape-marca"><img src="assets/imagens/marca/logo-wesley-gomes.webp" width="800" height="212" alt="Wesley Gomes" loading="lazy"></p>
+    <div class="rodape-links">
+      <a class="rodape-credito" href="https://www.instagram.com/wesley.gomesds/" target="_blank" rel="noopener">Made by Wesley Gomes</a>
+      <a class="rodape-contato" href="https://wa.me/5585991323925?text=Ol%C3%A1%2C%20Wesley!%20Vi%20seu%20portf%C3%B3lio%20e%20quero%20conversar%20sobre%20um%20projeto." target="_blank" rel="noopener">Fale comigo no WhatsApp</a>
+    </div>
     <p class="rodape-nota">&copy; 2026 Wesley Gomes. Todos os direitos reservados.</p>
     <ul class="rodape-legais">
       <li><a class="rodape-legal" href="/politica-de-privacidade/">Política de Privacidade</a></li>
       <li><a class="rodape-legal" href="/politica-de-cookies/">Política de Cookies</a></li>
     </ul>
-    <a class="rodape-credito" href="https://www.instagram.com/wesley.gomesds/" target="_blank" rel="noopener">Made by Wesley Gomes</a>
-    <a class="rodape-contato" href="https://wa.me/5585991323925?text=Ol%C3%A1%2C%20Wesley!%20Vi%20seu%20portf%C3%B3lio%20e%20quero%20conversar%20sobre%20um%20projeto." target="_blank" rel="noopener">Fale comigo no WhatsApp</a>
   </div>
 </footer>
 
