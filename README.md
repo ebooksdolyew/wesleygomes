@@ -23,6 +23,9 @@ assets/
     hero/                   arte da hero, uma por proporcao de tela
     servicos/               arte da secao Servicos (titulos, frases em
                             italico e a onda, tracados da referencia)
+    projetos/               arte da secao Projetos (PROJETOS e a frase
+                            azul, montados com as letras tracadas dos
+                            servicos, e a linha azul com o mesmo pincel)
     cta/                    arte da CTA, uma por proporcao de tela
     capas/                  capas dos projetos do portfolio
     marca/                  logo (assinatura azul)

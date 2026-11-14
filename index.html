@@ -326,6 +326,8 @@
   }
   .folha-branca {
     position: relative;         /* ancora do grao (::before) */
+    overflow: hidden;           /* corta a linha azul que passa da borda da tela; */
+    overflow: clip;             /* clip: nem script nem a busca do navegador rolam a folha de lado */
     min-height: 100svh;
     border-radius: var(--raio-topo) var(--raio-topo) 0 0;
     background: var(--papel);   /* o papel da hero; opaco: a hero nao vaza por tras */
@@ -495,199 +497,235 @@
   }
 
   /* ---------------------------------------------------------------
-     PORTFOLIO — conteudo da folha branca
-     A folha nao tem altura fixa: ela comeca com uma tela cheia (cobre
-     a hero inteira ao final da sobreposicao) e cresce conforme os
-     projetos entram. O recuo da hero nao depende disso — a faixa da
-     animacao e 'entry', que mede so a entrada da secao na janela.
+     PROJETOS — conteudo da folha (o papel da hero)
+     Mesma linguagem dos servicos: PROJETOS e a frase azul em italico
+     sao artes vetoriais (assets/imagens/projetos/), montadas com as
+     mesmas letras tracadas dos servicos; a linha azul e o mesmo pincel
+     da onda dos servicos levado para um caminho novo (entra pela
+     direita, da um laco e termina numa seta que aponta os filtros). O
+     resto e texto em Urbanist, com a tinta preta e o azul do site.
 
-     Para trocar as capas: cada .cartao-figura mostra um placeholder
-     desenhado em CSS; basta colocar um <img class="cartao-imagem">
-     dentro dela que ele cobre o placeholder.
+     --u vale 1px da prancheta de 1672, com a mesma conta dos servicos:
+     na mesma tela, os titulos das duas secoes ficam do mesmo tamanho e
+     alinhados.
+       - paisagem (mesmo corte dos servicos): o cabecalho e prancheta,
+         cada peca nas coordenadas do desenho; a grade vem embaixo;
+       - retrato e telas baixas: tudo empilhado.
+     Cards: 2 colunas a partir de 701px (o ultimo centrado quando sobra
+     um), 1 coluna no celular.
+
+     A folha nao tem altura fixa: ela comeca com uma tela cheia e cresce
+     conforme os projetos entram. O recuo da hero nao depende disso.
      --------------------------------------------------------------- */
-  .portfolio {
+  .projetos-area {
+    --nav-rolada: clamp(52px, 6.4svh, 68px);   /* altura da navbar encolhida */
     position: relative;
     z-index: 1;                 /* acima do grao do papel */
-    max-width: 1240px;
-    margin: 0 auto;
-    padding: clamp(56px, 8vw, 104px) clamp(22px, 5vw, 56px) clamp(72px, 10vw, 128px);
-    font-family: Poppins, Arial, sans-serif;
-    color: #04182f;
+    padding: calc(var(--nav-rolada) + clamp(28px, 7vw, 64px)) 0 clamp(72px, 10vw, 128px);
+    container-type: inline-size;
+    color: var(--tinta);
+    font-family: Urbanist, Arial, sans-serif;
+  }
+  .projetos-quadro {
+    /* escala pela largura da coluna, com teto; em tela baixa a altura
+       tambem limita, sem descer de .6px (a mesma dos servicos) */
+    --u: min(100cqw / 520, .86px, max(.6px, 100svh / 640));
+    --respiro: clamp(20px, 6cqw, 56px);
+    padding: 0 var(--respiro);
+    container-type: inline-size;
   }
 
-  .portfolio-cabecalho { max-width: 44rem; }
-  .portfolio-titulo {
-    margin: 0 0 16px;
-    font-weight: 800;
-    font-size: clamp(30px, 6.4vw, 52px);
-    line-height: 1.08;
-    letter-spacing: -.02em;
+  /* --- cabecalho: PROJETOS, a frase azul, o subtitulo e a linha --- */
+  .projetos-titulo, .projetos-lema, .projetos-sub { margin: 0; }
+  .projetos-titulo img, .projetos-lema img {
+    display: block;
+    max-width: 100%;
+    height: auto;
   }
-  .portfolio-texto {
-    margin: 0;
-    max-width: 52ch;
-    font-weight: 300;
-    font-size: clamp(14px, 4vw, 17px);
-    line-height: 1.62;
-    color: rgba(4, 24, 47, .66);
+  .projetos-titulo img { width: calc(644 * var(--u) * 1.15); }
+  .projetos-lema { margin-top: calc(24 * var(--u)); }
+  .projetos-lema img { width: calc(370 * var(--u) * 1.2); }
+  .projetos-sub {
+    margin-top: calc(14 * var(--u));
+    font-weight: 500;
+    font-size: calc(27.2 * var(--u));
+    line-height: 1.3;
   }
-  .portfolio-texto strong { font-weight: 600; color: #04182f; }
+  .projetos-sub br { display: none; }     /* as quebras valem so na prancheta */
 
-  /* FILTROS — pilulas; o estado ativo vive no aria-pressed, entao o
-     leitor de tela e o CSS leem a mesma coisa. */
+  /* No retrato a linha tem arte propria, ja recortada: vai da seta (em
+     cima dos filtros) ate a borda direita da tela. */
+  .projetos-cabecalho picture { display: block; }
+  .projetos-linha {
+    display: block;
+    width: calc(100% + var(--respiro));
+    max-width: none;
+    height: auto;
+    aspect-ratio: 916 / 261;
+    margin-top: calc(6 * var(--u));
+  }
+  /* Antes de o script ligar a arte, a faixa fica reservada mas vazia. */
+  .projetos-linha:not([src]) { visibility: hidden; }
+
+  /* FILTROS — abas com o sublinhado azul da navbar. O estado ativo vive
+     no aria-pressed, entao o leitor de tela e o CSS leem a mesma coisa. */
   .portfolio-filtros {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
-    margin: clamp(28px, 4vw, 44px) 0 clamp(24px, 3.4vw, 36px);
+    gap: calc(14 * var(--u)) calc(40 * var(--u));
+    margin: calc(8 * var(--u)) 0 0;
   }
   .filtro {
+    position: relative;
+    padding: 0 0 calc(10 * var(--u));
+    border: 0;
+    background: none;
     font: inherit;
     font-weight: 500;
-    font-size: clamp(13px, 3.4vw, 14px);
+    font-size: max(15px, calc(26 * var(--u)));
     line-height: 1;
-    color: rgba(4, 24, 47, .72);
-    background: #fff;
-    border: 1px solid rgba(4, 24, 47, .16);
-    border-radius: 999px;
-    padding: 11px 20px;
+    color: rgba(5, 5, 5, .5);
     cursor: pointer;
-    transition: color .2s ease, border-color .2s ease, background .2s ease;
+    transition: color .2s ease;
   }
-  .filtro:hover { color: #04182f; border-color: rgba(4, 24, 47, .42); }
-  .filtro[aria-pressed="true"] {
-    color: #fff;
-    background: #04182f;
-    border-color: #04182f;
+  .filtro::after {
+    content: "";
+    position: absolute;
+    left: -.2em;
+    right: -.2em;
+    bottom: 0;
+    height: 2px;
+    background: var(--azul);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .25s ease;
   }
-  .filtro:focus-visible { outline: 2px solid #2b7fb8; outline-offset: 3px; }
+  .filtro:hover,
+  .filtro[aria-pressed="true"] { color: var(--tinta); }
+  .filtro:hover::after,
+  .filtro[aria-pressed="true"]::after { transform: scaleX(1); }
+  .filtro:focus-visible { outline: 2px solid var(--azul); outline-offset: 6px; border-radius: 2px; }
 
-  /* GRADE — no celular, sem media query: o minmax cuida da quebra
-     sozinho (1 coluna, ou 2 em tela de celular mais larga). No desktop
-     e no tablet os cards crescem: ver CARDS GRANDES mais abaixo. */
+  /* GRADE — 1 coluna no celular; 2 a partir de 701px (ver abaixo). */
   .portfolio-grade {
-    --grade-espaco: clamp(20px, 2.6vw, 34px);
+    --grade-espaco: calc(84 * var(--u));
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 286px), 1fr));
-    gap: var(--grade-espaco);
-    list-style: none;
-    margin: 0;
+    gap: calc(72 * var(--u)) var(--grade-espaco);
+    margin: calc(48 * var(--u)) 0 0;
     padding: 0;
+    list-style: none;
   }
   .cartao[hidden] { display: none; }
-
+  /* --uc: 1px de um card de 700 (a largura dele na prancheta). A
+     legenda acompanha a largura do proprio card, entao fica certa com 1
+     ou 2 colunas, em qualquer tela. */
   .cartao {
-    position: relative;   /* ancora do link esticado (ver .cartao-link::after) */
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    background: #fff;
-    border: 1px solid rgba(4, 24, 47, .10);
-    border-radius: 18px;
-    transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
-  }
-  .cartao:hover {
-    transform: translateY(-6px);
-    border-color: rgba(4, 24, 47, .04);
-    box-shadow: 0 18px 40px rgba(4, 24, 47, .14);
+    position: relative;                 /* ancora do link esticado */
+    container-type: inline-size;
+    --uc: calc(100cqw / 700);
   }
 
-  /* Placeholder desenhado em CSS: fundo em degrade + barra de
-     navegador. Some assim que uma <img> for colocada por cima. */
+  /* Capa: no celular em 2:1 (corta so o fundo de cima e de baixo dos
+     mockups); a partir de 701px na proporcao real (1672 x 941), sem
+     corte. Sem imagem, fica um papel um pouco mais escuro no lugar. Se
+     uma capa nova nao tiver o fundo claro, defina a cor dela no
+     <figure> com style="--capa-fundo: #hex;". */
   .cartao-figura {
     position: relative;
-    aspect-ratio: 2 / 1;     /* celular: mais achatado que os mockups (16:9), corta so o fundo de cima e de baixo */
+    aspect-ratio: 2 / 1;
     overflow: hidden;
     margin: 0;
-    background:
-      linear-gradient(150deg, #eef4fa 0%, #dbe8f4 55%, #cddff0 100%);
+    border-radius: max(10px, calc(14 * var(--uc)));
+    background: var(--capa-fundo, #efe8da);
   }
-  .cartao-figura::before {
+  .cartao-figura::after {               /* fio fino em volta da capa */
     content: "";
     position: absolute;
-    inset: 0 0 auto;
-    height: 26px;
-    background: rgba(4, 24, 47, .07);
-  }
-  .cartao-figura::after {
-    content: "";
-    position: absolute;
-    top: 9px;
-    left: 12px;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: rgba(4, 24, 47, .22);
-    box-shadow: 14px 0 0 rgba(4, 24, 47, .16), 28px 0 0 rgba(4, 24, 47, .10);
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px rgba(5, 5, 5, .1);
+    pointer-events: none;
   }
   .cartao-imagem {
-    position: relative;   /* acima do placeholder */
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: cover;     /* preenche o quadro 2:1; os mockups perdem so o fundo de cima e de baixo */
+    object-fit: cover;
+    transition: transform .6s cubic-bezier(.22,.61,.36,1);
   }
-  /* Com capa real, o placeholder some por completo e o fundo passa a
-     ser a cor da propria capa (--capa-fundo, definida inline no
-     <figure>), para que capas fora de 2:1 nao mostrem faixas. */
-  .cartao-figura:has(.cartao-imagem) {
-    background: var(--capa-fundo, #eef4fa);
-  }
-  .cartao-figura:has(.cartao-imagem)::before,
-  .cartao-figura:has(.cartao-imagem)::after {
-    display: none;
-  }
+  .cartao:hover .cartao-imagem { transform: scale(1.03); }
 
+  /* Legenda: fio fino, rotulo azul espacado (como nos servicos), nome
+     do projeto e a seta no circulo azul vazado (a mesma da navbar). */
   .cartao-corpo {
-    display: flex;
-    flex: 1 1 auto;
-    flex-direction: column;
-    gap: 4px;
-    padding: 12px clamp(16px, 1.8vw, 20px) 14px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    column-gap: max(14px, calc(24 * var(--uc)));
+    margin-top: max(14px, calc(24 * var(--uc)));
+    padding-top: max(12px, calc(22 * var(--uc)));
+    border-top: 1px solid rgba(5, 5, 5, .2);
+  }
+  .cartao-rotulo {
+    margin: 0;
+    font-weight: 700;
+    font-size: max(11px, calc(20 * var(--uc)));
+    line-height: 1.2;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--azul);
   }
   .cartao-titulo {
-    margin: 0;
-    font-weight: 600;
-    font-size: clamp(15px, 1.6vw, 17px);
-    line-height: 1.3;
+    margin: max(6px, calc(10 * var(--uc))) 0 0;
+    font-weight: 700;
+    font-size: max(19px, calc(36 * var(--uc)));
+    line-height: 1.15;
     letter-spacing: -.01em;
   }
   .cartao-link {
-    margin-top: auto;
-    align-self: flex-start;
-    font-weight: 600;
-    font-size: 14px;
-    text-decoration: none;
-    color: #04182f;
-    border-bottom: 1px solid rgba(4, 24, 47, .25);
-    padding-bottom: 2px;
-    transition: color .2s ease, border-color .2s ease;
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    display: grid;
+    place-items: center;
+    width: max(38px, calc(51 * var(--uc)));
+    height: max(38px, calc(51 * var(--uc)));
+    border: max(1.5px, calc(1.8 * var(--uc))) solid var(--azul);
+    border-radius: 50%;
+    color: var(--azul);
+    transition: background-color .2s ease, color .2s ease;
+  }
+  .cartao-link svg {
+    width: 37%;
+    height: 37%;
+    overflow: visible;
+    transition: transform .2s ease;
   }
   /* Link esticado: o pseudo-elemento cobre o cartao inteiro, entao
-     capa e titulo tambem abrem o projeto — nao so o texto do link.
-     O <a> continua sendo o unico foco de teclado do cartao. */
+     capa e titulo tambem abrem o projeto. O <a> continua sendo o unico
+     foco de teclado do cartao. */
   .cartao-link::after {
     content: "";
     position: absolute;
     inset: 0;
     cursor: pointer;
   }
-  .cartao-link span { transition: transform .2s ease; display: inline-block; }
-  .cartao:hover .cartao-link { color: #2b7fb8; border-bottom-color: #2b7fb8; }
-  .cartao:hover .cartao-link span { transform: translateX(4px); }
+  .cartao:hover .cartao-link { background: var(--azul); color: #fff; }
+  .cartao:hover .cartao-link svg { transform: translate(8%, -8%); }
   .cartao-link:focus-visible { outline: none; }
-  .cartao:has(.cartao-link:focus-visible) { outline: 2px solid #2b7fb8; outline-offset: 3px; }
-
-  @media (prefers-reduced-motion: reduce) {
-    .cartao, .cartao-link span { transition: none; }
-    .cartao:hover { transform: none; }
+  .cartao:has(.cartao-link:focus-visible) {
+    outline: 2px solid var(--azul);
+    outline-offset: 8px;
+    border-radius: 12px;
   }
 
-  /* CARDS GRANDES — desktop e tablet (a partir de 701px, o mesmo
-     corte do rodape). Dois cards por linha e a capa na proporcao real
-     dos mockups (1672 x 941): a imagem aparece inteira, sem corte, e o
-     card cresce junto com ela. Com numero impar de cards, o ultimo
-     fica centrado na linha dele. */
+  @media (prefers-reduced-motion: reduce) {
+    .filtro, .filtro::after, .cartao-imagem, .cartao-link, .cartao-link svg { transition: none; }
+    .cartao:hover .cartao-imagem, .cartao:hover .cartao-link svg { transform: none; }
+  }
+
+  /* CARDS GRANDES — desktop e tablet (a partir de 701px, o mesmo corte
+     do rodape): dois por linha e a capa na proporcao real dos mockups.
+     Com numero impar de cards, o ultimo fica centrado na linha dele. */
   @media (min-width: 701px) {
     .portfolio-grade {
       display: flex;
@@ -696,11 +734,49 @@
     }
     .cartao { flex: 0 1 calc((100% - var(--grade-espaco)) / 2); }
     .cartao-figura { aspect-ratio: 1672 / 941; }
-    .cartao-corpo {
-      gap: 6px;
-      padding: 16px clamp(18px, 2vw, 26px) 18px;
+  }
+
+  /* PAISAGEM — o cabecalho vira prancheta, com o mesmo corte e a mesma
+     escala dos servicos (titulo, frase e subtitulo nas mesmas
+     coordenadas de la). A arte da linha vai alem da borda direita da
+     prancheta: em tela mais larga ela segue pelo papel ate a borda da
+     tela (a folha corta o resto). */
+  @media (min-aspect-ratio: 1/1) and (min-width: 900px) and (min-height: 500px) {
+    .projetos-area { padding-top: var(--nav-rolada); }
+    .projetos-quadro {
+      --u: calc(100cqw / 1672);
+      width: min(100cqw, (100svh - var(--nav-rolada) - var(--raio-topo)) * 1672 / 941);
+      margin: 0 auto;
+      padding: 0;
     }
-    .cartao-titulo { font-size: clamp(16px, 1.5vw, 19px); }
+    .projetos-cabecalho {
+      position: relative;
+      height: calc(492 * var(--u));
+    }
+    .projetos-titulo, .projetos-lema, .projetos-sub, .projetos-linha {
+      position: absolute;
+      margin: 0;
+    }
+    .projetos-titulo { left: calc(94.25 * var(--u)); top: calc(53 * var(--u)); }
+    .projetos-titulo img { width: calc(644 * var(--u)); }
+    .projetos-lema { left: calc(791 * var(--u)); top: calc(77 * var(--u)); }
+    .projetos-lema img { width: calc(370 * var(--u)); }
+    .projetos-sub {
+      left: calc(792.6 * var(--u));
+      top: calc(157 * var(--u));
+      line-height: calc(36 * var(--u));
+      white-space: nowrap;
+    }
+    .projetos-sub br { display: inline; }
+    .projetos-linha {
+      left: calc(174 * var(--u));
+      top: calc(236 * var(--u));
+      width: calc(2146 * var(--u));
+      height: calc(261 * var(--u));
+      aspect-ratio: auto;
+    }
+    .portfolio-filtros { margin: 0 calc(94 * var(--u)); }
+    .portfolio-grade { margin: calc(56 * var(--u)) calc(94 * var(--u)) 0; }
   }
 
   /* ---------------------------------------------------------------
@@ -1170,7 +1246,8 @@
     position: relative;
     z-index: 2;                 /* sobe por cima da hero */
     min-height: 100svh;
-    overflow: hidden;           /* corta a onda nas bordas da tela */
+    overflow: hidden;           /* corta a onda nas bordas da tela; */
+    overflow: clip;             /* clip: nada rola a secao de lado */
     padding: calc(var(--nav-rolada) + clamp(28px, 7vw, 64px)) 0 calc(var(--raio-topo) + clamp(40px, 9vw, 88px));
     border-radius: var(--raio-topo) var(--raio-topo) 0 0;
     background: var(--papel);
@@ -1428,12 +1505,15 @@
     .servico-frase { left: calc(1123 * var(--u)); top: calc(769 * var(--u)); }
   }
 
-  /* SURGIMENTO — com JS, SERVICOS e a frase azul surgem de cima para
-     baixo (o mesmo 'surgir' da hero) quando entram na tela; a onda se
-     desenha sozinha quando a arte dela carrega (ver o script). Sem JS
-     ou com movimento reduzido, tudo ja aparece pronto. */
+  /* SURGIMENTO — com JS, SERVICOS e PROJETOS e as frases azuis surgem
+     de cima para baixo (o mesmo 'surgir' da hero) quando entram na
+     tela; a onda e a linha se desenham sozinhas quando a arte delas
+     carrega (ver o script). Sem JS ou com movimento reduzido, tudo ja
+     aparece pronto. */
   .servicos--animar .servicos-titulo img,
-  .servicos--animar .servicos-lema img {
+  .servicos--animar .servicos-lema img,
+  .projetos--animar .projetos-titulo img,
+  .projetos--animar .projetos-lema img {
     -webkit-mask-image: linear-gradient(to bottom,
         #000 0%, #000 38.46%, rgba(0,0,0,0) 61.54%, rgba(0,0,0,0) 100%);
             mask-image: linear-gradient(to bottom,
@@ -1445,10 +1525,12 @@
     -webkit-mask-position: 0% 100%;
             mask-position: 0% 100%;
   }
-  .servicos--animar .servicos-titulo.revelar img {
+  .servicos--animar .servicos-titulo.revelar img,
+  .projetos--animar .projetos-titulo.revelar img {
     animation: surgir 1.9s cubic-bezier(.22,.61,.36,1) forwards;
   }
-  .servicos--animar .servicos-lema.revelar img {
+  .servicos--animar .servicos-lema.revelar img,
+  .projetos--animar .projetos-lema.revelar img {
     animation: surgir 1.9s cubic-bezier(.22,.61,.36,1) .25s forwards;
   }
 
@@ -1714,81 +1796,106 @@
   </div>
 </section>
 
-<!-- ============ SECAO BRANCA ============ -->
-<section class="secao-branca" id="projetos">
+<!-- ============ PROJETOS ============
+     A folha de papel dos projetos sobe um raio por cima do fim dos
+     servicos. PROJETOS e a frase azul sao artes vetoriais
+     (assets/imagens/projetos/), o resto e texto. Escala e coordenadas:
+     ver PROJETOS no CSS. -->
+<section class="secao-branca" id="projetos" aria-labelledby="projetos-titulo">
   <div class="folha-branca">
+    <div class="projetos-area">
+      <div class="projetos-quadro">
 
-    <div class="portfolio">
+        <header class="projetos-cabecalho">
+          <h2 class="projetos-titulo" id="projetos-titulo">
+            <img src="assets/imagens/projetos/projetos-titulo.svg" width="644" height="172" decoding="async" alt="Projetos">
+          </h2>
+          <p class="projetos-lema">
+            <img src="assets/imagens/projetos/projetos-lema.svg" width="370" height="61" decoding="async" alt="Ideias no ar.">
+          </p>
+          <p class="projetos-sub">Sites feitos sob medida para clientes e templates prontos <br>para adaptar à sua marca e publicar em poucos dias.</p>
 
-      <header class="portfolio-cabecalho">
-        <h2 class="portfolio-titulo">Projetos e templates</h2>
-        <p class="portfolio-texto">
-          De um lado, <strong>sites no ar</strong> feitos sob medida para clientes.
-          Do outro, <strong>templates prontos</strong> para adaptar à sua marca e
-          publicar em poucos dias. Tudo desenhado e codado do zero.
-        </p>
-      </header>
+          <!-- Linha azul: o pincel da onda dos servicos num caminho novo.
+               Ela se desenha sozinha (animacao dentro do SVG) quando a
+               arte carrega — por isso os enderecos ficam em
+               data-srcset/data-src e o script so os liga quando ela entra
+               na tela. O media do <source> e o contrario do corte da
+               prancheta no CSS. -->
+          <picture>
+            <source media="not all and (min-aspect-ratio: 1/1) and (min-width: 900px) and (min-height: 500px)" data-srcset="assets/imagens/projetos/projetos-linha-retrato.svg" width="916" height="261">
+            <img class="projetos-linha" data-src="assets/imagens/projetos/projetos-linha.svg" width="2146" height="261" decoding="async" alt="">
+          </picture>
+        </header>
 
-      <!-- FILTROS — o valor de data-filtro casa com o data-categoria
-           dos cartoes; "todos" mostra a grade inteira. -->
-      <div class="portfolio-filtros" role="group" aria-label="Filtrar por tipo de trabalho">
-        <button class="filtro" type="button" data-filtro="todos" aria-pressed="true">Todos</button>
-        <button class="filtro" type="button" data-filtro="projeto" aria-pressed="false">Projetos</button>
-        <button class="filtro" type="button" data-filtro="template" aria-pressed="false">Templates</button>
-      </div>
+        <!-- FILTROS — o valor de data-filtro casa com o data-categoria
+             dos cartoes; "todos" mostra a grade inteira. -->
+        <div class="portfolio-filtros" role="group" aria-label="Filtrar por tipo de trabalho">
+          <button class="filtro" type="button" data-filtro="todos" aria-pressed="true">Todos</button>
+          <button class="filtro" type="button" data-filtro="projeto" aria-pressed="false">Projetos</button>
+          <button class="filtro" type="button" data-filtro="template" aria-pressed="false">Templates</button>
+        </div>
 
-      <!-- GRADE DE PROJETOS
-           data-categoria="projeto"  = site real, entregue para cliente
-           data-categoria="template" = modelo pronto para personalizar
-           Para publicar um item novo, copie um <li> inteiro e troque
-           titulo, link e o data-categoria. A capa entra como
-           <img class="cartao-imagem" src="assets/imagens/capas/nome.webp" alt="..."
-                width="1200" height="900" loading="lazy">
-           dentro da <figure>; enquanto nao houver imagem, o
-           placeholder do CSS aparece no lugar. Se a capa nao for
-           2:1, defina a cor de fundo dela no <figure> com
-           style="--capa-fundo: #hex;" para as bordas se fundirem. O tipo de trabalho ja
-           e dito pelos filtros e pelo texto do link, entao o cartao
-           nao carrega mais etiqueta. -->
-      <ul class="portfolio-grade">
+        <!-- GRADE DE PROJETOS
+             data-categoria="projeto"  = site real, entregue para cliente
+             data-categoria="template" = modelo pronto para personalizar
+             Para publicar um item novo, copie um <li> inteiro e troque a
+             capa (assets/imagens/capas/, de preferencia mockup 1672 x 941),
+             o alt, o rotulo azul (o tipo do site), o titulo, o link (e o
+             aria-label dele) e o data-categoria. -->
+        <ul class="portfolio-grade">
 
         <!-- Silver Hand: falta o endereco do site (href="#"). -->
         <li class="cartao" data-categoria="projeto">
           <figure class="cartao-figura">
             <img class="cartao-imagem" src="assets/imagens/capas/silverhand-mockup-macbook-iphone.webp" alt="Mockup do site da Silver Hand - Home e Landscaping em MacBook, iPad e iPhone"
-                 width="1672" height="941" loading="lazy">
+                 width="1672" height="941" loading="lazy" decoding="async">
           </figure>
           <div class="cartao-corpo">
+            <p class="cartao-rotulo">Serviços residenciais</p>
             <h3 class="cartao-titulo">Silver Hand - Home e Landscaping</h3>
-            <a class="cartao-link" href="#" target="_blank" rel="noopener">Ver projeto <span>&rarr;</span></a>
+            <a class="cartao-link" href="#" target="_blank" rel="noopener" aria-label="Ver o projeto Silver Hand - Home e Landscaping">
+              <svg viewBox="0 0 12 12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1.5 10.5 10.5 1.5M3.5 1.5h7v7"/>
+              </svg>
+            </a>
           </div>
         </li>
 
         <li class="cartao" data-categoria="projeto">
           <figure class="cartao-figura">
             <img class="cartao-imagem" src="assets/imagens/capas/psindce-mockup-macbook-iphone.webp" alt="Mockup do site do Sindicato dos Psicólogos do Ceará em MacBook, iPad e iPhone"
-                 width="1672" height="941" loading="lazy">
+                 width="1672" height="941" loading="lazy" decoding="async">
           </figure>
           <div class="cartao-corpo">
+            <p class="cartao-rotulo">Site institucional</p>
             <h3 class="cartao-titulo">Sindicato dos Psicólogos do Ceará</h3>
-            <a class="cartao-link" href="https://psindce.org.br/" target="_blank" rel="noopener">Ver projeto <span>&rarr;</span></a>
+            <a class="cartao-link" href="https://psindce.org.br/" target="_blank" rel="noopener" aria-label="Ver o projeto Sindicato dos Psicólogos do Ceará">
+              <svg viewBox="0 0 12 12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1.5 10.5 10.5 1.5M3.5 1.5h7v7"/>
+              </svg>
+            </a>
           </div>
         </li>
 
         <li class="cartao" data-categoria="projeto">
           <figure class="cartao-figura">
             <img class="cartao-imagem" src="assets/imagens/capas/wise-mockup-macbook-iphone.webp" alt="Mockup do site Walesson Psicologia em MacBook, iPad e iPhone"
-                 width="1672" height="941" loading="lazy">
+                 width="1672" height="941" loading="lazy" decoding="async">
           </figure>
           <div class="cartao-corpo">
+            <p class="cartao-rotulo">Consultório de psicologia</p>
             <h3 class="cartao-titulo">Walesson Psicologia</h3>
-            <a class="cartao-link" href="https://psicologobrasileiroonline.com.br/" target="_blank" rel="noopener">Ver projeto <span>&rarr;</span></a>
+            <a class="cartao-link" href="https://psicologobrasileiroonline.com.br/" target="_blank" rel="noopener" aria-label="Ver o projeto Walesson Psicologia">
+              <svg viewBox="0 0 12 12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1.5 10.5 10.5 1.5M3.5 1.5h7v7"/>
+              </svg>
+            </a>
           </div>
         </li>
-      </ul>
+        </ul>
 
+      </div>
     </div>
-
   </div>
 </section>
 
@@ -1937,30 +2044,19 @@
   })();
 
   /* -----------------------------------------------------------------
-     SURGIMENTO DOS SERVICOS
+     SURGIMENTO DOS SERVICOS E DOS PROJETOS
      Cada peca anima quando ela mesma entra na tela (uma vez so):
-       - SERVICOS e a frase azul ganham .revelar e surgem como a hero;
-       - a onda so tem a arte carregada aqui, porque o desenho do traco
-         comeca quando o SVG carrega (como na CTA).
-     A classe .servicos--animar, que esconde o titulo ate a hora de
-     surgir, so entra com JS e sem movimento reduzido.
+       - os titulos (SERVICOS, PROJETOS) e as frases azuis ganham
+         .revelar e surgem como a hero;
+       - a onda dos servicos e a linha dos projetos so tem a arte
+         carregada aqui, porque o desenho do traco comeca quando o SVG
+         carrega (como na CTA).
+     A classe --animar de cada secao, que esconde os titulos ate a hora
+     de surgir, so entra com JS e sem movimento reduzido.
      ----------------------------------------------------------------- */
-  (function surgimentoServicos() {
-    var secao = document.querySelector('.servicos');
-    if (!secao) return;
-    var onda = secao.querySelector('.servicos-onda');
-    var pecas = [secao.querySelector('.servicos-titulo'), secao.querySelector('.servicos-lema')];
-
-    function carregarOnda() {
-      secao.querySelectorAll('[data-srcset]').forEach(function (s) { s.srcset = s.dataset.srcset; });
-      secao.querySelectorAll('img[data-src]').forEach(function (img) { img.src = img.dataset.src; });
-    }
-
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
-      carregarOnda();
-      return;
-    }
-    secao.classList.add('servicos--animar');
+  (function surgimentos() {
+    var direto = matchMedia('(prefers-reduced-motion: reduce)').matches ||
+                 !('IntersectionObserver' in window);
 
     function quandoAparecer(el, limiar, fazer) {
       if (!el) return;
@@ -1971,10 +2067,25 @@
         }
       }, { threshold: limiar }).observe(el);
     }
-    pecas.forEach(function (p) {
-      quandoAparecer(p, .6, function () { p.classList.add('revelar'); });
-    });
-    quandoAparecer(onda, .5, carregarOnda);
+
+    function preparar(secao, classe, pecas, arte) {
+      if (!secao) return;
+      function carregarArte() {
+        secao.querySelectorAll('[data-srcset]').forEach(function (s) { s.srcset = s.dataset.srcset; });
+        secao.querySelectorAll('img[data-src]').forEach(function (img) { img.src = img.dataset.src; });
+      }
+      if (direto) { carregarArte(); return; }
+      secao.classList.add(classe);
+      secao.querySelectorAll(pecas).forEach(function (p) {
+        quandoAparecer(p, .6, function () { p.classList.add('revelar'); });
+      });
+      quandoAparecer(secao.querySelector(arte), .5, carregarArte);
+    }
+
+    preparar(document.querySelector('.servicos'), 'servicos--animar',
+             '.servicos-titulo, .servicos-lema', '.servicos-onda');
+    preparar(document.querySelector('.secao-branca'), 'projetos--animar',
+             '.projetos-titulo, .projetos-lema', '.projetos-linha');
   })();
 
   /* -----------------------------------------------------------------
