@@ -286,9 +286,6 @@
      Safari/Mac/iPhone) e o grao fica num unico ::before do body, do
      topo ao fim da pagina — sem emenda entre as secoes. */
   html { background: #faf6ed; }
-  :root {
-    --grao: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .3 0 0 0 0 .22 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
-  }
   body {
     position: relative;         /* ancora do grao */
     overflow-x: hidden;
@@ -303,7 +300,7 @@
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    background-image: var(--grao);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .3 0 0 0 0 .22 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
     background-size: 240px 240px;
     mix-blend-mode: multiply;
     opacity: .09;
@@ -385,7 +382,7 @@
   .navbar--rolada .navbar-caixa {
     min-height: clamp(52px, 6.4svh, 68px);
     padding-top: 0;
-    background: rgba(250, 246, 237, .96);   /* quase opaco: continua papel tambem sobre o azul dos servicos */
+    background: rgba(250, 246, 237, .86);
     border-bottom-color: rgba(5, 5, 5, .08);
     -webkit-backdrop-filter: blur(16px);
     backdrop-filter: blur(16px);
@@ -1192,36 +1189,16 @@
      =============================================================== */
   .servicos {
     --nav-rolada: clamp(52px, 6.4svh, 68px);   /* altura da navbar encolhida */
-    /* CORES INVERTIDAS — o fundo e o azul do site e tudo por cima dele
-       (texto, titulos, frases em italico, onda, rotulos, check, icones
-       e fios) e o papel. As artes de assets/imagens/servicos/ ja vem
-       pintadas de papel (#FAF6ED). */
-    --servicos-tinta: var(--papel);
-    --servicos-fio: rgba(250, 246, 237, .32);
     position: relative;
     overflow: hidden;           /* corta a onda nas bordas da tela; */
     overflow: clip;             /* clip: nada rola a secao de lado */
     padding: calc(var(--nav-rolada) + clamp(28px, 7vw, 64px)) 0 clamp(40px, 9vw, 88px);
-    background: var(--azul);
-    color: var(--servicos-tinta);
+    color: var(--tinta);
     font-family: Urbanist, Arial, sans-serif;
     --servicos-peso: 500;       /* corpo do texto */
   }
-  /* O mesmo grao do papel, agora por cima do azul. */
-  .servicos::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    background-image: var(--grao);
-    background-size: 240px 240px;
-    mix-blend-mode: multiply;
-    opacity: .09;
-  }
   .servicos-area {
     position: relative;
-    z-index: 1;                 /* acima do grao */
     container-type: inline-size;
   }
   .servicos-quadro {
@@ -1279,7 +1256,7 @@
     position: relative;
     padding: calc(44 * var(--u)) 0;
   }
-  .servico + .servico { border-top: 1px solid var(--servicos-fio); }
+  .servico + .servico { border-top: 1px solid rgba(5, 5, 5, .2); }
   .servico:last-child { padding-bottom: 0; }
 
   .servico--sites .servico-titulo img      { width: calc(266 * var(--u)); }
@@ -1296,9 +1273,9 @@
     place-items: center;
     width: max(40px, calc(51 * var(--u)));
     height: max(40px, calc(51 * var(--u)));
-    border: max(1.5px, calc(1.8 * var(--u))) solid var(--servicos-tinta);
+    border: max(1.5px, calc(1.8 * var(--u))) solid var(--azul);
     border-radius: 50%;
-    color: var(--servicos-tinta);
+    color: var(--azul);
     transition: background-color .2s ease, color .2s ease;
   }
   .servico-icone svg {
@@ -1307,11 +1284,11 @@
     overflow: visible;
     transition: transform .2s ease;
   }
-  .servico-icone:hover { background: var(--servicos-tinta); color: var(--azul); }
+  .servico-icone:hover { background: var(--azul); color: #fff; }
   .servico-icone:hover svg { transform: translate(8%, -8%); }
-  .servico-icone:focus-visible { outline: 2px solid var(--servicos-tinta); outline-offset: 4px; }
+  .servico-icone:focus-visible { outline: 2px solid var(--azul); outline-offset: 4px; }
 
-  /* Rotulo espacado (SERVICOS AVULSOS...). */
+  /* Rotulo azul espacado (SERVICOS AVULSOS...). */
   .servico-rotulo {
     margin-top: calc(14 * var(--u));
     font-weight: 700;
@@ -1319,7 +1296,7 @@
     line-height: 1;
     letter-spacing: .235em;
     text-transform: uppercase;
-    color: var(--servicos-tinta);
+    color: var(--azul);
   }
   /* o espacamento de cada rotulo e o da referencia */
   .servico--manutencao .servico-rotulo { letter-spacing: .252em; }
@@ -1348,7 +1325,7 @@
     line-height: calc(40.75 * var(--u));
   }
 
-  /* Backup gratis: check e texto em duas linhas. */
+  /* Backup gratis: check azul e texto em duas linhas. */
   .servico-nota {
     position: relative;
     max-width: calc(472 * var(--u));
@@ -1357,7 +1334,7 @@
     font-weight: 700;
     font-size: calc(25.5 * var(--u));
     line-height: calc(30 * var(--u));
-    color: var(--servicos-tinta);
+    color: var(--azul);
   }
   .servico-nota svg {
     position: absolute;
@@ -1441,7 +1418,7 @@
       top: calc(356 * var(--u));
       width: max(1px, calc(1.6 * var(--u)));
       height: calc(515 * var(--u));
-      background: var(--servicos-fio);
+      background: rgba(5, 5, 5, .2);
     }
     .servicos-grade::before { left: calc(536 * var(--u)); }
     .servicos-grade::after  { left: calc(1080.5 * var(--u)); }
