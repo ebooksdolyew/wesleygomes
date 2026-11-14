@@ -57,7 +57,7 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Wesley Gomes — criação de sites, front-end e web design">
-<meta property="og:updated_time" content="2026-11-05T00:00:00-03:00">
+<meta property="og:updated_time" content="2026-11-14T00:00:00-03:00">
 
 <!-- Twitter / X -->
 <meta name="twitter:card" content="summary_large_image">
@@ -88,7 +88,7 @@
       "jobTitle": "Desenvolvedor Front-end e Web Designer",
       "description": "Desenvolvedor front-end e web designer em Fortaleza (CE). Cria sites institucionais, landing pages e portfólios sob medida, do zero, e templates prontos para personalizar.",
       "knowsLanguage": "pt-BR",
-      "knowsAbout": ["Criação de sites", "Desenvolvimento front-end", "Web design", "UI design", "HTML", "CSS", "JavaScript", "Design responsivo", "Acessibilidade web", "SEO técnico", "Performance web", "Landing pages", "Sites institucionais"],
+      "knowsAbout": ["Criação de sites", "Desenvolvimento front-end", "Web design", "UI design", "HTML", "CSS", "JavaScript", "Design responsivo", "Acessibilidade web", "SEO técnico", "Performance web", "Landing pages", "Sites institucionais", "Manutenção de sites", "Automação de processos"],
       "homeLocation": { "@type": "City", "name": "Fortaleza" },
       "address": { "@id": "https://wesleygomes.site/#endereco" },
       "contactPoint": { "@id": "https://wesleygomes.site/#contato" },
@@ -141,7 +141,7 @@
         "width": 1200,
         "height": 630
       },
-      "dateModified": "2026-11-05",
+      "dateModified": "2026-11-14",
       "inLanguage": "pt-BR"
     },
     {
@@ -192,7 +192,7 @@
       "url": "https://wesleygomes.site/",
       "logo": "https://wesleygomes.site/assets/imagens/icones/icone-512.png",
       "image": "https://wesleygomes.site/assets/imagens/social/og-image.jpg",
-      "description": "Criação de sites institucionais, landing pages e portfólios em Fortaleza (CE) e para todo o Brasil: projeto sob medida do zero ou template pronto adaptado à marca do cliente.",
+      "description": "Criação de sites institucionais, landing pages e portfólios em Fortaleza (CE) e para todo o Brasil: projeto sob medida do zero ou template pronto adaptado à marca do cliente, além de manutenção de sites e automações sob medida.",
       "founder": { "@id": "https://wesleygomes.site/#pessoa" },
       "priceRange": "$$",
       "telephone": "+55-85-99132-3925",
@@ -236,6 +236,24 @@
               "name": "Front-end e web design",
               "serviceType": "Desenvolvimento front-end",
               "description": "Interface, animação, otimização de imagens e vídeo, acessibilidade e SEO técnico."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Manutenção de sites",
+              "serviceType": "Manutenção de sites",
+              "description": "Serviços avulsos: alteração de textos, imagens e contatos, correção de links, publicação de notícias e comunicados, atualização do sistema e ajustes de layout. Backup grátis incluso em qualquer serviço."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Automação sob medida",
+              "serviceType": "Automação de processos",
+              "description": "Ferramentas e automações personalizadas que eliminam tarefas manuais e repetitivas em rotinas administrativas, principalmente de RH e Departamento Pessoal."
             }
           }
         ]
@@ -286,21 +304,23 @@
   /* A folha branca comeca com uma tela cheia e cresce com os projetos. */
   .secao-branca { min-height: 100svh; }
 
-  /* Secao branca entre a hero e a CTA: mesma proporcao de tela,
-     largura total. Por enquanto so o fundo — o conteudo entra aqui.
+  /* Secao branca (projetos) entre os servicos e a CTA: mesma
+     proporcao de tela, largura total.
 
-     Os cantos de cima sao arredondados e o vazio que eles deixam
-     mostra a propria hero, que fica grudada atras enquanto esta folha
-     sobe por cima — e, no meio do caminho, mostra a hero recuando.
-     Por isso a secao em si e transparente — quem e opaco e a folha.
+     Os cantos de cima sao arredondados. A folha sobe um raio por cima
+     do fim da secao de servicos (margin-top negativo), entao o vazio
+     dos cantos mostra o papel dos servicos — e nao a hero, que fica
+     grudada la atras. Por isso a secao em si e transparente — quem e
+     opaco e a folha.
 
      A folha branca fica em um elemento proprio para o raio recortar
-     so ela. Conteudo futuro da secao entra DENTRO de .folha-branca. */
+     so ela. Conteudo da secao entra DENTRO de .folha-branca. */
+  :root { --raio-topo: clamp(20px, 2.4vw, 40px); }
   .secao-branca {
-    --raio-topo: clamp(20px, 2.4vw, 40px);
     position: relative;
-    z-index: 2;                 /* sobe por cima da hero */
+    z-index: 2;                 /* sobe por cima da hero e dos servicos */
     width: 100%;
+    margin-top: calc(-1 * var(--raio-topo));
   }
   .folha-branca {
     min-height: 100svh;
@@ -660,8 +680,9 @@
      A hero gruda no topo e as secoes seguintes deslizam por cima
      dela. O recuo da hero (escala + opacidade) e ligado ao scroll,
      nao ao tempo: quadro a quadro, reversivel, e para junto com o
-     dedo/roda. Duas implementacoes, a segunda so como reserva:
-       1) animation-timeline com a view() da propria secao branca;
+     dedo/roda. Quem cobre a hero e a primeira secao depois dela, a
+     de servicos. Duas implementacoes, a segunda so como reserva:
+       1) animation-timeline com a view() da propria secao de servicos;
        2) --progresso (0 a 1) calculado no rAF, para navegadores sem
           suporte a scroll-driven animations.
      --------------------------------------------------------------- */
@@ -688,18 +709,18 @@
     to   { transform: scale(0.95); opacity: 0.6; }
   }
 
-  /* Caminho principal: a linha do tempo e a posicao da secao branca
-     na tela. 'entry 0%' = topo da secao no rodape da janela;
-     'entry 100%' = topo da secao no topo da janela (a secao tem
-     exatamente 100svh, entao o percurso e de uma tela). */
+  /* Caminho principal: a linha do tempo e a posicao da secao de
+     servicos na tela. 'entry 0%' = topo da secao no rodape da janela;
+     'entry 100%' = topo da secao no topo da janela (a secao tem pelo
+     menos 100svh, entao o percurso e de uma tela). */
   @supports (animation-timeline: view()) {
-    :root { timeline-scope: --projetos; }
-    .secao-branca { view-timeline: --projetos block; }
+    :root { timeline-scope: --cobre-hero; }
+    .servicos { view-timeline: --cobre-hero block; }
     .palco {
       transform: none;
       opacity: 1;
       animation: hero-recua linear both;
-      animation-timeline: --projetos;
+      animation-timeline: --cobre-hero;
       animation-range: entry 0% entry 100%;
     }
   }
@@ -784,7 +805,7 @@
   /* PAPEL — grao leve por cima do off-white, como na referencia. Um
      ruido SVG de 240px repetido (nada para baixar) e misturado em
      multiply, entao so escurece um pouco as fibras. */
-  .palco::before, .cta::before {
+  .palco::before, .servicos::before, .cta::before {
     content: "";
     position: absolute;
     inset: 0;
@@ -1098,6 +1119,317 @@
   }
 
   /* ===============================================================
+     SERVICOS — a folha de papel que sobe por cima da hero (com o
+     mesmo raio e a mesma sombra da folha branca, que agora vem depois
+     dela). Mesma montagem da hero e da CTA: o que e desenho (titulo
+     SERVICOS, as duas frases em italico azul, os titulos das colunas
+     e a onda com a seta) e arte vetorial tracada da referencia, em
+     assets/imagens/servicos/; o resto e texto de verdade, em Urbanist.
+
+     --u vale 1px da referencia (1672 x 941). Corpo do texto, entrelinha
+     e espacos sao escritos nessa unidade uma vez so; os dois layouts
+     mudam apenas o valor de --u e onde cada peca fica:
+       - paisagem (tela larga, ver media query abaixo): prancheta na
+         proporcao da referencia, contida na tela abaixo da navbar, com
+         cada peca nas coordenadas do desenho — o que la estava em
+         x = 580 fica em left: calc(580 * var(--u));
+       - retrato (celular, tablet em pe) e telas baixas: as mesmas
+         pecas empilhadas, e --u vira uma escala da largura da coluna.
+     O corte entre os dois esta tambem no <source> da onda, no HTML.
+     =============================================================== */
+  .servicos {
+    --nav-rolada: clamp(52px, 6.4svh, 68px);   /* altura da navbar encolhida */
+    position: relative;
+    z-index: 2;                 /* sobe por cima da hero */
+    min-height: 100svh;
+    overflow: hidden;           /* corta a onda nas bordas da tela */
+    padding: calc(var(--nav-rolada) + clamp(28px, 7vw, 64px)) 0 calc(var(--raio-topo) + clamp(40px, 9vw, 88px));
+    border-radius: var(--raio-topo) var(--raio-topo) 0 0;
+    background: var(--papel);
+    box-shadow: 0 -12px 36px rgba(5, 5, 5, .07);     /* camada deslizando */
+    color: var(--tinta);
+    font-family: Urbanist, Arial, sans-serif;
+    --servicos-peso: 500;       /* corpo do texto */
+  }
+  .servicos-area {
+    position: relative;
+    z-index: 1;                 /* acima do grao do papel */
+    container-type: inline-size;
+  }
+  .servicos-quadro {
+    /* escala pela largura da coluna, com teto; em tela baixa (celular
+       deitado) a altura tambem limita, sem descer de .6px */
+    --u: min(100cqw / 520, .86px, max(.6px, 100svh / 640));
+    --respiro: clamp(20px, 6cqw, 56px);
+    padding: 0 var(--respiro);
+    container-type: inline-size;
+  }
+
+  .servicos-titulo, .servicos-lema, .servicos-sub,
+  .servico-titulo, .servico-rotulo, .servico-itens,
+  .servico-nota, .servico-texto, .servico-frase { margin: 0; }
+  .servicos-titulo img, .servicos-lema img,
+  .servico-titulo img, .servico-frase img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* --- cabecalho: SERVICOS, a frase azul e o subtitulo --- */
+  .servicos-titulo img { width: calc(604 * var(--u) * 1.15); }
+  .servicos-lema { margin-top: calc(24 * var(--u)); }
+  .servicos-lema img { width: calc(776 * var(--u)); }
+  .servicos-sub {
+    margin-top: calc(14 * var(--u));
+    font-weight: var(--servicos-peso);
+    font-size: calc(27.2 * var(--u));
+    line-height: 1.3;
+  }
+
+  /* --- onda: no retrato, uma faixa de ponta a ponta da tela com o
+     trecho final da onda (arte propria, ja recortada) --- */
+  .servicos-quadro picture { display: block; }
+  .servicos-onda {
+    display: block;
+    width: 100vw;
+    max-width: none;
+    height: auto;
+    aspect-ratio: 972 / 140;
+    margin: calc(30 * var(--u)) 0 0 calc(50% - 50vw);
+  }
+  /* Antes de o script ligar a arte, a faixa fica reservada mas vazia
+     (sem o icone de imagem quebrada). */
+  .servicos-onda:not([src]) { visibility: hidden; }
+
+  /* --- as tres colunas --- */
+  .servicos-grade {
+    list-style: none;
+    margin: calc(24 * var(--u)) 0 0;
+    padding: 0;
+  }
+  .servico {
+    position: relative;
+    padding: calc(44 * var(--u)) 0;
+  }
+  .servico + .servico { border-top: 1px solid rgba(5, 5, 5, .2); }
+  .servico:last-child { padding-bottom: 0; }
+
+  .servico--sites .servico-titulo img      { width: calc(266 * var(--u)); }
+  .servico--manutencao .servico-titulo img { width: calc(360 * var(--u)); }
+  .servico--automacao .servico-titulo img  { width: calc(364 * var(--u)); }
+
+  /* Seta no circulo azul vazado: a mesma da navbar. Leva ao WhatsApp
+     com a mensagem do servico. */
+  .servico-icone {
+    position: absolute;
+    top: calc(44 * var(--u));
+    right: 0;
+    display: grid;
+    place-items: center;
+    width: max(40px, calc(51 * var(--u)));
+    height: max(40px, calc(51 * var(--u)));
+    border: max(1.5px, calc(1.8 * var(--u))) solid var(--azul);
+    border-radius: 50%;
+    color: var(--azul);
+    transition: background-color .2s ease, color .2s ease;
+  }
+  .servico-icone svg {
+    width: 37%;
+    height: 37%;
+    overflow: visible;
+    transition: transform .2s ease;
+  }
+  .servico-icone:hover { background: var(--azul); color: #fff; }
+  .servico-icone:hover svg { transform: translate(8%, -8%); }
+  .servico-icone:focus-visible { outline: 2px solid var(--azul); outline-offset: 4px; }
+
+  /* Rotulo azul espacado (SERVICOS AVULSOS...). */
+  .servico-rotulo {
+    margin-top: calc(14 * var(--u));
+    font-weight: 700;
+    font-size: calc(23 * var(--u));
+    line-height: 1;
+    letter-spacing: .235em;
+    text-transform: uppercase;
+    color: var(--azul);
+  }
+  /* o espacamento de cada rotulo e o da referencia */
+  .servico--manutencao .servico-rotulo { letter-spacing: .252em; }
+  .servico--automacao .servico-rotulo  { letter-spacing: .202em; }
+
+  .servico-itens {
+    margin-top: calc(28 * var(--u));
+    padding: 0;
+    list-style: none;
+    font-weight: var(--servicos-peso);
+  }
+  .servico--sites .servico-itens {
+    margin-top: calc(40 * var(--u));
+    font-size: calc(31.8 * var(--u));
+    line-height: calc(40 * var(--u));
+  }
+  .servico--sites .servico-itens li + li { margin-top: calc(16 * var(--u)); }
+  .servico-detalhe {
+    display: block;
+    margin-top: calc(1.2 * var(--u));
+    font-size: calc(24.2 * var(--u));
+    line-height: calc(30 * var(--u));
+  }
+  .servico--manutencao .servico-itens {
+    font-size: calc(26.8 * var(--u));
+    line-height: calc(40.75 * var(--u));
+  }
+
+  /* Backup gratis: check azul e texto em duas linhas. */
+  .servico-nota {
+    position: relative;
+    max-width: calc(472 * var(--u));
+    margin-top: calc(30 * var(--u));
+    padding-left: calc(38.5 * var(--u));
+    font-weight: 700;
+    font-size: calc(25.5 * var(--u));
+    line-height: calc(30 * var(--u));
+    color: var(--azul);
+  }
+  .servico-nota svg {
+    position: absolute;
+    left: 0;
+    top: calc(8.9 * var(--u));
+    width: calc(22 * var(--u));
+    height: calc(17 * var(--u));
+    overflow: visible;
+  }
+
+  .servico-texto {
+    margin-top: calc(28 * var(--u));
+    font-weight: var(--servicos-peso);
+    font-size: calc(27.2 * var(--u));
+    line-height: calc(35.33 * var(--u));
+  }
+  /* As quebras da referencia valem so na prancheta. */
+  .servico-texto br { display: none; }
+  .servico-frase { margin-top: calc(40 * var(--u)); }
+  .servico-frase img { width: calc(506 * var(--u)); }
+
+  /* ---------------------------------------------------------------
+     PAISAGEM — prancheta 1672 x 941. Cada peca nas coordenadas do
+     desenho (topo de cada bloco de texto calculado pela linha de base
+     da referencia; a Urbanist tem a linha de base a .5 da entrelinha
+     + .35em do topo da linha).
+     --------------------------------------------------------------- */
+  @media (min-aspect-ratio: 1/1) and (min-width: 900px) and (min-height: 500px) {
+    .servicos {
+      height: 100svh;
+      padding: var(--nav-rolada) 0 var(--raio-topo);
+    }
+    .servicos-area {
+      height: 100%;
+      container-type: size;
+    }
+    .servicos-quadro {
+      --u: calc(100cqw / 1672);
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: min(100cqw, 100cqh * 1672 / 941);
+      aspect-ratio: 1672 / 941;
+      padding: 0;
+      transform: translate(-50%, -50%);
+    }
+    .servicos-titulo, .servicos-lema, .servicos-sub, .servicos-onda,
+    .servico-titulo, .servico-icone, .servico-rotulo, .servico-itens,
+    .servico-nota, .servico-texto, .servico-frase {
+      position: absolute;
+      margin: 0;
+    }
+    /* caixas que so agrupam: as pecas se posicionam pela prancheta */
+    .servicos-quadro picture, .servicos-grade, .servico,
+    .servico + .servico { display: block; position: static; padding: 0; border: 0; }
+
+    .servicos-titulo { left: calc(94 * var(--u));  top: calc(53 * var(--u)); }
+    .servicos-titulo img { width: calc(604 * var(--u)); }
+    .servicos-lema   { left: calc(791 * var(--u)); top: calc(77 * var(--u)); }
+    .servicos-sub {
+      left: calc(792.6 * var(--u));
+      top: calc(161.4 * var(--u));
+      line-height: 1;
+      white-space: nowrap;
+    }
+    /* A arte da onda tem uma prancheta de sobra a esquerda so com o
+       prolongamento do traco: em tela mais larga que a referencia o
+       quadro fica centrado e a onda segue pelo papel ate a borda. */
+    .servicos-onda {
+      left: calc(-1672 * var(--u));
+      top: calc(200 * var(--u));
+      width: calc(3344 * var(--u));
+      height: calc(140 * var(--u));
+      aspect-ratio: auto;
+    }
+
+    /* divisorias verticais entre as colunas */
+    .servicos-grade::before, .servicos-grade::after {
+      content: "";
+      position: absolute;
+      top: calc(356 * var(--u));
+      width: max(1px, calc(1.6 * var(--u)));
+      height: calc(515 * var(--u));
+      background: rgba(5, 5, 5, .2);
+    }
+    .servicos-grade::before { left: calc(536 * var(--u)); }
+    .servicos-grade::after  { left: calc(1080.5 * var(--u)); }
+
+    .servico--sites .servico-titulo      { left: calc(71 * var(--u));   top: calc(360 * var(--u)); }
+    .servico--manutencao .servico-titulo { left: calc(577 * var(--u));  top: calc(345 * var(--u)); }
+    .servico--automacao .servico-titulo  { left: calc(1122 * var(--u)); top: calc(346 * var(--u)); }
+
+    .servico-icone { right: auto; width: calc(51 * var(--u)); height: calc(51 * var(--u)); }
+    .servico--sites .servico-icone      { left: calc(442.5 * var(--u)); top: calc(359 * var(--u)); }
+    .servico--manutencao .servico-icone { left: calc(992 * var(--u));   top: calc(358.5 * var(--u)); }
+    .servico--automacao .servico-icone  { left: calc(1548 * var(--u));  top: calc(358 * var(--u)); }
+
+    .servico--manutencao .servico-rotulo { left: calc(579.9 * var(--u));  top: calc(526 * var(--u)); }
+    .servico--automacao .servico-rotulo  { left: calc(1122.6 * var(--u)); top: calc(528.5 * var(--u)); }
+
+    .servico-itens, .servico-texto { white-space: nowrap; }
+    .servico--sites .servico-itens      { left: calc(71.3 * var(--u)); top: calc(570.4 * var(--u)); margin: 0; }
+    .servico--manutencao .servico-itens { left: calc(583 * var(--u));  top: calc(572.25 * var(--u)); }
+
+    .servico-nota  { left: calc(588 * var(--u)); top: calc(801.1 * var(--u)); width: calc(472 * var(--u)); }
+    .servico-texto { left: calc(1123.4 * var(--u)); top: calc(585.8 * var(--u)); }
+    .servico-texto br { display: inline; }
+    .servico-frase { left: calc(1123 * var(--u)); top: calc(769 * var(--u)); }
+  }
+
+  /* SURGIMENTO — com JS, SERVICOS e a frase azul surgem de cima para
+     baixo (o mesmo 'surgir' da hero) quando entram na tela; a onda se
+     desenha sozinha quando a arte dela carrega (ver o script). Sem JS
+     ou com movimento reduzido, tudo ja aparece pronto. */
+  .servicos--animar .servicos-titulo img,
+  .servicos--animar .servicos-lema img {
+    -webkit-mask-image: linear-gradient(to bottom,
+        #000 0%, #000 38.46%, rgba(0,0,0,0) 61.54%, rgba(0,0,0,0) 100%);
+            mask-image: linear-gradient(to bottom,
+        #000 0%, #000 38.46%, rgba(0,0,0,0) 61.54%, rgba(0,0,0,0) 100%);
+    -webkit-mask-size: 100% 260%;
+            mask-size: 100% 260%;
+    -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+    -webkit-mask-position: 0% 100%;
+            mask-position: 0% 100%;
+  }
+  .servicos--animar .servicos-titulo.revelar img {
+    animation: surgir 1.9s cubic-bezier(.22,.61,.36,1) forwards;
+  }
+  .servicos--animar .servicos-lema.revelar img {
+    animation: surgir 1.9s cubic-bezier(.22,.61,.36,1) .25s forwards;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .servico-icone, .servico-icone svg { transition: none; }
+    .servico-icone:hover svg { transform: none; }
+  }
+
+  /* ===============================================================
      RODAPE — barra compacta ao final de toda a pagina, em branco
      solido. A hero e sticky e fica atras de tudo ate o fim do
      documento, por isso o z-index 2: mesma camada das secoes que
@@ -1259,6 +1591,100 @@
   </div>
 
 </div>
+
+<!-- ============ SERVICOS ============
+     Folha de papel que sobe por cima da hero. Titulos e frases em
+     italico sao artes vetoriais (assets/imagens/servicos/), o resto e
+     texto. Escala e coordenadas: ver SERVICOS no CSS. -->
+<section class="servicos" id="servicos" aria-labelledby="servicos-titulo">
+  <div class="servicos-area">
+    <div class="servicos-quadro">
+
+      <header class="servicos-cabecalho">
+        <h2 class="servicos-titulo" id="servicos-titulo">
+          <img src="assets/imagens/servicos/servicos-titulo.svg" width="604" height="201" decoding="async" alt="Serviços">
+        </h2>
+        <p class="servicos-lema">
+          <img src="assets/imagens/servicos/servicos-lema.svg" width="776" height="78" decoding="async" alt="Ideias que ganham forma.">
+        </p>
+        <p class="servicos-sub">Sites, manutenção e automações para simplificar o seu dia a dia.</p>
+      </header>
+
+      <!-- Onda azul com a seta. Ela se desenha sozinha (animacao dentro
+           do SVG) a partir do momento em que a arte carrega — por isso
+           os enderecos ficam em data-srcset/data-src e o script so os
+           liga quando a onda entra na tela. O media do <source> e o
+           contrario do corte da prancheta no CSS. -->
+      <picture>
+        <source media="not all and (min-aspect-ratio: 1/1) and (min-width: 900px) and (min-height: 500px)" data-srcset="assets/imagens/servicos/servicos-onda-retrato.svg" width="972" height="140">
+        <img class="servicos-onda" data-src="assets/imagens/servicos/servicos-onda.svg" width="3344" height="140" decoding="async" alt="">
+      </picture>
+
+      <ul class="servicos-grade">
+
+        <li class="servico servico--sites">
+          <h3 class="servico-titulo">
+            <img src="assets/imagens/servicos/servico-sites.svg" width="266" height="168" loading="lazy" decoding="async" alt="Sites &amp; páginas">
+          </h3>
+          <a class="servico-icone" href="https://wa.me/5585991323925?text=Ol%C3%A1%2C%20Wesley!%20Vi%20seu%20portf%C3%B3lio%20e%20quero%20um%20site%20ou%20uma%20landing%20page." target="_blank" rel="noopener" aria-label="Pedir um site ou landing page pelo WhatsApp">
+            <svg viewBox="0 0 12 12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1.5 10.5 10.5 1.5M3.5 1.5h7v7"/>
+            </svg>
+          </a>
+          <ul class="servico-itens">
+            <li>Sites institucionais</li>
+            <li>Landing pages</li>
+            <li>Redesign de sites existentes <small class="servico-detalhe">Com demonstrativo para prospecção.</small></li>
+            <li>Hospedagem e publicação</li>
+          </ul>
+        </li>
+
+        <li class="servico servico--manutencao">
+          <h3 class="servico-titulo">
+            <img src="assets/imagens/servicos/servico-manutencao.svg" width="360" height="168" loading="lazy" decoding="async" alt="Manutenção de sites">
+          </h3>
+          <a class="servico-icone" href="https://wa.me/5585991323925?text=Ol%C3%A1%2C%20Wesley!%20Vi%20seu%20portf%C3%B3lio%20e%20preciso%20de%20manuten%C3%A7%C3%A3o%20no%20meu%20site." target="_blank" rel="noopener" aria-label="Pedir manutenção do site pelo WhatsApp">
+            <svg viewBox="0 0 12 12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1.5 10.5 10.5 1.5M3.5 1.5h7v7"/>
+            </svg>
+          </a>
+          <p class="servico-rotulo">Serviços avulsos</p>
+          <ul class="servico-itens">
+            <li>Alteração de textos, imagens e contatos</li>
+            <li>Correção de links</li>
+            <li>Publicação de notícias e comunicados</li>
+            <li>Atualização do sistema</li>
+            <li>Ajustes de layout</li>
+          </ul>
+          <p class="servico-nota">
+            <svg viewBox="0 0 22 17" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2.8 8.6 8.2 14.5 19.6 2.5"/>
+            </svg>
+            Backup grátis incluso em qualquer serviço
+          </p>
+        </li>
+
+        <li class="servico servico--automacao">
+          <h3 class="servico-titulo">
+            <img src="assets/imagens/servicos/servico-automacao.svg" width="364" height="168" loading="lazy" decoding="async" alt="Automação sob medida">
+          </h3>
+          <a class="servico-icone" href="https://wa.me/5585991323925?text=Ol%C3%A1%2C%20Wesley!%20Vi%20seu%20portf%C3%B3lio%20e%20quero%20saber%20sobre%20automa%C3%A7%C3%B5es%20sob%20medida." target="_blank" rel="noopener" aria-label="Pedir uma automação sob medida pelo WhatsApp">
+            <svg viewBox="0 0 12 12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1.5 10.5 10.5 1.5M3.5 1.5h7v7"/>
+            </svg>
+          </a>
+          <p class="servico-rotulo">Ferramentas personalizadas</p>
+          <p class="servico-texto">Desenvolvo ferramentas e automações <br>que eliminam tarefas manuais e repetitivas <br>em rotinas administrativas, principalmente <br>de RH e Departamento Pessoal.</p>
+          <p class="servico-frase">
+            <img src="assets/imagens/servicos/servico-frase.svg" width="506" height="37" loading="lazy" decoding="async" alt="Menos tarefas repetitivas. Mais tempo.">
+          </p>
+        </li>
+
+      </ul>
+
+    </div>
+  </div>
+</section>
 
 <!-- ============ SECAO BRANCA ============ -->
 <section class="secao-branca" id="projetos">
@@ -1483,10 +1909,52 @@
   })();
 
   /* -----------------------------------------------------------------
+     SURGIMENTO DOS SERVICOS
+     Cada peca anima quando ela mesma entra na tela (uma vez so):
+       - SERVICOS e a frase azul ganham .revelar e surgem como a hero;
+       - a onda so tem a arte carregada aqui, porque o desenho do traco
+         comeca quando o SVG carrega (como na CTA).
+     A classe .servicos--animar, que esconde o titulo ate a hora de
+     surgir, so entra com JS e sem movimento reduzido.
+     ----------------------------------------------------------------- */
+  (function surgimentoServicos() {
+    var secao = document.querySelector('.servicos');
+    if (!secao) return;
+    var onda = secao.querySelector('.servicos-onda');
+    var pecas = [secao.querySelector('.servicos-titulo'), secao.querySelector('.servicos-lema')];
+
+    function carregarOnda() {
+      secao.querySelectorAll('[data-srcset]').forEach(function (s) { s.srcset = s.dataset.srcset; });
+      secao.querySelectorAll('img[data-src]').forEach(function (img) { img.src = img.dataset.src; });
+    }
+
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
+      carregarOnda();
+      return;
+    }
+    secao.classList.add('servicos--animar');
+
+    function quandoAparecer(el, limiar, fazer) {
+      if (!el) return;
+      new IntersectionObserver(function (entradas, obs) {
+        if (entradas.some(function (e) { return e.isIntersecting; })) {
+          fazer();
+          obs.disconnect();
+        }
+      }, { threshold: limiar }).observe(el);
+    }
+    pecas.forEach(function (p) {
+      quandoAparecer(p, .6, function () { p.classList.add('revelar'); });
+    });
+    quandoAparecer(onda, .5, carregarOnda);
+  })();
+
+  /* -----------------------------------------------------------------
      SOBREPOSICAO — reserva para navegadores sem scroll-driven animations
      O caminho normal e o animation-timeline do CSS. Aqui so entra se
-     view() nao existir: le a posicao da secao branca a cada quadro e
-     publica --progresso (0 a 1) em :root, que o CSS ja consome.
+     view() nao existir: le a posicao da secao de servicos (a primeira
+     que cobre a hero) a cada quadro e publica --progresso (0 a 1) em
+     :root, que o CSS ja consome.
      Nada de duracao, transition ou classe que roda uma vez: o valor e
      sempre derivado do scroll, entao volta sozinho ao rolar para cima
      e para no meio se o scroll parar no meio.
@@ -1497,15 +1965,15 @@
     var reduz = matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (temTimeline || reduz) return;
 
-    var projetos = document.querySelector('.secao-branca');
+    var cobre = document.querySelector('.servicos');
     var raiz = document.documentElement;
-    if (!projetos) return;
+    if (!cobre) return;
 
     var pedido = 0, anterior = -1;
     function medir() {
       pedido = 0;
       var altura = window.innerHeight || raiz.clientHeight;
-      var topo = projetos.getBoundingClientRect().top;
+      var topo = cobre.getBoundingClientRect().top;
       var p = (altura - topo) / altura;      // 0 = topo no rodape, 1 = topo no topo
       p = p < 0 ? 0 : (p > 1 ? 1 : p);
       if (p !== anterior) {

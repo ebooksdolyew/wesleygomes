@@ -21,6 +21,8 @@ assets/
   css/paginas.css           estilo das paginas internas (404 e politicas)
   imagens/
     hero/                   arte da hero, uma por proporcao de tela
+    servicos/               arte da secao Servicos (titulos, frases em
+                            italico e a onda, tracados da referencia)
     cta/                    arte da CTA, uma por proporcao de tela
     capas/                  capas dos projetos do portfolio
     marca/                  logo (assinatura azul)

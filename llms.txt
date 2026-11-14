@@ -15,11 +15,19 @@ feitos para clientes e templates prontos para personalizar.
 
 - **Site sob medida**: site institucional, landing page ou portfólio
   desenhado e codado do zero, do layout à publicação, para quem precisa de
-  uma identidade própria.
+  uma identidade própria. Inclui redesign de sites existentes (com
+  demonstrativo para prospecção) e hospedagem e publicação.
 - **Template pronto**: modelo já desenhado, adaptado à marca do cliente
   (cores, textos, imagens) e publicado em poucos dias.
 - **Front-end e web design**: interface, animação, otimização de imagens e
   vídeo, acessibilidade e SEO técnico.
+- **Manutenção de sites** (serviços avulsos): alteração de textos, imagens e
+  contatos, correção de links, publicação de notícias e comunicados,
+  atualização do sistema e ajustes de layout. Backup grátis incluso em
+  qualquer serviço.
+- **Automação sob medida**: ferramentas e automações personalizadas que
+  eliminam tarefas manuais e repetitivas em rotinas administrativas,
+  principalmente de RH e Departamento Pessoal.
 
 ## Projetos publicados
 
@@ -32,8 +40,10 @@ feitos para clientes e templates prontos para personalizar.
 
 ## Páginas
 
-- [Início](https://wesleygomes.site/): apresentação, portfólio de projetos e
-  templates (filtráveis) e chamada para contato.
+- [Início](https://wesleygomes.site/): apresentação, serviços, portfólio de
+  projetos e templates (filtráveis) e chamada para contato.
+- [Serviços](https://wesleygomes.site/#servicos): sites e páginas, manutenção
+  de sites e automação sob medida.
 - [Projetos](https://wesleygomes.site/#projetos): grade com os sites entregues.
 - [Contato](https://wesleygomes.site/#contato): "Vamos conversar?" — leva ao
   WhatsApp.
@@ -68,4 +78,4 @@ feitos para clientes e templates prontos para personalizar.
 - Todo o conteúdo é público e pode ser lido, resumido e citado; ao citar,
   use o endereço https://wesleygomes.site e o nome "Wesley Gomes".
 - Sitemap: https://wesleygomes.site/sitemap.xml
-- Última atualização: 2026-11-05
+- Última atualização: 2026-11-14
