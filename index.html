@@ -141,7 +141,7 @@
         "width": 1200,
         "height": 630
       },
-      "dateModified": "2026-11-05",
+      "dateModified": "2026-11-14",
       "inLanguage": "pt-BR"
     },
     {
@@ -218,6 +218,15 @@
               "name": "Site sob medida",
               "serviceType": "Criação de sites",
               "description": "Site institucional, landing page ou portfólio desenhado e codado do zero, do layout à publicação."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Automação sob medida",
+              "serviceType": "Desenvolvimento de ferramentas web",
+              "description": "Ferramentas web que automatizam tarefas repetitivas: leitura de PDFs, cruzamento de planilhas, conferências e relatórios em Excel, com processamento no navegador."
             }
           },
           {
@@ -653,6 +662,182 @@
   @media (prefers-reduced-motion: reduce) {
     .cartao, .cartao-link span { transition: none; }
     .cartao:hover { transform: none; }
+  }
+
+  /* ---------------------------------------------------------------
+     SERVICOS — na mesma folha branca, abaixo dos projetos. Reusa o
+     cabecalho do portfolio (.portfolio-cabecalho/-titulo/-texto).
+     Dois cartoes de destaque lado a lado (sites em azul-marinho,
+     automacao em azul claro) e um de apoio na linha inteira; abaixo
+     de ~760px tudo empilha.
+     --------------------------------------------------------------- */
+  .servicos {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 clamp(22px, 5vw, 56px) clamp(72px, 10vw, 128px);
+    font-family: Poppins, Arial, sans-serif;
+    color: #04182f;
+    scroll-margin-top: clamp(40px, 6vw, 72px);
+  }
+  .servicos > .portfolio-cabecalho {
+    max-width: none;             /* a linha corre a largura toda; o texto ja tem 52ch */
+    padding-top: clamp(48px, 7vw, 88px);
+    border-top: 1px solid rgba(4, 24, 47, .10);
+  }
+  .servicos-grade {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));   /* 2 colunas no maximo */
+    gap: clamp(20px, 2.6vw, 34px);
+    list-style: none;
+    margin: clamp(28px, 4vw, 44px) 0 0;
+    padding: 0;
+  }
+  .servico {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: clamp(24px, 3vw, 40px);
+    border-radius: 22px;
+    border: 1px solid rgba(4, 24, 47, .10);
+    background: #fff;
+    transition: transform .28s ease, box-shadow .28s ease;
+  }
+  .servico--destaque:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 22px 48px rgba(4, 24, 47, .16);
+  }
+  .servico--escuro {
+    color: #fff;
+    background: radial-gradient(120% 90% at 100% 0%, #123a66 0%, #04182f 62%);
+    border-color: #04182f;
+  }
+  .servico--azul {
+    background: linear-gradient(150deg, #eef4fa 0%, #dbe8f4 60%, #cddff0 100%);
+    border-color: rgba(43, 127, 184, .18);
+  }
+
+  .servico-icone {
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    color: #2b7fb8;
+    background: rgba(43, 127, 184, .12);
+  }
+  .servico--escuro .servico-icone { color: #fff; background: rgba(255, 255, 255, .12); }
+  .servico--azul .servico-icone { color: #fff; background: #2b7fb8; }
+  .servico-icone svg { width: 26px; height: 26px; }
+
+  .servico-rotulo {
+    margin: 8px 0 0;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: #2b7fb8;
+  }
+  .servico--escuro .servico-rotulo { color: #8cc4ea; }
+  .servico-titulo {
+    margin: 0;
+    font-weight: 700;
+    font-size: clamp(22px, 2.6vw, 30px);
+    line-height: 1.15;
+    letter-spacing: -.02em;
+  }
+  .servico-texto {
+    margin: 0;
+    max-width: 52ch;
+    font-weight: 300;
+    font-size: clamp(14px, 3.8vw, 16px);
+    line-height: 1.62;
+    color: rgba(4, 24, 47, .70);
+  }
+  .servico--escuro .servico-texto { color: rgba(255, 255, 255, .74); }
+
+  .servico-lista {
+    display: grid;
+    gap: 8px;
+    list-style: none;
+    margin: 6px 0 0;
+    padding: 0;
+    font-size: 14.5px;
+    font-weight: 500;
+  }
+  .servico-lista li {
+    position: relative;
+    padding-left: 26px;
+  }
+  .servico-lista li::before {   /* visto desenhado em CSS */
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: .32em;
+    width: 12px;
+    height: 7px;
+    border-left: 2px solid #2b7fb8;
+    border-bottom: 2px solid #2b7fb8;
+    transform: rotate(-45deg);
+  }
+  .servico--escuro .servico-lista li::before { border-color: #8cc4ea; }
+
+  .servico-caso {
+    margin: 8px 0 0;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: rgba(4, 24, 47, .62);
+  }
+  .servico--escuro .servico-caso { color: rgba(255, 255, 255, .58); }
+  .servico-caso--caixa {
+    padding: 16px 18px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, .72);
+    color: rgba(4, 24, 47, .72);
+  }
+  .servico-caso--caixa strong {
+    display: block;
+    margin-bottom: 4px;
+    font-weight: 600;
+    color: #04182f;
+  }
+
+  .servico-link {
+    margin-top: auto;
+    align-self: flex-start;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    color: inherit;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 2px;
+    transition: color .2s ease;
+  }
+  .servico--destaque .servico-link { margin-top: auto; padding-top: 0; }
+  .servico--destaque .servico-caso { margin-bottom: 10px; }
+  .servico-link span { display: inline-block; transition: transform .2s ease; }
+  .servico-link:hover { color: #2b7fb8; }
+  .servico--escuro .servico-link:hover { color: #8cc4ea; }
+  .servico-link:hover span { transform: translateX(4px); }
+  .servico-link:focus-visible { outline: 2px solid #2b7fb8; outline-offset: 3px; }
+
+  .servico--apoio {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px clamp(18px, 2.4vw, 28px);
+  }
+  .servico-apoio-texto {
+    display: grid;
+    gap: 6px;
+    flex: 1 1 320px;
+  }
+  .servico--apoio .servico-titulo { font-size: clamp(18px, 2vw, 22px); }
+  .servico--apoio .servico-link { margin-top: 0; align-self: center; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .servico, .servico-link span { transition: none; }
+    .servico--destaque:hover { transform: none; }
   }
 
   /* ---------------------------------------------------------------
@@ -1217,6 +1402,7 @@
     <ul class="navbar-links">
       <li><a class="navbar-link" href="#inicio" aria-current="true">Início</a></li>
       <li><a class="navbar-link" href="#projetos">Projetos</a></li>
+      <li><a class="navbar-link" href="#servicos">Serviços</a></li>
       <li><a class="navbar-link" href="#contato">Contato</a></li>
     </ul>
     <a class="navbar-botao" href="https://wa.me/5585991323925?text=Ol%C3%A1%2C%20Wesley!%20Vi%20seu%20portf%C3%B3lio%20e%20quero%20conversar%20sobre%20um%20projeto." target="_blank" rel="noopener">
@@ -1333,6 +1519,95 @@
         </li>
       </ul>
 
+    </div>
+
+    <!-- ============ SERVICOS ============
+         Mesma folha branca dos projetos, logo abaixo da grade. Os dois
+         primeiros cartoes sao os carros-chefes (.servico--destaque);
+         o terceiro e de apoio e ocupa a linha inteira. O caso do Folha
+         Facil nao leva link: a ferramenta e de acesso restrito. -->
+    <div class="servicos" id="servicos">
+
+      <header class="portfolio-cabecalho">
+        <h2 class="portfolio-titulo">Serviços</h2>
+        <p class="portfolio-texto">
+          Do <strong>site da sua empresa</strong> à <strong>ferramenta que tira o
+          trabalho repetitivo</strong> da sua rotina. Tudo sob medida, desenhado e
+          codado do zero.
+        </p>
+      </header>
+
+      <ul class="servicos-grade">
+
+        <li class="servico servico--destaque servico--escuro">
+          <span class="servico-icone" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2.5" y="4" width="19" height="16" rx="2.5"/><path d="M2.5 8.5h19M6 6.3h.01M8.5 6.3h.01M7 12.5h6M7 15.5h10"/>
+            </svg>
+          </span>
+          <p class="servico-rotulo">Carro-chefe</p>
+          <h3 class="servico-titulo">Criação de sites sob medida</h3>
+          <p class="servico-texto">
+            Site institucional, landing page ou portfólio com identidade própria,
+            do layout à publicação. Nada de construtor de páginas: HTML, CSS e
+            JavaScript escritos para o seu projeto.
+          </p>
+          <ul class="servico-lista">
+            <li>Layout exclusivo para a sua marca</li>
+            <li>Responsivo em qualquer tela</li>
+            <li>Carregamento rápido e SEO técnico</li>
+            <li>Acessibilidade e publicação no ar</li>
+          </ul>
+          <p class="servico-caso">No ar: Sindicato dos Psicólogos do Ceará, Walesson Psicologia e Silver Hand.</p>
+          <a class="servico-link" href="https://wa.me/5585991323925?text=Ol%C3%A1%2C%20Wesley!%20Quero%20um%20site%20sob%20medida." target="_blank" rel="noopener">Quero um site <span>&rarr;</span></a>
+        </li>
+
+        <li class="servico servico--destaque servico--azul">
+          <span class="servico-icone" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M13 2.5 4.5 13.5H11l-1 8 8.5-11H12l1-8Z"/>
+            </svg>
+          </span>
+          <p class="servico-rotulo">Sob medida</p>
+          <h3 class="servico-titulo">Automação para a sua rotina</h3>
+          <p class="servico-texto">
+            Ferramentas web que fazem em segundos o que levava horas: ler PDFs,
+            cruzar planilhas, conferir lançamentos e gerar relatórios prontos em
+            Excel. Tudo roda no navegador, sem instalar nada e sem os seus dados
+            saírem do computador.
+          </p>
+          <ul class="servico-lista">
+            <li>Leitura de PDFs e planilhas</li>
+            <li>Conferência e conciliação automáticas</li>
+            <li>Relatórios e planilhas prontos para usar</li>
+            <li>Processamento local, sem servidor</li>
+          </ul>
+          <div class="servico-caso servico-caso--caixa">
+            <strong>Caso: Folha Fácil</strong>
+            Doze ferramentas para departamento pessoal: ponto eletrônico, conferência
+            da folha entre competências, conciliação de planos de saúde e
+            odontológico, controle de afastamentos e um kit completo de PDF.
+          </div>
+          <a class="servico-link" href="https://wa.me/5585991323925?text=Ol%C3%A1%2C%20Wesley!%20Quero%20automatizar%20uma%20tarefa%20da%20minha%20rotina." target="_blank" rel="noopener">Quero automatizar <span>&rarr;</span></a>
+        </li>
+
+        <li class="servico servico--apoio">
+          <span class="servico-icone" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m14.5 4.5 5 5M4 20l1.2-4.8L16.8 3.6a2.1 2.1 0 0 1 3 0l.6.6a2.1 2.1 0 0 1 0 3L8.8 18.8 4 20Z"/>
+            </svg>
+          </span>
+          <div class="servico-apoio-texto">
+            <h3 class="servico-titulo">Front-end e web design</h3>
+            <p class="servico-texto">
+              Interface, animação, otimização de imagens e vídeo, acessibilidade e
+              SEO técnico para um site que já existe ou para o seu próximo projeto.
+            </p>
+          </div>
+          <a class="servico-link" href="https://wa.me/5585991323925?text=Ol%C3%A1%2C%20Wesley!%20Vi%20seu%20portf%C3%B3lio%20e%20quero%20conversar%20sobre%20um%20projeto." target="_blank" rel="noopener">Conversar <span>&rarr;</span></a>
+        </li>
+
+      </ul>
     </div>
 
   </div>
@@ -1562,7 +1837,7 @@
     if (!barra) return;
 
     var links = barra.querySelectorAll('.navbar-link');
-    var secoes = ['projetos', 'contato'].map(function (id) {
+    var secoes = ['projetos', 'servicos', 'contato'].map(function (id) {
       return document.getElementById(id);
     });
 

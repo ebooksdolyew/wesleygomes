@@ -16,6 +16,11 @@ feitos para clientes e templates prontos para personalizar.
 - **Site sob medida**: site institucional, landing page ou portfólio
   desenhado e codado do zero, do layout à publicação, para quem precisa de
   uma identidade própria.
+- **Automação sob medida**: ferramentas web que automatizam tarefas
+  repetitivas, como ler PDFs, cruzar planilhas, conferir lançamentos e gerar
+  relatórios em Excel, com processamento no navegador. Exemplo: o Folha
+  Fácil, com doze ferramentas para departamento pessoal (ponto eletrônico,
+  conferência da folha, conciliação de planos de saúde, afastamentos e PDF).
 - **Template pronto**: modelo já desenhado, adaptado à marca do cliente
   (cores, textos, imagens) e publicado em poucos dias.
 - **Front-end e web design**: interface, animação, otimização de imagens e
@@ -35,6 +40,8 @@ feitos para clientes e templates prontos para personalizar.
 - [Início](https://wesleygomes.site/): apresentação, portfólio de projetos e
   templates (filtráveis) e chamada para contato.
 - [Projetos](https://wesleygomes.site/#projetos): grade com os sites entregues.
+- [Serviços](https://wesleygomes.site/#servicos): criação de sites sob medida,
+  automação sob medida e front-end e web design.
 - [Contato](https://wesleygomes.site/#contato): "Vamos conversar?" — leva ao
   WhatsApp.
 - [Política de Privacidade](https://wesleygomes.site/politica-de-privacidade/):
