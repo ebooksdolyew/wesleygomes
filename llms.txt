@@ -31,7 +31,7 @@ feitos para clientes e templates prontos para personalizar.
 
 ## Projetos publicados
 
-- **Silver Hand - Home e Landscaping**: site da empresa de serviços
+- [Silver Hand - Home e Landscaping](https://silverrhand.pages.dev/): site da empresa de serviços
   residenciais e paisagismo.
 - [Sindicato dos Psicólogos do Ceará](https://psindce.org.br/): site
   institucional do sindicato, entregue e no ar.
